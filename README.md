@@ -1,4 +1,4 @@
-# Cycle Planet App
+# Cycle Planet App [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 This is the repo for the official [Cycle Planet](https://cycleplanet.org/) platform. The platform is (soon) open source and free to use, which can be used to:
 - Host bicycle tourers, or get hosted during your trip
@@ -57,3 +57,5 @@ Run on Android (cordova) - build mode:
 cd src-cordova
 quasar build -m cordova -T android
 ```
+## License
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
