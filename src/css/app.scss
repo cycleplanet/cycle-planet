@@ -1,0 +1,69 @@
+// app global css in SCSS form
+
+@font-face {
+  font-family: customfont;
+  src: url(./fonts/VarelaRoundRegular.ttf);
+}
+[v-cloak] {
+  display: none !important;
+}
+.underline{
+  text-decoration: underline;
+}
+.underline-hover:hover{
+  text-decoration: underline;
+}
+.constrain{
+  max-width: 975px;
+  margin: 0 auto;
+}
+ul{
+  padding-left:15px;
+}
+li{
+  margin:6px 0px;
+}
+.q-card .q-item p div{
+  margin:6px 0px;
+}
+.mainheader{
+  background-color:$primary
+}
+.mainbanner{
+  background-color:$accent
+}
+.modal-header{
+  background-color:$accent
+}
+.q-btn{
+  background-color:$primaryoriginal
+  
+}
+.q-btn.q-btn--round{
+  background-color:transparent
+}
+.q-btn.q-btn--flat{
+  background-color:transparent
+}
+
+.buttontheme1{
+  color: black;
+  background-color:$theme
+}
+.buttontheme2{
+  color: black;
+  background-color:transparent
+}
+
+.q-btn.primary{
+  background-color:$secondary
+}
+.cp-h1{
+  font-size: 40px;
+}
+.cp-h2{
+  font-size: 30px;
+}
+.cp-p{
+  font-size: 18px;
+}

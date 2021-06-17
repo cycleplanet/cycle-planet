@@ -1,0 +1,80 @@
+{
+  "name": "cpq",
+  "version": "1.5.45",
+  "description": "The Bicycle Touring Platform",
+  "keywords": [
+    "cycle planet",
+    "bicycle",
+    "bike",
+    "cycle",
+    "cycling",
+    "touring",
+    "visa",
+    "border",
+    "information"
+  ],
+  "productName": "Cycle Planet",
+  "author": "bas idsinga <basidsinga@gmail.com>",
+  "private": true,
+  "scripts": {
+    "dev": "quasar dev -m pwa",
+    "icons": "icongenie generate -i logo_icongenie.png --skip-trim --theme-color FCBA03",
+    "deploy": "quasar build -m pwa && firebase deploy"
+  },
+  "dependencies": {
+    "@firebase/firestore": "^2.1.7",
+    "@quasar/extras": "^1.0.0",
+    "@types/leaflet": "^1.7.0",
+    "axios": "^0.21.1",
+    "chart.js": "^3.3.1",
+    "copy-webpack-plugin": "^5.1.1",
+    "cordova-plugin-fcm-with-dependecy-updated": "^7.8.0",
+    "core-js": "^3.6.5",
+    "emailjs-com": "^2.6.4",
+    "firebase": "^8.5.0",
+    "firebase-admin": "9.4.2",
+    "leaflet": "^1.7.1",
+    "leaflet-gpx": "^1.5.2",
+    "leaflet.markercluster": "^1.4.1",
+    "quasar": "^1.0.0",
+    "sitemap-webpack-plugin": "^1.1.0",
+    "v-video-embed": "^1.0.8",
+    "vue": "^2.6.12",
+    "vue-advanced-chat": "^0.8.5",
+    "vue-analytics": "^5.22.1",
+    "vue-chartjs": "^3.5.1",
+    "vue-class-component": "^7.2.6",
+    "vue-clipboard2": "^0.3.1",
+    "vue-croppa": "^1.3.8",
+    "vue-socialmedia-share": "^1.0.1",
+    "vue2-filters": "^0.11.0",
+    "vue2-leaflet": "^2.7.0",
+    "vue2-leaflet-gpx": "^2.0.0",
+    "vue2-leaflet-markercluster": "^3.1.0",
+    "vuelidate": "^0.7.6",
+    "vuex": "^3.6.0"
+  },
+  "devDependencies": {
+    "@quasar/app": "^2.0.0",
+    "@quasar/quasar-app-extension-qmarkdown": "^1.4.0",
+    "vue-loader": "^15.9.6",
+    "vue-template-compiler": "^2.6.12",
+    "workbox-webpack-plugin": "^5.1.4"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}

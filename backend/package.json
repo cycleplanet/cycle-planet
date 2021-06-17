@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "deploy": "heroku builds:create -a cycle-planet-backend"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "busboy": "^0.3.1",
+    "express": "^4.17.1",
+    "firebase-admin": "^9.5.0",
+    "nodemon": "^2.0.7",
+    "uuid-v4": "^0.1.0"
+  }
+}

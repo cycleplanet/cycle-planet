@@ -1,0 +1,41 @@
+.DS_Store
+.thumbs.db
+node_modules
+
+# Added by Bas Idsinga
+src/boot/firebase.js
+my-release-key.jks
+my-release-key.keystore
+T1.0.jks
+zipalign.exe
+.firebaserc
+firestore.rules
+backend/serviceAccountKey.json
+firebase-functions/serviceaccount.json
+src-cordova
+
+# Quasar core related directories
+.quasar
+dist
+
+# Cordova related directories and files
+src-cordova/node_modules
+src-cordova/platforms
+src-cordova/plugins
+src-cordova/www
+
+# Log files
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+src/boot/config.js
