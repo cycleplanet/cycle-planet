@@ -1,4 +1,4 @@
-# Cycle Planet App
+# Cycle Planet App ![GitHub]
 
 This is the repo for the official [Cycle Planet](https://cycleplanet.org/) platform. The platform is (soon) open source and free to use, which can be used to:
 - Host bicycle tourers, or get hosted during your trip
