@@ -25,11 +25,11 @@ Download or clone this repo, and then run the following command to install all d
 npm install
 ```
 
-Copy `src/boot/firebase.example.js` to `src/boot/firebase.js`.
+Copy `src/boot/config.example.js` to `src/boot/config.js`.
 
 Go to the [Firebase console](https://console.firebase.google.com/) to set up a Firebase project.
 
-Once you have completed the wizard to set up the Firebase wizard, click the `</>` button to add a web app. Copy the `var firebaseConfig = ...` definition in the code snippet it gives you into `src/boot/firebase.js` from this repo, replacing the placeholder in there.
+Once you have completed the wizard to set up the Firebase wizard, click the `</>` button to add a web app. Copy the `var firebaseConfig = ...` definition in the code snippet it gives you into `src/boot/config.js` from this repo, replacing the placeholder in there.
 
 Start the app in development mode:
 ```
