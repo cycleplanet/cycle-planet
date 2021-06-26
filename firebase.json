@@ -19,5 +19,7 @@
   },
   "functions": {
     "source": "firebase-functions"
+  },
+  "database": {
   }
 }
