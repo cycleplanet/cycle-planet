@@ -48,13 +48,21 @@ const mutations = {
 
 const actions = {
   firebaseGetUsers({ commit }) {
+	  console.log('firebaseGetUsers called')
 
-		if(firebase.auth.currentUser){
+		if (firebase.auth.currentUser) {
+			console.log('Current user check passed')
 
-		let myUserId = firebase.auth.currentUser.uid
+			let myUserId = firebase.auth.currentUser.uid
+			const chats = firebase.db.ref('Chats/' + myUserId).get().then(chats => {
+				console.log(`Got chats structure for current user ${myUserId}`, chats)
+			}).catch(err => {
+				console.log(`No luck reading chats for user ${myUserId}`, err)
+			})
 			firebase.db.ref('Chats/'+myUserId).on('child_added', snapshot => {
 				let messageDetails = snapshot.val()
 				let userId = snapshot.key
+				console.log(`Chat added for user ${userId}`)
 				commit('addChatlist', {
 					userId,
 					messageDetails
