@@ -19,7 +19,8 @@
   "scripts": {
     "dev": "quasar dev -m pwa",
     "icons": "icongenie generate -i logo_icongenie.png --skip-trim --theme-color FCBA03",
-    "deploy": "quasar build -m pwa && firebase deploy"
+    "deploy": "quasar build -m pwa && firebase deploy",
+    "deploy-security-rules": "firebase deploy -P cycle-planet-292f5 --only database"
   },
   "dependencies": {
     "@firebase/firestore": "^2.1.7",
