@@ -191,7 +191,11 @@ const actions = {
 	payload.message.from = 'them'
 	payload.message.read = false
 	
-    firebase.db.ref('Chats/' + payload.otherUserId + '/' + userId + '/' + timeStamp).set(payload.message)
+    firebase.db.ref('Chats/' + payload.otherUserId + '/' + userId + '/' + timeStamp).set(payload.message).then(res => {
+		console.log('Chat saved for other user')
+	}).catch(err => {
+		console.warn('Could not save chat for other user', err)
+	})
 
   },
   firebaseSendHostRequest({dispatch }, payload) {
