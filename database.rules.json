@@ -43,7 +43,10 @@
         ".read": true,
         ".write": "auth.uid === $userId",
         ".validate": true
-      }
+      },
+      ".read": true,
+      ".write": false,
+      ".validate": true
     },
     "$other": {
       ".read": true,
