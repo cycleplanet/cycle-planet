@@ -1,21 +1,54 @@
-  {
-    "rules": {
-      "Chats": {
-        "$user1": {
-          "$user2": {
-            ".read": "auth.uid === $user1 || auth.uid === $user2",
-            ".write": "auth.uid === $user1 || auth.uid === $user2",
-            ".validate": true
-          },
-          ".read": "auth.uid === $user1",
-          ".write": "auth.uid === $user1",
+{
+  "rules": {
+    "Chats": {
+      "$user1": {
+        "$user2": {
+          ".read": "auth.uid === $user1 || auth.uid === $user2",
+          ".write": "auth.uid === $user1 || auth.uid === $user2",
           ".validate": true
-        }
-      },
-      "$other": {
-        ".read": true,
-        ".write": true,
+        },
+        ".read": "auth.uid === $user1",
+        ".write": "auth.uid === $user1",
         ".validate": true
       }
+    },
+    "Users": {
+      "$userId": {
+        "hosting": {
+          "requests": {
+            "$timestamp": {
+              // nice rules, stating that only the sender and the receiver have access to host requests.
+              // Currently, at least for reads, overruled by the rules for /Users/<userId> below.
+              ".read": "auth.uid === $userId || auth.uid === data.child('sender').val()",
+              ".write": "auth.uid === $userId || auth.uid === newData.child('sender').val()",
+              ".validate": true
+            }
+          }
+        },
+
+        // I believe we have to allow everyone to read user profiles atm.
+        // This is problematic though, as it will disclose details people
+        // don't necessarily want disclosed, like their exact geo location
+        // or their full hosting history (which, if I have to press it for
+        // examples why you may want to hide it, may include celebrities).
+        //
+        // This permissive read rule also overrules the restrictive one on
+        // hosting requests above for now.
+        //
+        // Ideally, I (Reinier) believe we'll have separate nodes /Users
+        // (all information the platform has about a user) and /Profiles
+        // (all information other people are allowed to see about this user).
+        // And then platform users could manage to some extent how much of
+        //  what's in their /Users appears in their /Profile too or not.
+        ".read": true,
+        ".write": "auth.uid === $userId",
+        ".validate": true
+      }
+    },
+    "$other": {
+      ".read": true,
+      ".write": true,
+      ".validate": true
     }
   }
+}
