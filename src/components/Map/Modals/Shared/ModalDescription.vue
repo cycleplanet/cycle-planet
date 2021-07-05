@@ -2,6 +2,7 @@
 	<div class=" q-gutter-sm">
 		<p class="cp-h2">Description:</p>
 		<div class="">You have to use at least 50 characters</div>
+
 			<q-editor
 			@paste.native="evt => pasteCapture(evt)"
 			ref="editor_ref"
@@ -17,6 +18,7 @@
 			>
 			
 			</q-editor>
+			<div> {{Object.keys(editor).length}}/50</div>
 	</div>
 </template>
 
