@@ -24,7 +24,8 @@
       <div class="row flex items-center q-gutter-x-sm q-mt-sm">
         <like-post :postItemData="postItemData" class="q-ml-md"/>
         <q-space></q-space>
-         <q-btn v-if="postItemData.refKey==='Route'" icon="get_app" rounded :style="buttonStyle" label="Download gpx" @click="opengpxurl(postItemData.file)"/>
+        <q-btn v-if="postItemData.refKey==='Route'" icon="get_app" rounded :style="buttonStyle" label="Download gpx" @click="opengpxurl(postItemData.file)"/>
+        <q-btn v-if="postItemData.refKey==='Blog'" icon="open_in_new" rounded :style="buttonStyle" label="Visit article" @click="openUrl(postItemData.link)"/>
         <q-btn class="q-mr-sm" rounded :style="buttonStyle" label="share" icon="share" @click="shareItem()"/>
       </div>
    
