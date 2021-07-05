@@ -49,9 +49,9 @@ const mutations = {
 const actions = {
   firebaseGetUsers({ commit }) {
 
-		if(firebase.auth.currentUser){
+		if (firebase.auth.currentUser) {
 
-		let myUserId = firebase.auth.currentUser.uid
+			let myUserId = firebase.auth.currentUser.uid
 			firebase.db.ref('Chats/'+myUserId).on('child_added', snapshot => {
 				let messageDetails = snapshot.val()
 				let userId = snapshot.key
@@ -183,7 +183,11 @@ const actions = {
 	payload.message.from = 'them'
 	payload.message.read = false
 	
-    firebase.db.ref('Chats/' + payload.otherUserId + '/' + userId + '/' + timeStamp).set(payload.message)
+    firebase.db.ref('Chats/' + payload.otherUserId + '/' + userId + '/' + timeStamp).set(payload.message).then(res => {
+		console.log('Chat saved for other user')
+	}).catch(err => {
+		console.warn('Could not save chat for other user', err)
+	})
 
   },
   firebaseSendHostRequest({dispatch }, payload) {

@@ -1,0 +1,21 @@
+  {
+    "rules": {
+      "Chats": {
+        "$user1": {
+          "$user2": {
+            ".read": "auth.uid === $user1 || auth.uid === $user2",
+            ".write": "auth.uid === $user1 || auth.uid === $user2",
+            ".validate": true
+          },
+          ".read": "auth.uid === $user1",
+          ".write": "auth.uid === $user1",
+          ".validate": true
+        }
+      },
+      "$other": {
+        ".read": true,
+        ".write": true,
+        ".validate": true
+      }
+    }
+  }
