@@ -21,6 +21,9 @@ const mutations = {
 	// 	Vue.set(state.videoData, payload.itemId, payload.itemDetails)
 	// 	Vue.set(state.videoData[payload.itemId], 'country', payload.countryId)
 	// },
+	addPostsData(state, payload){
+		Vue.set(state.postData, payload.itemId, payload.itemDetails)
+	},
 	addRoutePostsData(state, payload){
 		Vue.set(state.routeData, payload.itemId, payload.itemDetails)
 	},
