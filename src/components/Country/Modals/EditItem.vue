@@ -3,12 +3,10 @@
   <q-card class="no-padding" style="max-width: 90% ; width:500px; height:auto">
         <form @submit.prevent="saveEditFormMethod()">
             <modal-header>Edit {{refsextra[refKey].title}}</modal-header>
-            <div v-if="roleEditor">
-              <q-checkbox v-model="translateOption" label="Translating from Vakantiefietser / Wereldfietser data?"/>
-            </div>
+            
             <q-card-section class="q-gutter-y-md">
-              <q-banner rounded class="bg-orange-2 text-orange-10">All logged in users can edit this information, but please make sure to follow our <span class="underline cursor-pointer" @click="clickGuidelines()">guidelines</span>.
-              </q-banner>
+              <q-banner rounded class="bg-orange-2 text-orange-10">All logged in users can edit this information, but please make sure to follow our <span class="underline cursor-pointer" @click="clickGuidelines()">guidelines</span>.</q-banner>
+              <q-banner rounded class="bg-green-2 text-green-10"><b>What to write in this section?</b><br/>{{refsextra[refKey].description}}</q-banner>
               <q-editor v-if="refKey==='Visa'"
               v-model="inputListItem.body"
               :rules="[val => !!val || 'Field is required']"

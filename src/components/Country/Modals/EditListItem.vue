@@ -3,18 +3,19 @@
   <q-card class="no-padding" >
         <form @submit.prevent="saveEditFormMethod()">
             <modal-header>Edit {{refKey}}</modal-header>
-            <div v-if="roleEditor">
-              <q-checkbox v-model="translateOption" label="Translating from Vakantiefietser / Wereldfietser data?"/>
-            </div>
+           
             <q-card-section class="q-gutter-y-md">
-                <q-banner rounded class="bg-orange-2 text-orange-10">All logged in users can edit this information, but please make sure to follow our <span class="underline cursor-pointer" @click="clickGuidelines()">guidelines</span>.
-                </q-banner>
+                <q-banner rounded class="bg-orange-2 text-orange-10">All logged in users can edit this information, but please make sure to follow our <span class="underline cursor-pointer" @click="clickGuidelines()">guidelines</span>.</q-banner>
+                <q-banner v-if="refsextra[refKey].description" rounded class="bg-green-2 text-green-10"><b>What to write in this section?</b><br/>{{refsextra[refKey].description}}</q-banner>
+
                 <div v-for="(item, index) in refsextra[refKey].items" :key="index" >
                     <div v-if="refKey==='QuickFacts'">
                             <q-input filled autogrow :label="item.title"  v-model="inputListItem[index]"/>
                     </div>
-                 <div v-else class="q-ma-md">
+                 <div v-else class="q-my-md">
                     <div class="text-h6 q-mt-md">{{item.title}}</div>
+                    <q-banner v-if="item.description" rounded class="bg-green-2 text-green-10 q-mb-sm"><b>What to write in this section?</b><br/>{{item.description}}</q-banner>
+                    
                         <!-- <q-input filled autogrow :label="item.title" class="q-pa-md" v-model="inputListItem[index]"/> -->
                    <list-description :data.sync="inputListItem[index]"/>
                     </div>
