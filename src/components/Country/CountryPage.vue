@@ -20,9 +20,9 @@
 			</q-avatar>
 			<p class="q-mt-md q-ml-sm" :class="isWebApp?'text-h4':'cp-h2'">{{countryKey}}</p>
 			<!-- <q-icon class="q-mx-sm " :size="isWebApp?'md':'sm'" @click="loggedIn ? likeCountryHere((!country_likes[countryKey] ? 'liked' : 'disliked')) : showLoginDialog()" :name="!country_likes[countryKey] ? 'favorite_border' : 'favorite'" :class="!country_likes[countryKey] ? '' : 'text-red'"  /> -->
-			<div class="absolute-right">
-				<q-btn v-if="loggedIn?admin:false" flat round icon="settings" size="15px" @click.native="countrySettingsDialog=true"/>
-			</div>
+			<q-space></q-space>
+			<q-btn flat round icon="share" size="15px" @click.native="shareDialog=true"/>
+			<q-btn v-if="loggedIn?admin:false" flat round icon="settings" size="15px" @click.native="countrySettingsDialog=true"/>
 		</div>
 
 		<div v-if="countryData.countries && mapsettings">
@@ -87,6 +87,10 @@
 		/>
 	</q-dialog>
 
+	<q-dialog v-model="shareDialog">
+		<share-dialog :slug="'country/'+countryKey" :title="countryKey"/>
+	</q-dialog>
+
 	
   	</q-page>
 </div>
@@ -128,6 +132,7 @@ Icon.Default.mergeOptions({
 		'post-item': require('components/Country/PostItem.vue').default,
 	    'map-marker' : require('components/Shared/MapMarker.vue').default,
 		'edit-country-settings': require('components/Country/Modals/EditCountrySettings.vue').default,
+		'share-dialog': require('components/Shared/ShareDialog.vue').default,
 	},
 	
 	data() {
@@ -135,6 +140,7 @@ Icon.Default.mergeOptions({
 			loading: true,
 			pageReady:false,
 			zoom:6,
+			shareDialog:false,
 			
 			countrySettingsDialog:false,
 			title: this.$route.params.countryKey,
