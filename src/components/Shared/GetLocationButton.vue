@@ -23,21 +23,22 @@ export default {
             navigator.geolocation.getCurrentPosition(position => {
                 this.getCityAndCountry(position)
             }, err => {
-                this.locationError()
+                this.locationError(err)
             }, { timeout: 7000 })
         },
         getCityAndCountry(position) {
             Geoapify.reverseGeocode(position.coords.latitude, position.coords.longitude).then(address => {
                 this.locationSuccess(address, position)
             }).catch(err => {
-                this.locationError()
+                this.locationError(err)
             })
         },
         locationSuccess(address, position) {
             if (address) {
-                updateItemAction({
-                    path:'Users/'+this.userId,
+                this.updateItemAction({
+                    path:'Users/'+this.myUserId,
                     data:{
+                        coordinates_updated:this.timeStamp,
                         coordinates: {
                             lat: position.coords.latitude,
                             lng: position.coords.longitude
@@ -47,10 +48,11 @@ export default {
             }
             this.locationLoading = false
         },
-        locationError() {
+        locationError(err) {
+            console.log('locationError',err);
             this.$q.dialog({
                 title: 'Error',
-                message: result.data
+                message: err
             })
             this.locationLoading = false
         },

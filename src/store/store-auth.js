@@ -310,6 +310,7 @@ const actions = {
 		firebase.db.ref('Users/').on('child_added', snapshot => {
 			let userDetails = snapshot.val()
 			let userId = snapshot.key
+     
 			commit('addUser', {userId,userDetails})
       if (userDetails.coordinates) {
         commit('addUserWithMapLocation', {userId,userDetails})
@@ -320,6 +321,9 @@ const actions = {
 			let userDetails = snapshot.val()
 			let userId = snapshot.key
 			commit('addUser', {userId,userDetails})
+      if (userDetails.coordinates) {
+        commit('addUserWithMapLocation', {userId,userDetails})
+      }
      
 		})
 	},
