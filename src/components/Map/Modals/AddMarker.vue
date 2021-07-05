@@ -3,7 +3,8 @@
 		<modal-header>Add {{markerlist[refKey].title}} Marker</modal-header>
 			<q-form @submit.prevent="submitMarker()" ref="myForm">
 				<q-card-section class="q-gutter-y-md">
-						<q-banner rounded class="bg-orange-2 text-orange-10 q-mb-md">All logged in users can add markers, but please make sure to follow our <span class="underline cursor-pointer" @click="clickGuidelines()">guidelines</span>.</q-banner>
+
+					<modal-banner/>
 
 					
 					<div  class="q-gutter-y-md" >

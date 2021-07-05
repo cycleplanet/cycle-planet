@@ -205,9 +205,7 @@ export default {
 		clickedcontinent(continentId){
 			this.$router.push('/continent/'+continentId)
 		},
-		clickGuidelines(){
-			this.$router.push('/guidelines')
-		},
+		
 		openMapUrl(lat,lng){
 			window.location = 'geo:'+lat+','+lng
 		},
@@ -346,6 +344,7 @@ export default {
 		'modal-countryselect': 	require('components/Shared/Modals/ModalCountry.vue').default,
 		'modal-title': 			require('components/Shared/Modals/ModalTitle.vue').default,
 		'modal-description': 	require('components/Map/Modals/Shared/ModalDescription.vue').default,
+		'modal-banner': 	require('components/Map/Modals/Shared/ModalBanner.vue').default,
 		'modal-location': 		require('components/Shared/Modals/ModalLocation.vue').default,
 		'city-country': 		require('components/Shared/Modals/CityCountry.vue').default,
 		// 'modal-follow-button': require('components/Shared/Modals/FollowButton.vue').default,

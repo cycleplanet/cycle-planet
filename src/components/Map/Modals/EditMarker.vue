@@ -3,7 +3,6 @@
 		<modal-header>Edit {{markerlist[refKey].title}} Marker</modal-header>
 			<q-form @submit.prevent="submitMarker()" ref="myForm">
 				<q-card-section class="q-gutter-y-md">
-					
 
 					<q-banner dense rounded class="bg-green-2 text-green-10" v-if="canEdit">You can edit the <b>category, title</b> and <b>coordinates</b> because you {{admin?'are an admin.':(roleEditor?'are an editor.':(data.user_created===myUserId?'created this item.':''))}}</q-banner>
 

@@ -3,7 +3,7 @@
 		<modal-header>Add Border Marker</modal-header>
 			<q-form @submit.prevent.stop="submitMarker()" ref="myForm">
 					<q-card-section class="q-gutter-md">
-						<q-banner rounded class="bg-orange-2 text-orange-10">All logged in users can add markers, but please make sure to follow our <span class="underline cursor-pointer" @click="clickGuidelines()">guidelines</span>.</q-banner>
+						<modal-banner/>
 						
 						<p class="cp-h2">Coordinates of border crossing</p>
 
