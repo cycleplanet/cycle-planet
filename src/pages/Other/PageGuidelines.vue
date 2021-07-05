@@ -56,7 +56,7 @@ export default {
   },
   components: {
 		'edit-page': require('components/Shared/EditPage.vue').default,
-    },
+  },
 
 }
 </script>
