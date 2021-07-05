@@ -13,6 +13,8 @@
       <q-item-section class="text-bold">
         <q-item-label>{{data.fullname}}</q-item-label>
         <q-item-label caption :class="data.hosting.status==='Not available for hosting'?'text-red':'text-green'">{{data.hosting.status}}</q-item-label>
+        <q-item-label caption class="row" v-if="data.hosting.status==='Touring'">Last updated: <nice-date class="q-ml-xs" :dateprop="data.coordinates_updated"/></q-item-label>
+        <q-item-label caption class="row" v-if="data.hosting.status!=='Touring'">Last logged in: <nice-date class="q-ml-xs" :dateprop="data.online_date"/></q-item-label>
       </q-item-section>
     </q-item>
 
