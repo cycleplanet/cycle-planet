@@ -15,7 +15,7 @@ import { mapState, mapActions, mapGetters  } from 'vuex'
 export default {
     props:['countryId'],
     computed: {
-		...mapGetters('countries', ['countriesAll','country_likes','countriesFiltered']),
+		...mapGetters('countries', ['countriesAll','countriesFiltered']),
     screenwidthbig(){
 			let screenWidth = screen.width
 			if(screenWidth < 768){

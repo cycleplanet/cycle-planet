@@ -18,7 +18,7 @@ export default {
   	// mixins: [mixinGeneral],
     props:['countryId','index','last','myProfile'],
     computed: {
-		...mapGetters('countries', ['countriesAll','country_likes','countriesFiltered']),
+		...mapGetters('countries', ['countriesAll','countriesFiltered']),
     screenwidthbig(){
 			let screenWidth = screen.width
 			if(screenWidth < 768){

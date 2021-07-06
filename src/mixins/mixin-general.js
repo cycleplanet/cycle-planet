@@ -27,7 +27,7 @@ export default {
 		...mapState('post', ['postData']),    
 
 		...mapGetters('auth', ['users','usersWithMapLocation']),
-		...mapGetters('countries', ['countries','countriesAll','country_likes','countriesFiltered','continent_likes']),
+		...mapGetters('countries', ['countries','countriesAll','countriesFiltered']),
 		...mapGetters('chat', ['unreadchatlistnew','userMessagesSortedByDate']),
 		...mapGetters('post', ['blogPostsSorted','blogPostsSortedByDate','videoPostsSorted','videoPostsSortedByDate','routePostsSorted']),
 
