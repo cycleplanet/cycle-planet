@@ -88,7 +88,7 @@ export default {
             }
           })
           this.setItemAction({
-            path:'countries/' + data.country + '/contactperson/' +data.user,
+            path:'Country_data/' + data.country +'countries/contactperson/' +data.user,
             data:true
           })
           this.deleteItemAction({

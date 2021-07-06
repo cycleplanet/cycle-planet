@@ -66,7 +66,7 @@
                   filled
                   v-model="userData.countries_cycled_new"
                   multiple
-                  :options="Object.keys(countriesAll)"
+                  :options="Object.keys(allCountries)"
                   use-chips
                   stack-label
                   label="Countries cycled"

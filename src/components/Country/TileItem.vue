@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="q-mb-md" v-if="countryData.countries">
+        <div class="q-mb-md" v-if="countryData.name">
             <q-item class="no-padding">
-                <q-item-section class="cp-h2">{{refsextra[refKey].title}} {{refKey==='Embassy'?countryData.countries.name:''}}</q-item-section>
+                <q-item-section class="cp-h2">{{refsextra[refKey].title}} {{refKey==='Embassy'?countryData.name:''}}</q-item-section>
                 <q-item-section side top>
                     <div>
                     <q-btn class="col-1" :style="buttonStyle" round icon="add" size="sm" @click.native="loggedIn ? AddItemMethod(refKey) : showLoginDialog()" v-if="showAddButton"/>
@@ -64,17 +64,14 @@
             </div>
         </div>
         <div v-if="orderMarkers&&refKey==='Border_item'" class="cp-p">
-            <!-- <div>countryPresent:{{Object.keys(countryPresent)}}</div> -->
-            <!-- <div>borders_new:{{Object.keys(countryData.countries.borders_new)}}</div> -->
-            
-            <div v-if="countryData.countries.borders_new?Object.keys(countryData.countries.borders_new).length:false" >
-                <div v-for="(neighbourcountry, neighbourcountryKey) in Object.keys(countryData.countries.borders_new)" :key="neighbourcountryKey">
+            <div v-if="countryData.borders_new?Object.keys(countryData.borders_new).length:false" >
+                <div v-for="(neighbourcountry, neighbourcountryKey) in Object.keys(countryData.borders_new)" :key="neighbourcountryKey">
                     <div v-if="neighbourcountry!==countryKey" class="q-my-lg">
 
                         <div class="text-bold">{{neighbourcountry}}</div>
                     
-                        <div v-if="!countryData.countries.borders_new[neighbourcountry] ">
-                        You can cross this border without having to go through customs.{{countryData.countries.schengen&&countriesAll[neighbourcountry].schengen?' Both countries are part of the Schengen Area.':''}}
+                        <div v-if="!countryData.borders_new[neighbourcountry] ">
+                        You can cross this border without having to go through customs.{{countryData.schengen&&allCountries[neighbourcountry].schengen?' Both countries are part of the Schengen Area.':''}}
                         </div>
 
                         <div v-else-if="countryPresent[neighbourcountry]">
@@ -209,7 +206,7 @@ export default {
             }
         },
         countryPresent(){
-            let bordersExisting = Object.keys(this.countryData.countries.borders_new)
+            let bordersExisting = Object.keys(this.countryData.borders_new)
             bordersExisting.forEach(element => {
 
                 this.borderCountries[element]=false
@@ -224,9 +221,9 @@ export default {
         },
         borderCustomsPresent(){
             let x = 0
-            let bordersExisting = Object.keys(this.countryData.countries.borders_new).length
+            let bordersExisting = Object.keys(this.countryData.borders_new).length
             if(bordersExisting>0){
-                let borderOpen = Object.values(this.countryData.countries.borders_new)
+                let borderOpen = Object.values(this.countryData.borders_new)
                 borderOpen.forEach(element => {
                     if(element){
                         x++

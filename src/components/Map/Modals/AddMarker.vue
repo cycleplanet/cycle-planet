@@ -35,7 +35,6 @@
 
 					<p class="text-h6" v-if="countryKey"><b>Country:</b> {{countryKey}}</p>
 					<div class="text-h6" v-if="!countryKey"><b>Country:</b> {{payload.country}}{{currentLocation}}</div>
-					<!-- <q-select filled v-if="!countryKey" :options="Object.keys(countriesAll)" v-model="payload.country" label="Select country" behavior="menu" :rules="[val => !!val || 'Field is required']"/> -->
 					<q-input filled v-model="payload.title" label="Title activity"  :rules="[val => val.length >= 5 || 'Use at least 5 characters']"/>
 					<modal-description :description.sync="payload.description"/>
 					<div v-if="warningDescription" class="text-red">The description is too short!</div>

@@ -10,13 +10,13 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters  } from 'vuex'
+// import { mapState, mapActions, mapGetters  } from 'vuex'
 
 export default {
     props:['countryId'],
     computed: {
-		...mapGetters('countries', ['countriesAll','countriesFiltered']),
-    screenwidthbig(){
+
+  screenwidthbig(){
 			let screenWidth = screen.width
 			if(screenWidth < 768){
 				return false

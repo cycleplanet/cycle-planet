@@ -116,7 +116,6 @@ export default {
     },
 
     methods:{
-		// ...mapActions('country', ['getVideoPosts','getBlogPosts']),
 
         editItemMethod(){
             this.editItem=true
@@ -132,34 +131,12 @@ export default {
            		this.addRoutePostItemDialog=true
             }
         },
-        // clickBlogChip(value){
-        //     if(value==='popular'){
-        //         this.blogMostPopularChip=true
-        //         this.blogNewestChip=false
-                
-        //     }else{
-        //         this.blogMostPopularChip=false
-        //         this.blogNewestChip=true
-        //         }
-        // },
-        // clickVideoChip(value){
-        //     if(value==='popular'){
-        //         this.videoMostPopularChip=true
-        //         this.videoNewestChip=false
-                
-        //     }else{
-        //         this.videoMostPopularChip=false
-        //         this.videoNewestChip=true
-        //         }
-        // },
     
     },
 	mounted(){
 		if(!this.loadedPosts){
 			this.getPosts()
 		}
-		// this.getVideoPosts(this.countryKey)
-		// this.getBlogPosts(this.countryKey)
 	}
   
 

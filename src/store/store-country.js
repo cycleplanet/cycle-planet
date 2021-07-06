@@ -122,33 +122,6 @@ const actions = {
 		})
 	},
 	
-	getVideoPosts({commit},countryId){
-		firebase.db.ref('Video/'+countryId).on('child_added', snapshot => {
-			let itemId = snapshot.key
-			let itemDetails = snapshot.val()
-			commit('addVideoCountryData', {itemId,itemDetails})
-		})
-		firebase.db.ref('Video/'+countryId).on('child_changed', snapshot => {
-			let itemId = snapshot.key
-			let itemDetails = snapshot.val()
-			commit('addVideoCountryData', {itemId,itemDetails})
-		})
-		
-	},
-	getBlogPosts({commit},countryId){
-		firebase.db.ref('Blog/'+countryId).on('child_added', snapshot => {
-			let itemId = snapshot.key
-			let itemDetails = snapshot.val()
-			commit('addBlogCountryData', {itemId,itemDetails})
-		})
-		firebase.db.ref('Blog/'+countryId).on('child_changed', snapshot => {
-			let itemId = snapshot.key
-			let itemDetails = snapshot.val()
-			commit('addBlogCountryData', {itemId,itemDetails})
-		})
-		
-	},
-
 	destroyData({ commit }) {
 		commit('clearCountryData')
 	},

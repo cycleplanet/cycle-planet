@@ -563,7 +563,7 @@ const actions = {
 	},
 	
 	firebasegetCountries({ commit }) {
-		firebase.db.ref('countries/').on('child_added', snapshot => {
+		firebase.db.ref('Country_data/').on('child_added', snapshot => {
 			let countryDetails = snapshot.val()
 			let countryKey = snapshot.key
 			commit('addCountry', {
@@ -571,7 +571,7 @@ const actions = {
 				countryDetails
 			})
 		})
-		firebase.db.ref('countries/').on('child_changed', snapshot => {
+		firebase.db.ref('Country_data/').on('child_changed', snapshot => {
 			let countryDetails = snapshot.val()
 			let countryKey = snapshot.key
 			commit('updateCountry', {
@@ -584,13 +584,13 @@ const actions = {
 
 const getters = {
 	
-	countries:(state)=>{
+	allCountries:(state)=>{
         return state.countries
 	},
 
 	
 	countriesFiltered: (state, getters) => {
-		let countriesSorted = getters.countries,
+		let countriesSorted = getters.allCountries,
 			countriesFiltered = {}
 
 		if (state.search) {

@@ -3,8 +3,8 @@
         <l-map 
         :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}"
         style="height: 350px" 
-        :zoom="screenwidthbig?zoom:zoom"
-         :center="countryData.countries.location"
+        :zoom="zoom"
+        :center="countryData.location"
         >
           <l-tile-layer 
           :url="mapsettings.url" 
@@ -62,10 +62,9 @@ export default {
 			this.$root.$on('showAddTask', () => {
 				this.showAddTask = true
 			})
-      this.zoom=this.countryData.countries.zoom
+      this.zoom=this.countryData.zoom
 		},
     computed: {
-
 		  ...mapState('country', ['countryData']),
 
             

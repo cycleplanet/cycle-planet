@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import mixinGeneral from 'src/mixins/mixin-general.js'
 import { LMap, LTileLayer, LControl, LMarker, LIcon, LPopup } from 'vue2-leaflet'
 import Vue2LeafletMarkercluster from 'src/clustermarkers/Vue2LeafletMarkercluster'
@@ -160,6 +160,7 @@ export default {
     },
     computed: {
         ...mapState('auth', ['usersWithMapLocation']),
+		    ...mapGetters('countries', ['countriesAll']),
         showmarkerType() {
             if (this.loggedIn) {
                 this.mapMarkersNew = 'users'

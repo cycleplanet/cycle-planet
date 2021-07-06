@@ -50,72 +50,7 @@ const mutations = {
 }
 
 const actions = {
-	// getBlogPosts({commit},userId){
-	// 	// let userId = firebaseAuth.currentUser.uid
-	// 	firebaseDb.ref('Blog/').on('child_added', snapshot => {
-	// 		firebaseDb.ref('Blog/'+snapshot.key).on('child_added', childsnapshot => {
-	// 			let item = childsnapshot.val()
-	// 			let countryId = snapshot.key
-	// 			let itemDetails = childsnapshot.val()
-	// 			let itemId = childsnapshot.key
 
-	// 			firebaseDb.ref('PostsBlog/'+itemId).update({description:''})
-	// 			// firebaseDb.ref('PostsBlog/'+itemId+'/postid').remove()
-	// 			if(item.user_created===userId){
-					
-	// 				commit('addBlogCountryData', {countryId, itemId,itemDetails})
-	// 			}
-	// 		})
-	// 	})
-	// 	firebaseDb.ref('Blog/').on('child_added', snapshot => {
-	// 		firebaseDb.ref('Blog/'+snapshot.key).on('child_changed', childsnapshot => {
-	// 			let item = childsnapshot.val()
-	// 			if(item.user_created===userId){
-	// 				let countryId = snapshot.key
-	// 				let itemDetails = childsnapshot.val()
-	// 				let itemId = childsnapshot.key
-	// 				commit('addBlogCountryData', {countryId, itemId,itemDetails})
-	// 			}
-	// 		})
-	// 	})
-	// 	firebaseDb.ref('Blog/').on('child_added', snapshot => {
-	// 		firebaseDb.ref('Blog/'+snapshot.key).on('child_removed', childsnapshot => {
-	// 			let item = childsnapshot.val()
-	// 			if(item.user_created===userId){
-	// 				let countryId = snapshot.key
-	// 				let itemDetails = childsnapshot.val()
-	// 				let itemId = childsnapshot.key
-	// 				commit('deletePost', {countryId, itemId,itemDetails})
-	// 			}
-	// 		})
-	// 	})
-
-	// },
-	// getVideoPosts({commit},userId){
-	// 	firebaseDb.ref('Video/').on('child_added', snapshot => {
-	// 		firebaseDb.ref('Video/'+snapshot.key).on('child_added', childsnapshot => {
-	// 			let item = childsnapshot.val()
-	// 			let countryId = snapshot.key
-	// 			let itemDetails = childsnapshot.val()
-	// 			let itemId = childsnapshot.key
-
-	// 			if(item.user_created===userId){
-	// 				commit('addVideoCountryData', {countryId, itemId,itemDetails})
-	// 			}
-	// 		})
-	// 	})
-	// 	firebaseDb.ref('Video/').on('child_changed', snapshot => {
-	// 		firebaseDb.ref('Video/'+snapshot.key).on('child_changed', childsnapshot => {
-	// 			let item = childsnapshot.val()
-	// 			if(item.user_created===userId){
-	// 				let countryId = snapshot.key
-	// 				let itemDetails = childsnapshot.val()
-	// 				let itemId = childsnapshot.key
-	// 				commit('addVideoCountryData', {countryId, itemId,itemDetails})
-	// 			}
-	// 		})
-	// 	})
-	// },
 	getSinglePosts({commit},postKey){
 		let itemDetails = {}
 		firebase.db.ref('Posts/'+postKey).on('child_added', snapshot => {
@@ -165,61 +100,10 @@ const actions = {
 			}else if(ref=='Blog'){
 				commit('deleteBlogPost', {itemId})
 			}
-			// commit('addPostsData', {itemId,itemDetails})
 		})
         LocalStorage.set('loadedPosts', true)
 
 	},
-	// getVideoPosts({commit}){
-	// 	firebaseDb.ref('PostsVideo/').on('child_added', snapshot => {
-	// 		let itemId = snapshot.key
-	// 		let itemDetails = snapshot.val()
-	// 		firebaseDb.ref('Posts/'+itemId).update(itemDetails)
-	// 		// firebaseDb.ref('Posts/'+itemId).remove()
-
-	// 		commit('addVideoPostsData', {itemId,itemDetails})
-	// 	})
-	// 	firebaseDb.ref('PostsVideo/').on('child_changed', snapshot => {
-	// 		let itemId = snapshot.key
-	// 		let itemDetails = snapshot.val()
-	// 		commit('addVideoPostsData', {itemId,itemDetails})
-	// 	})
-	// },
-	// getBlogPosts({commit}){
-	// 	firebaseDb.ref('PostsBlog/').on('child_added', snapshot => {
-	// 		let itemId = snapshot.key
-	// 		let itemDetails = snapshot.val()
-	// 		firebaseDb.ref('Posts/'+itemId).update(itemDetails)
-	// 		commit('addBlogPostsData', {itemId,itemDetails})
-	// 	})
-	// 	firebaseDb.ref('PostsBlog/').on('child_changed', snapshot => {
-	// 		let itemId = snapshot.key
-	// 		let itemDetails = snapshot.val()
-	// 		commit('addBlogPostsData', {itemId,itemDetails})
-	// 	})
-	// },
-	// newBlogPost({},payload){
-	// 	let newKey = uid()
-	// 	let ref = firebaseDb.ref(payload.refKey+'/' + payload.countryKey+'/'+newKey)
-	// 	ref.set(payload.data)
-	// 	Notify.create('Blog posted')
-	// },
-	// editBlogPost({},payload){
-	// 	let ref = firebaseDb.ref(payload.refKey+'/' + payload.countryKey+'/'+payload.itemKey)
-	// 	ref.update(payload.data)
-	// 	Notify.create('Blog updated succesfully!')
-	// },
-	// newVideoPost({},payload){
-	// 	let newKey = uid()
-	// 	let ref = firebaseDb.ref(payload.refKey+'/' + payload.countryKey+'/'+newKey)
-	// 	ref.set(payload.data)
-	// 	Notify.create('Video posted')
-	// },
-	// editVideoPost({},payload){
-	// 	let ref = firebaseDb.ref(payload.refKey+'/' + payload.countryKey+'/'+payload.itemKey)
-	// 	ref.update(payload.data)
-	// 	Notify.create('Video post updated succesfully!')
-	// },
 
 	likePost({},payload){
 		let userId = firebase.auth.currentUser.uid

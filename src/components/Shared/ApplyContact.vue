@@ -7,13 +7,12 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <!-- <q-input filled label="Country" v-model="country" /> -->
           <q-select outlined
           v-model="country"
           use-input
           input-debounce="0"
           label="Select country*"
-          :options="Object.keys(countriesAll)"
+          :options="Object.keys(allCountries)"
           behavior="menu"
           filled
           lazy-rules

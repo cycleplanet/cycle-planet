@@ -5,21 +5,11 @@
           <q-banner rounded class="bg-orange-2 text-orange-10">All logged in users can add their own video posts, but please make sure to follow our <span class="underline cursor-pointer" @click="clickGuidelines()">guidelines</span>.
           </q-banner>
 
-          <q-select class="q-mb-md" filled v-model="countriesSelected" multiple :options="Object.keys(countriesAll)" use-chips stack-label label="Select countries" behavior="menu"/>
+          <q-select class="q-mb-md" filled v-model="countriesSelected" multiple :options="Object.keys(allCountries)" use-chips stack-label label="Select countries" behavior="menu"/>
           <q-input outlined type="url" filled v-model="link" label="Link*" lazy-rules :rules="[ val => val && val.length > 0 || 'Please type something']"/>
           <q-input outlined  filled v-model="title" label="Video title *" lazy-rules :rules="[ val => val && val.length > 0 || 'Please type something']"/>
           <q-input outlined filled v-model="description" label="Description description*" lazy-rules :rules="[ val => val && val.length > 0 || 'Please type something']"/>
        
-
-          <!-- <q-input
-          outlined filled
-          v-model="videoInput.link"
-          type="url"
-          label="Video link *"
-          lazy-rules
-          :rules="[ val => val && val.length > 0 || 'Please type something']"
-          /> -->
-          
         </q-card-section>
         <q-card-section>
           <video-embed :src="link" sandbox="allow-popups allow-scripts"></video-embed>

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="countryKey&&countriesAll&&refKey">
+    <div v-if="countryKey&&allCountries&&refKey">
         <div class=" q-mb-md">
             <q-item class="no-padding">
                 <q-item-section class="cp-h2">{{refsextra[refKey].title}}</q-item-section>
@@ -22,18 +22,18 @@
                 <q-list v-if="refKey==='QuickFacts'" class="q-gutter-y-sm cp-p">
                     <div>
                         <div class="text-bold">Region: </div>
-                        <div>{{countriesAll[countryKey].quickFacts.region}}</div>
+                        <div>{{allCountries[countryKey].quickFacts.region}}</div>
                     </div>
 
                     <div>
                         <div class="text-bold">Subregion: </div>
-                        <div>{{countriesAll[countryKey].quickFacts.subregion}}</div>
+                        <div>{{allCountries[countryKey].quickFacts.subregion}}</div>
                     </div>
 
                     <div>
                         <div class="text-bold">Neighbour countries</div>
                         <div class="row">
-                            <div v-for="(country, index) in countriesAll[countryKey].borders_new">
+                            <div v-for="(country, index) in allCountries[countryKey].borders_new">
                                 <modal-countrychip :countryId="index"/>
                             </div>
                         </div>
@@ -41,17 +41,17 @@
 
                     <div>
                         <div class="text-bold">Capital: </div>
-                        <div>{{countriesAll[countryKey].quickFacts.capital}}</div>
+                        <div>{{allCountries[countryKey].quickFacts.capital}}</div>
                     </div>
 
                     <div>
                         <div class="text-bold">Currency</div>
-                        <div>{{countriesAll[countryKey].quickFacts.currencies.name}} ({{countriesAll[countryKey].quickFacts.currencies.code}} {{countriesAll[countryKey].quickFacts.currencies.symbol}})</div>
+                        <div>{{allCountries[countryKey].quickFacts.currencies.name}} ({{allCountries[countryKey].quickFacts.currencies.code}} {{allCountries[countryKey].quickFacts.currencies.symbol}})</div>
                     </div>
                     <div>
                         <div class="text-bold">WhatsApp groups</div>
                         <div class="row">
-                            <div v-for="WAgroup in continentAdapter[countriesAll[countryKey].quickFacts.subregion].whatsappgroups" :key="WAgroup">
+                            <div v-for="WAgroup in continentAdapter[allCountries[countryKey].quickFacts.subregion].whatsappgroups" :key="WAgroup">
                                 <whatsapp-button :WAgroup="whatsappgroups[WAgroup]"/>
                             </div>
                         </div>
@@ -74,9 +74,9 @@
 						</q-item-section>
 					</q-item>
 				</q-list>
-				<p v-if="refKey==='Sleeping'" class="text-bold q-mt-sm">Cycle Planet hosts</p>
-                <div style="height: 350px;width:100%" v-if="refKey==='Sleeping'&&countryData.countries">
-                    <l-map :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}" v-if="refKey==='Sleeping'" style="height: 350px; " :zoom="zoom" :center="countryData.countries.location">
+				<p v-if="refKey==='Sleeping'" class="text-bold cp-p q-mt-sm">Cycle Planet hosts</p>
+                <div style="height: 350px;width:100%" v-if="refKey==='Sleeping'&&countryData">
+                    <l-map :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}" v-if="refKey==='Sleeping'" style="height: 350px; " :zoom="zoom" :center="countryData.location">
                         <l-tile-layer :url="mapsettings.url" :attribution="mapsettings.attribution"></l-tile-layer>  
                         
                         <div v-for="(userData, userKey) in usersWithMapLocation" :key="userKey" class="q-mt-md">
@@ -165,8 +165,7 @@ export default {
     
     },
     mounted(){
-      this.zoom=this.countries[this.countryKey].zoom
-
+        this.zoom=this.countryData.zoom
     }
   
 

@@ -34,12 +34,12 @@
 					<modal-location :payload.sync="payload" />
 
 
-					<q-select filled :options="Object.keys(countriesAll)" v-model="payload.country_located" label="In which country do you apply for this visa?" behavior="menu" :rules="[val => !!val || 'Field is required']"/>
+					<q-select filled :options="Object.keys(allCountries)" v-model="payload.country_located" label="In which country do you apply for this visa?" behavior="menu" :rules="[val => !!val || 'Field is required']"/>
 					<q-input filled v-model="payload.city" label="City" :rules="[val => val && val.length > 0 || 'Field is required']"/>
 
 				</div>
-				<q-select filled v-if="!countryKey" :options="Object.keys(countriesAll)" v-model="payload.country" label="For which country is this visa?"behavior="menu" :rules="[val => !!val || 'Field is required']"/>
-				<q-select disable filled v-if="countryKey" :options="Object.keys(countriesAll)" v-model="countryKey" label="For which country is this visa?"behavior="menu" :rules="[val => !!val || 'Field is required']"/>
+				<q-select filled v-if="!countryKey" :options="Object.keys(allCountries)" v-model="payload.country" label="For which country is this visa?"behavior="menu" :rules="[val => !!val || 'Field is required']"/>
+				<q-select disable filled v-if="countryKey" :options="Object.keys(allCountries)" v-model="countryKey" label="For which country is this visa?"behavior="menu" :rules="[val => !!val || 'Field is required']"/>
 			</q-card-section >
 			
 			<q-card-section >
@@ -176,7 +176,7 @@ import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup } from
 					this.payload.country=this.payload.country
 				}
 				if(this.payload.onlineVisa){
-					this.payload.coordinates=this.countriesAll[this.payload.country].location
+					this.payload.coordinates=this.allCountries[this.payload.country].location
 				}
 				let markerId=uid()
 				this.setItemActionFs({
