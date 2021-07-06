@@ -14,7 +14,7 @@
   	<q-page v-if="countryData">
 	<div v-if="countryData.zoom">
 
-		<div v-if="countryData.zoom" class="row items-center">
+		<div class="row items-center">
 			<q-avatar rounded style="width:auto" :size="isWebApp?'lg':'md'">
 				<img  :src="('countryflags/Flag_of_'+countryKey+'.svg.png').split(' ').join('_')">
 			</q-avatar>
@@ -199,7 +199,8 @@ Icon.Default.mergeOptions({
         if(this.countryKey){
 			this.refreshData()
 			this.pageReady=true 
-	  	 }
+			this.zoom=this.countryData.zoom
+		}
 		if(!this.loadedPosts){
     		this.getPosts()
 		}
