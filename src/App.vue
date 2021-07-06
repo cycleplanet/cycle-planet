@@ -6,7 +6,6 @@
 
 
 <script>
-//test2
 import {mapActions} from 'vuex'
 
 export default {
