@@ -1,26 +1,24 @@
 <template>
 <div>
-    <q-card v-if="randomItemData">
+  
+    <q-card v-if="randomItemData" class="no-padding">
         <modal-header>Check markers</modal-header>
         <div class="q-pa-md q-gutter-y-md" v-if="randomItemData.refKey">
-          <!-- randomItem:{{randomItemData}} -->
           <q-banner class="bg-secondary text-white">
             A random marker is shown to you to check.
           </q-banner>
 
+          <div v-if="admin" class="bg-blue-3"><b>itemkey:</b>{{randomItemData.itemKey}} </div>
           <div><b>Category:</b>{{markerlist[randomItemData.refKey].title}}</div>
-          <div class="row"><b>Title: </b>
-            <div v-if="randomItemData.refKey==='Border_item'">{{randomItemData.country1.country}} ({{randomItemData.country1.city}}) - {{randomItemData.country2.country}} ({{randomItemData.country2.city}})</div>
-            <div v-else-if="randomItemData.refKey==='Embassy'">
-              <div v-if="randomItemData.onlineVisa">Online visa for {{randomItemData.countryKey}}</div>
-              <div v-else>Visa for {{randomItemData.countryKey}} in {{randomItemData.country_located}}</div>
-              </div>
-            <div v-else>{{randomItemData.title}}</div>
+          <div class="row"><b>Title: </b><marker-title :singleItemData="randomItemData"/>
+          
           </div>
           <div><b>Description:</b><div v-html="randomItemData.description?randomItemData.description:'No description'"/></div>
           <div>
-            <map-single-item :singleItemData="singleItemData" :draggable="false"/>
+            <map-single-item :singleItemData="randomItemData" :draggable="false"/>
           </div>
+          <q-btn outline @click="openItem(randomItemData)">see more info</q-btn>
+          <q-separator></q-separator>
           <div class="row">
             <div>{{randomItemData.comments?Object.keys(randomItemData.comments).length:0}} comments</div>
             <div>/{{randomItemData.likes?Object.keys(randomItemData.likes).length:0}} likes</div>
@@ -67,8 +65,8 @@
           <q-separator></q-separator>
 
           <div class="q-gutter-md flex justify-center" v-if="!disapproved">
-            <q-btn rounded size="sm" icon="done" label="approve" color="green" @click="approveMarkerMethod(randomItemData.itemKey)"/>
-            <q-btn rounded size="sm" icon="close" label="disapprove" color="red" @click="disapproveMarkerMethod(randomItemData.itemKey)"/>
+            <q-btn rounded size="md" icon="done" label="approve" color="green" @click="approveMarkerMethod(randomItemData.itemKey)"/>
+            <q-btn rounded size="md" icon="close" label="disapprove" color="red" @click="disapproveMarkerMethod(randomItemData.itemKey)"/>
             <q-btn flat label="skip"  @click="getRandomMarker()"/>
           </div>
           <div v-if="disapproved">
@@ -86,6 +84,15 @@
 
     </q-card>
 
+     <q-dialog :maximized="!isWebApp" v-model="itemDialog">
+			    <item-dialog  v-if="itemDetails"
+			:singleItemData="itemDetails"
+			@close="itemDialog = false" 
+			/>
+		</q-dialog>
+
+    {{checkIfMyOwnMarker}}
+
 
 </div>
 </template>
@@ -93,6 +100,8 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import mixinGeneral from 'src/mixins/mixin-general.js'
+import { date, uid, Notify } from 'quasar'
+
 const stringOptions = [
   'Wrong category', 'Title is not clear', 'Description is not clear', 'Coordinates are wrong', 'Not relevant to bicycle touring'
 ]
@@ -107,16 +116,25 @@ export default {
         disapproved:false,
         filterOptions: stringOptions,
         checkChips: null,
+        itemDialog:false,
+        itemDetails:{},
       }
     },
     components:{
       'comment': require('components/Shared/Modals/Comment.vue').default,
       'map-single-item': require('components/Shared/MapSingleItem.vue').default,
+      'item-dialog':		require('components/Marker/ItemDialog.vue').default,
+
     },
 
     computed:{
 		...mapState('markers', ['checkMarkerData']),
 
+    checkIfMyOwnMarker(){
+      if(this.randomItemData.user_created===this.myUserId){
+        this.getRandomMarker()
+      }
+    }
 
 
     },
@@ -187,12 +205,9 @@ export default {
           }
         })
 
-        let newEntry={}
-        newEntry[this.timeStamp]=itemKey
-        this.updateItemAction({
-          path:'Users/'+this.myUserId+'/checked_markers',
-          data:newEntry
-        })
+        this.addItemToUser(itemKey)
+        this.addPoints(1)
+
         this.getRandomMarker()
 
 
@@ -239,18 +254,33 @@ export default {
           }
         })
 
-        let newEntry={}
-        newEntry[this.timeStamp]=itemKey
-        this.updateItemAction({
-          path:'Users/'+this.myUserId+'/checked_markers',
-          data:newEntry
-        })
+        this.addItemToUser(itemKey)
+        this.addPoints(3)
+
+
         this.disapproved=false
         this.checkChips=null
         this.getRandomMarker()
 
 
       },
+
+      addItemToUser(itemKey){
+        let timeStamp = Date.now()
+        let formattedString = date.formatDate(timeStamp, 'YYYY-MM-DDTHH:mm:ss')
+
+        this.updateItemAction({
+          path:'Users/'+this.myUserId+'/points/markers_checked',
+          data:{
+            [formattedString]:itemKey
+          }
+        })
+      },
+
+      openItem(listItem){
+          this.itemDetails=listItem
+          this.itemDialog=true
+        },
 
     },
 

@@ -35,16 +35,17 @@
 
           <q-btn v-if="!loggedIn" dense flat to="/auth" label="Login" icon-right="account_circle"/>
           
-          <q-btn class="q-mx-md" v-if="loggedIn" dense flat round  :to="'/user/'+myUserId">
+          <q-btn class="q-mx-md" v-if="loggedIn" dense flat round  >
             <q-avatar v-if="myUserDetails">
-                  <img :src="myUserDetails.imageurl">
-                </q-avatar>
-          <!-- <q-menu>
-            <div class="">
-              <div class="">
-                <q-list style="min-width: 100px">
+              <img :src="myUserDetails.imageurl">
+            </q-avatar>
+          <q-menu>
+                <q-list separator>
                   <q-item clickable v-close-popup :to="'/user/'+myUserId">
                     <q-item-section>View profile</q-item-section>
+                  </q-item>
+                   <q-item clickable v-close-popup @click="myRequestsDialog=true">
+                    <q-item-section>My host requests</q-item-section>
                   </q-item>
                   <q-item clickable v-close-popup @click="myMarkersDialog=true">
                     <q-item-section>My markers</q-item-section>
@@ -52,15 +53,16 @@
                   <q-item clickable v-close-popup @click="checkMarkersDialog=true">
                     <q-item-section>Check markers</q-item-section>
                   </q-item>
-                  <q-item clickable v-close-popup>
+                  <q-item clickable v-close-popup @click="myTripsDialog=true">
+                    <q-item-section>My trips (beta)</q-item-section>
+                  </q-item>
+                  <q-item  v-close-popup>
                     <q-item-section>
                       <q-btn dense :style="buttonStyle" label="Log out" @click="logoutUserMethod" to="/auth"/>
                     </q-item-section>
                   </q-item>
                 </q-list>
-              </div>
-            </div>
-          </q-menu> -->
+          </q-menu>
           </q-btn>
 
           <q-btn dense flat round icon="menu" @click="rightDrawerOpen= !rightDrawerOpen" />
@@ -97,16 +99,24 @@
       </q-tabs>
     </q-footer>
 
-      <q-dialog v-model="myMarkersDialog">
-        <my-markers/>
-      </q-dialog>
+    <q-dialog :maximized="true" v-model="myMarkersDialog" v-if="myUserDetails">
+      <markerlist-dialog :markersArray="myUserDetails.points.markers_added?Object.values(myUserDetails.points.markers_added):0" :title="'Added markers'"/>
+    </q-dialog>
 
-      <q-dialog v-model="checkMarkersDialog" >
-        <check-markers style="min-width:50%;max-width:500px"/>
-      </q-dialog>
+    <q-dialog v-model="checkMarkersDialog" >
+      <check-markers style="min-width:50%;max-width:500px"/>
+    </q-dialog>
 
-      <q-dialog v-model="feedbackDialog">
+    <q-dialog v-model="feedbackDialog">
       <feedback-dialog @close="feedbackDialog=false"/>
+    </q-dialog>
+
+    <q-dialog v-model="myRequestsDialog">
+      <request-send />
+    </q-dialog>
+
+    <q-dialog v-model="myTripsDialog">
+      <trips-dialog />
     </q-dialog>
 
    
@@ -129,6 +139,8 @@ export default {
       checkMarkersDialog:false,
       feedbackDialog:false,
       tab:'',
+      myRequestsDialog:false,
+      myTripsDialog:false,
         
      
       sections : {
@@ -142,10 +154,15 @@ export default {
   components: { 
 		'feedback-dialog' : require('components/Shared/FeedbackDialog.vue').default,
     'drawer-right': require('src/layouts/DrawerRight.vue').default,
-		'my-markers' : require('components/Marker/MyMarkers.vue').default,
+		// 'my-markers' : require('components/Marker/MyMarkers.vue').default,
 		'check-markers' : require('components/Marker/CheckMarkers.vue').default,
     'map-all': require('components/Map/Map.vue').default,
-  },
+    'markerlist-dialog' : require('components/Marker/MarkerListDialog.vue').default,
+    'request-send': require('components/Profile/RequestSend.vue').default,
+    'trips-dialog': require('components/Profile/myTripsDialog.vue').default,
+
+
+},
   computed:{
     ...mapState('auth',['loggedIn']),
 		...mapGetters('chat', ['unreadchatlistnew']),

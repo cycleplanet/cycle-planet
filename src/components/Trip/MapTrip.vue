@@ -118,7 +118,7 @@ Icon.Default.mergeOptions({
 
 export default {   
   mixins: [mixinGeneral,mixinTrip],
-  props:['userId','tripKey','showParts'],
+  props:['tripKey','showParts'],
 
   components: {LMap,LTileLayer,LControl,LMarker,LIcon,LPopup,LFeatureGroup,LPolyline,
 		'chip-status' : require('components/Trip/ChipStatus.vue').default,

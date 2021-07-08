@@ -37,7 +37,14 @@ export default {
                     }
                 }
                 firebaseConfig.fs.collection('Markers').doc(this.itemKey).update({likes:this.singleItemData.likes})
-            }else{
+                this.updateItemAction({
+                    path:'Users/'+this.myUserId+'/points/markers_liked',
+                    data:{
+                        [this.itemKey]:this.timeStamp
+                    }
+                })
+                this.addPoints(1)
+           }else{
                 this.showLoginDialog()
             }
         },
@@ -48,6 +55,9 @@ export default {
                     [this.myUserId]:firebase.firestore.FieldValue.delete()
                 }
             }, { merge: true })
+            this.deleteItemAction({
+                path:'Users/'+this.myUserId+'/points/markers_liked/'+this.itemKey
+            })
         },
     }
 }

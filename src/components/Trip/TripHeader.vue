@@ -6,6 +6,8 @@
     
 
     <q-card >
+            <q-banner class="bg-orange-2 text-orange-10 q-ma-sm">The trip section is a beta feature and is still being developed. You might notice errors or slow loading time. Sorry for the inconvenience.</q-banner>
+
         <div class="q-pa-md q-gutter-y-sm">
            
             <div class="row">
@@ -91,7 +93,7 @@ export default {
             }).onOk(() => {
                 this.deleteItemAction('Users/'+this.userId+'/trips/'+this.tripId)
                 this.editTripDialog=false
-                this.$router.push('/user/'+this.userId)
+                this.$router.push('/user/'+this.myUserId)
             }).onCancel(() => {
                 this.editTripDialog=false
             })

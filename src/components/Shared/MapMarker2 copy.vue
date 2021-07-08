@@ -1,15 +1,24 @@
 <template>
 <div>
-  <v-marker-cluster :options="clusterOptions" @clusterclick="click()" @ready="true">
-    <div v-for="(marker, markerKey) in landMarkers" :key="markerKey">
-      <div v-if="marker.countryKey===countryKey">
-        <v-marker :lat-lng="[marker.coordinates.lat,marker.coordinates.lng]" v-if="markerlist[marker.refKey].active">
-          <l-icon :icon-url="markerlist[marker.refKey].iconurl" :icon-size="dynamicSize" :icon-anchor="dynamicAnchor"></l-icon>
-            <mapmarker-popup :singleItemData="marker" @markerClick="clickedMarkerMethod(markerKey)"/>
-        </v-marker>
-      </div>
-    </div>
-  </v-marker-cluster>
+  {{markersArray}}
+  <l-map :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}" style="height: 350px" :zoom="zoom">
+				<l-tile-layer :url="mapsettings.url" :attribution="mapsettings.attribution"></l-tile-layer>
+
+
+        <v-marker-cluster :options="clusterOptions" @clusterclick="click()" @ready="true">
+          <div v-for="itemKey in markersArray" :key="itemKey">
+              <v-marker :lat-lng="[landMarkers[itemKey].coordinates.lat,landMarkers[itemKey].coordinates.lng]" v-if="markerlist[landMarkers[itemKey].refKey].active">
+                <!-- <l-icon :icon-url="markerlist[landMarkers[itemKey].refKey].iconurl" :icon-size="dynamicSize" :icon-anchor="dynamicAnchor"></l-icon> -->
+                  <!-- <mapmarker-popup :singleItemData="landMarkers[itemKey]" @markerClick="clickedMarkerMethod(itemKey)"/> -->
+              </v-marker>
+          </div>
+        </v-marker-cluster>
+
+					<l-control position="topleft"  class="q-ma-md">
+                            <q-btn icon="add" dense class="row bg-white q-pa-xs" size="sm" @click="zoom++"/>
+                            <q-btn icon="remove" dense class="row bg-white q-pa-xs q-mt-sm" size="sm" @click="zoom--"/>
+                        </l-control>
+				</l-map>
 
   <q-dialog :maximized="!isWebApp" v-model="itemDialog">
 			<item-dialog  v-if="itemDetails"
@@ -37,10 +46,11 @@ import Vue2LeafletMarkercluster from 'src/clustermarkers/Vue2LeafletMarkercluste
 
   export default {
   mixins: [mixinGeneral, ],
-  props:['countryKey'],
+  props:['markersArray'],
 
     components: {
       LMap,
+      LTileLayer,
       LControl,
       LIcon,
 		  'item-dialog': require('components/Marker/ItemDialog.vue').default,
@@ -69,6 +79,7 @@ import Vue2LeafletMarkercluster from 'src/clustermarkers/Vue2LeafletMarkercluste
         initialLocation: latLng(-34.9205, -57.953646),
         itemDialog:false,
         itemDetails:{},
+        zoom:2
       }
     },
     computed: {

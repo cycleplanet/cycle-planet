@@ -149,6 +149,9 @@ const actions = {
 
           let userId = firebase.auth.currentUser.uid
           const idx = Math.floor(Math.random() * Object.keys(state.backgroundimageurl).length);
+          let timeStamp = Date.now()
+          let formattedString = date.formatDate(timeStamp, 'YYYY-MM-DDTHH:mm:ss')
+         
           firebase.db.ref('Users/' + userId).set({
             userId: userId,
             fullname: payload.name,
@@ -167,7 +170,11 @@ const actions = {
               publicProfile:false,
               sendNotifications:true,
             },
-            role: 'user'
+            points:{
+              score:0
+            },
+            role: 'user',
+            register_date: formattedString,
           })
 
           firebase.auth.signOut()

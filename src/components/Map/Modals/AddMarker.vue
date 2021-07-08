@@ -121,6 +121,17 @@ import { Geoapify } from 'src/functions/geoapify';
 							this.payload.country=this.countryKey
 						}
 						let markerId=uid()
+
+						this.updateItemAction({
+							path:'Users/'+this.myUserId+'/points/markers_added',
+							data:{
+								[this.timeStamp]:markerId
+							}
+						})
+						this.addPoints(10)
+						Notify.create('Thanks for your contribution. You`ve earned 10 points!')
+
+
 					
 						this.setItemActionFs({
 							collection:'Markers',
