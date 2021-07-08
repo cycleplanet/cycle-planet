@@ -42,7 +42,7 @@
 
             <div class="q-mb-sm q-pa-sm">
                 <q-btn :style="buttonStyle" v-if="myProfile" label="Edit profile" @click="editProfileForm = true" />
-                <q-btn :style="buttonStyle" v-if="!myProfile" label="Send host request" @click="hostRequestDialog = true" />
+                <q-btn :style="buttonStyle" v-if="loggedIn&&!myProfile" label="Send host request" @click="hostRequestDialog = true" />
 
                 <div v-if="!myProfile" class="q-ma-sm row justify-center">
                     <modal-follow-button :otherUserId="userData.userId" class="q-ma-sm" />
@@ -113,7 +113,7 @@
                 </q-tab-panel>
             </q-tab-panels>
         </div>
-        <div class="justify-center flex q-mt-lg" v-if="!loggedIn">
+        <div class="justify-center flex q-my-lg" v-if="!loggedIn">
             You need to login to see more information
         </div>
 
