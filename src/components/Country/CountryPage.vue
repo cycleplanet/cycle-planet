@@ -1,9 +1,9 @@
 <template>
 <div class="q-ma-sm">
 
-<div v-if="countryData&&pageReady&&checkCountry&&checkMarkersLoaded&&countriesAll">
-	 <div v-if="countryData.countries">
-       <q-banner inline-actions class="text-white bg-red " v-if="countryData.countries.settings.dangerous">
+<div v-if="countryData&&pageReady&&checkCountry&&checkMarkersLoaded&&allCountries">
+	 <div v-if="countryData.settings">
+       <q-banner inline-actions class="text-white bg-red " v-if="countryData.settings.dangerous">
             <template v-slot:avatar>
               <q-icon name="warning" size="md" />
             </template>
@@ -12,50 +12,35 @@
           </q-banner>
     </div>
   	<q-page v-if="countryData">
-	<div v-if="countryData.countries">
+	<div v-if="countryData.zoom">
 
-		<div v-if="countryData.countries.zoom" class="row items-center">
+		<div class="row items-center">
 			<q-avatar rounded style="width:auto" :size="isWebApp?'lg':'md'">
 				<img  :src="('countryflags/Flag_of_'+countryKey+'.svg.png').split(' ').join('_')">
 			</q-avatar>
 			<p class="q-mt-md q-ml-sm" :class="isWebApp?'text-h4':'cp-h2'">{{countryKey}}</p>
-			<!-- <q-icon class="q-mx-sm " :size="isWebApp?'md':'sm'" @click="loggedIn ? likeCountryHere((!country_likes[countryKey] ? 'liked' : 'disliked')) : showLoginDialog()" :name="!country_likes[countryKey] ? 'favorite_border' : 'favorite'" :class="!country_likes[countryKey] ? '' : 'text-red'"  /> -->
 			<q-space></q-space>
 			<q-btn flat round icon="share" size="15px" @click.native="shareDialog=true"/>
 			<q-btn v-if="loggedIn?admin:false" flat round icon="settings" size="15px" @click.native="countrySettingsDialog=true"/>
 		</div>
 
-		<div v-if="countryData.countries && mapsettings">
-			<div v-if="countryData.countries.zoom">
-				<l-map :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}" style="height: 350px" :zoom="zoom" :center="countryData.countries.location">
+		<div v-if="countryData && mapsettings">
+			<div v-if="countryData.zoom">
+				<l-map :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}" style="height: 350px" :zoom="zoom" :center="countryData.location">
 				<l-tile-layer :url="mapsettings.url" :attribution="mapsettings.attribution"></l-tile-layer>
 					<map-marker :countryKey="countryKey"/>
 
 					<l-control position="topleft"  class="q-ma-md">
-                            <q-btn icon="add" dense class="row bg-white q-pa-xs" size="sm" @click="zoom++"/>
-                            <q-btn icon="remove" dense class="row bg-white q-pa-xs q-mt-sm" size="sm" @click="zoom--"/>
-                        </l-control>
+						<q-btn icon="add" dense class="row bg-white q-pa-xs" size="sm" @click="zoom++"/>
+						<q-btn icon="remove" dense class="row bg-white q-pa-xs q-mt-sm" size="sm" @click="zoom--"/>
+					</l-control>
 				</l-map>
 			</div>
 		</div>
+	</div>
+	<div class="flex justify-center q-mt-md">
+			<download-gpx v-if="markersArray" :markersArray="Object.keys(markersArray)"/>
 		</div>
-
-	
-		<!-- <div v-if="countryData.countries">
-			<div v-if="countryData.countries.contactperson">
-			<p class="cp-h2 q-mb-none">Contact person for {{countryKey}}</p>
-			<div class="row">
-				<div class="q-mx-xs" style="margin-right:-25px; " v-for="(user, userId) in countryData.countries.contactperson" :key="userId">
-				<q-btn flat dense round size="sm" :to="'/user/'+userId">
-					<q-avatar style="">
-						<q-img :src="users[userId].imageurl" style="width:50px; "></q-img>
-					</q-avatar>
-					<q-tooltip content-class="">{{users[userId].fullname}}</q-tooltip>
-				</q-btn>
-				</div>
-			</div>
-			</div>
-		</div> -->
 
 	<div v-for="(refData,refKey,index) in refsextra" :key="index" v-if="countryData" >
 		<div style="min-height:100px;margin-top:35px" v-if="!(refKey==='Embassy'&&isSchengenCountry)">
@@ -80,7 +65,6 @@
 
 
 	<q-dialog :maximized="!isWebApp" v-model="countrySettingsDialog" >
-		<!-- <page-item/> -->
 		<edit-country-settings
 		:countryKey="countryKey"
 		@close="countrySettingsDialog = false" 
@@ -133,6 +117,8 @@ Icon.Default.mergeOptions({
 	    'map-marker' : require('components/Shared/MapMarker.vue').default,
 		'edit-country-settings': require('components/Country/Modals/EditCountrySettings.vue').default,
 		'share-dialog': require('components/Shared/ShareDialog.vue').default,
+        'download-gpx': require('components/Shared/Modals/DownloadGpx.vue').default,
+
 	},
 	
 	data() {
@@ -157,6 +143,18 @@ Icon.Default.mergeOptions({
 	 
 	  computed: {
 		...mapState('country', ['singleItemData','countryData']),
+
+		markersArray(){
+			let allMarkerKeys=Object.keys(this.landMarkers)
+			let array={}
+			allMarkerKeys.forEach(element => {
+				if(this.landMarkers[element].countryKey===this.countryKey){
+					array[element]=element
+				}
+			});
+			console.log('markersArray 1',array);
+			return array
+		},
 		checkMarkersLoaded(){
 			if(!this.loadedLandmarkers){
 				this.loadedLandmarkers=false
@@ -168,13 +166,10 @@ Icon.Default.mergeOptions({
 		},
 		
 		checkCountry(){
-			console.log('checkCountry',this.countryData);
-			if(this.countryData.countries){
-				if(this.countryKey===this.countryData.countries.name){
-					console.log('checkCountry',true);
+			if(this.countryData){
+				if(this.countryKey===this.countryData.name){
 					return true
 				}else{
-					console.log('checkCountry',false);
 					this.pageReady=false
 					this.refreshData()
 					this.pageReady=true 
@@ -184,10 +179,8 @@ Icon.Default.mergeOptions({
 			
 		},
 		isSchengenCountry(){
-			console.log('isSchengenCountry 1',this.countryKey);
-			console.log('isSchengenCountry 2',Object.keys(this.countriesAll).length);
-			if(Object.keys(this.countriesAll).length){
-				if(this.countriesAll[this.countryKey].schengen){
+			if(Object.keys(this.allCountries).length){
+				if(this.allCountries[this.countryKey].schengen){
 					return true
 				}else{
 					return false
@@ -202,25 +195,16 @@ Icon.Default.mergeOptions({
 	  },
 	 
 	methods: {
-		...mapActions('countries',['likeCountry']),
 		...mapActions('country', ['destroyData','firebaseGetCountryDataNew']),
 		...mapActions('markers', ['destroyMapData']),
-		likeCountryHere(type){
-			this.likeCountry({
-				type:type,
-				countryKey:this.countryKey,
-			})
-		},
 	
 		refreshData(){
-			console.log('refreshData 1');
 			this.destroyMapData().then(()=>{
-			console.log('refreshData 2');
 			})
-			console.log('refreshData 3');
 			this.destroyData().then(() => {
-			console.log('refreshData 4');
 				this.firebaseGetCountryDataNew(this.countryKey);
+				this.zoom=this.countryData.zoom
+
 			})
 		}
 	},
@@ -229,20 +213,16 @@ Icon.Default.mergeOptions({
 		if(this.landMarkers){
 			this.loadedLandmarkers=true
 		}
-		console.log('mounted pagecountry started 1');
         if(this.countryKey){
-		console.log('mounted pagecountry started 2');
 			this.refreshData()
 			this.pageReady=true 
-	  	 }
+			this.zoom=this.countryData.zoom
+		}
 		if(!this.loadedPosts){
-			console.log('created userprofile - about tab - not loaded posts yet');
     		this.getPosts()
 		}
-		this.zoom=this.countries[this.countryKey].zoom
 	},
 	destroyed() {//call a method when page is left
-	console.log('destroyed CountryPage');
 		this.pageReady=false
 		this.destroyMapData();
     },

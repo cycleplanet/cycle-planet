@@ -5,10 +5,12 @@ import {showErrorMessage} from 'src/functions/function-show-error-message'
 import { LocalStorage } from 'quasar'
 
 const state = {
+	routeCollectionData:{},
 	routeData:{},
 	blogData:{},
 	videoData:{},
 	postData:{},
+	searchRoute:''
 }
 
 const mutations = {
@@ -23,6 +25,9 @@ const mutations = {
 	// },
 	addPostsData(state, payload){
 		Vue.set(state.postData, payload.itemId, payload.itemDetails)
+	},
+	addRouteCollectionData(state, payload){
+		Vue.set(state.routeCollectionData, payload.itemId, payload.itemDetails)
 	},
 	addRoutePostsData(state, payload){
 		Vue.set(state.routeData, payload.itemId, payload.itemDetails)
@@ -45,6 +50,9 @@ const mutations = {
 	clearPostData(state) {
 		state.blogData={}
 		state.videoData={}
+	},
+	setSearch(state, value) {
+		state.searchRoute = value
 	},
 	
 }
@@ -127,6 +135,18 @@ const actions = {
 			let itemId = snapshot.key
 			let itemDetails = snapshot.val()
 			commit('addPostsData', {itemId,itemDetails})
+		})
+	},
+	getRouteCollections({commit}){
+		firebase.db.ref('RouteCollection/').on('child_added', snapshot => {
+			let itemId = snapshot.key
+			let itemDetails = snapshot.val()
+			commit('addRouteCollectionData', {itemId,itemDetails})
+		})
+		firebase.db.ref('RouteCollection/').on('child_changed', snapshot => {
+			let itemId = snapshot.key
+			let itemDetails = snapshot.val()
+			commit('addRouteCollectionData', {itemId,itemDetails})
 		})
 	},
 	getPosts({commit}){
@@ -263,6 +283,9 @@ const actions = {
 	destroyData({ commit }) {
 		commit('clearPostData')
 	},
+	setSearch({ commit }, value) {
+		commit('setSearch', value)
+	},
 	  
 }
 
@@ -364,6 +387,24 @@ const getters = {
 		})
 
 		return routePostsSorted
+	},
+	routePostsFiltered: (state, getters) => {
+		let arraySorted = getters.routePostsSorted,
+			arrayFiltered = {}
+
+		if (state.searchRoute) {
+			Object.keys(arraySorted).forEach((key)=> {
+				let route = arraySorted[key]
+				let routeName=route.title.toLowerCase()
+				let searchstring=state.searchRoute.toLowerCase()
+				let valid = routeName.includes(searchstring)
+				if (valid) {
+					arrayFiltered[key] = route
+				}
+			})
+			return arrayFiltered		
+		}
+		return getters.routePostsSorted
 	},
 	
 }
