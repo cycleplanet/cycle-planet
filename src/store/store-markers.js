@@ -25,6 +25,7 @@ const state = {
 	fbUserRefs:[
 	],
 
+	f
 	markerlist:{
 		'Touring':{title:'Touring',fbref:'Touring',hideInList:true,iconcolor:'black', markercolor:'bg-secondary', markertint:'bg-secondary-2',active:true, iconurl:"markers/Touring.png"},
 		'Available for hosting':{title:'Hosting',hideInList:true,fbref:'Available for hosting',iconcolor:'black', markercolor:'bg-red',active:true, markertint:'bg-red-2', iconurl:"markers/Hosting.png"},
@@ -71,6 +72,7 @@ const state = {
 	seeDoData:{},
 	userMarkerData:{},
 	checkMarkerData:{},
+	markerCounts:{}
 
 }
 
@@ -82,6 +84,9 @@ const mutations = {
 	},
 	addLandMarkersOnceNew(state, payload) {
 		Object.assign(state.landMarkers, payload)
+	},
+	addMarkerCounts(state, payload) {
+		Vue.set(state.markerCounts, payload.countryCode, payload.countryCounts)
 	},
 	addLandMarkers(state, payload) {
 		Vue.set(state.landMarkers, payload.itemId, payload.itemDetails)
@@ -130,14 +135,57 @@ const actions = {
 	// 	  }).catch(err=>{
 	// 	})
 	// },
+
+	getMarkerCounts({commit}){
+		firebase.db.ref('CountryMarkerCounts/').on('child_added', snapshot => {
+			let countryCounts = snapshot.val()
+			let countryCode = snapshot.key
+			commit('addMarkerCounts', {countryCode,countryCounts})
+		})
+	},
+
 	getAllLandMarkersFs({commit}){
+		const countryMarkerCounts = {};
+
+		function countMarker(countryKey) {
+			if (!countryKey) return;
+
+			console.log('Adding a POI count for ' + countryKey)
+			const cc = state.countryCodes_rev[countryKey];
+
+			if (!cc) return;
+
+			countryMarkerCounts[cc].poi++;
+		}
+
+		Object.values(state.countryCodes_rev).forEach(cc => {
+			countryMarkerCounts[cc] = {
+				poi: 0
+			}
+		});
+
 		firebase.fs.collection("Markers").get().then((querySnapshot) => {
 			querySnapshot.forEach((doc) => {
 				let itemId=doc.id
 				let itemDetails=doc.data()
-				commit('addLandMarkers', {itemId,itemDetails})
+
+				if(itemDetails.refKey==='Border_item'){
+					countMarker(itemDetails.country1.country);
+					countMarker(itemDetails.country2.country);
+				} else {
+					countMarker(itemDetails.countryKey);
+				}				
+				// commit('addCountryMarkerCounts', {itemId,itemDetails})
+			});
+		}).then(_ => {
+			const countryCodes = Object.keys(countryMarkerCounts)
+			countryCodes.forEach(cc => {
+				console.log('writing count for country ' + cc);
+				firebase.db.ref(`CountryMarkerCounts/${cc}/poi`).set(countryMarkerCounts[cc].poi).catch((err) => console.error('Could not write POI count for country', err));
+				
 			});
 		});
+
 		firebase.fs.collection("Markers").onSnapshot(function(snapshot) {
 			snapshot.docChanges().forEach(function(change) {
 				if (change.type === "added") {

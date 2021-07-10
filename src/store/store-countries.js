@@ -561,15 +561,18 @@ const actions = {
 	setSearch({ commit }, value) {
 		commit('setSearch', value)
 	},
+
+	
 	
 	firebasegetCountries({ commit }) {
 		firebase.db.ref('Country_data/').on('child_added', snapshot => {
 			let countryDetails = snapshot.val()
 			let countryKey = snapshot.key
-			commit('addCountry', {
-				countryKey,
-				countryDetails
-			})
+			// firebase.db.ref('CountryMarkerCounts/'+state.countryCodes_rev[countryKey]).update({
+			// 	location:countryDetails.location
+			// })
+			
+			commit('addCountry', {countryKey,countryDetails})
 		})
 		firebase.db.ref('Country_data/').on('child_changed', snapshot => {
 			let countryDetails = snapshot.val()
