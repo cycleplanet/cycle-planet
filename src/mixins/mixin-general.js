@@ -20,7 +20,7 @@ export default {
 	computed: { 
 		...mapState('auth', ['myUserIdState','followData','loggedIn']),
 		...mapState('markers', ['markerlist','mapsettings','markeruserlist']),   
-		...mapState('markers', ['landMarkers','usermarkeroptions']),   
+		...mapState('markers', ['landMarkers','usermarkeroptions','markerCounts']),   
 		...mapState('country', ['refsextra']),
 		...mapState('admin', ['adminData']),
 		...mapState('countries', ['countryCodes']),    
