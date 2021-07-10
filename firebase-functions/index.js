@@ -3,13 +3,7 @@ const functions = require('firebase-functions');
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
 
-// const admin = require('firebase-admin');
-// admin.initializeApp(functions.config().firebase);
 const admin = require('firebase-admin');
 const serviceAccount = require('./serviceaccount.json');
 const firestore = require('@google-cloud/firestore');
@@ -22,13 +16,6 @@ adminConfig.databaseURL = 'https://cycle-planet-292f5.firebaseio.com';
 admin.initializeApp(adminConfig);
 
 const db = admin.database();
-
-// var serviceAccount = require("./cycle-planet-292f5-firebase-adminsdk-w9jsr-8df32c91c2.json");
-
-// admin.initializeApp({
-//   credential: admin.credential.cert(serviceAccount),
-//   databaseURL: "https://cycle-planet-292f5.firebaseio.com"
-// });
 
 exports.sendNotification = functions.https.onRequest((req, res) => {
   functions.logger.log("sendNotification req1", req);
@@ -43,9 +30,9 @@ exports.sendNotification = functions.https.onRequest((req, res) => {
     priority: 'high',
     timeToLive: 60 * 60 * 24,
   };
-  // testUserID = "srJMEtyFbjeqGV5xSycrm636qPi2";
+
   const ref = db.ref('Users/' + req.query.otheruserid);
-  // const ref = db.ref('Users/' + testUserID);
+
   ref.once('value', function (snapshot) {
     let userRecord = snapshot.val();
     functions.logger.log("user data snapshot", snapshot.val());
@@ -59,8 +46,7 @@ exports.sendNotification = functions.https.onRequest((req, res) => {
         notification: {
           title: req.query.from,
           body: req.query.text,
-        },
-        // token: registrationToken,
+        }
       };
 
       notifyUser(message_notification, registrationToken, res);
@@ -113,6 +99,11 @@ exports.scheduledFirestoreExport = functions.pubsub
     console.error(err);
     throw new Error('Export operation failed');
   });
+});
+
+exports.computeCountryMarkerCounts = functions.pubsub.schedule('*/1 * * * *').onRun((context) => {
+  console.log('Beh, another minute passed apparently');
+  return null;
 });
 
 // exports.pushNotification = functions.database.ref('/Chats/{pushId}').onUpdate
