@@ -10,7 +10,7 @@
              <q-list bordered separator >
               <q-item>
                 <q-item-section>
-                  <q-item-label class="text-h6">{{users[item.user].fullname}}</q-item-label>
+                  <q-item-label class="text-h6">{{item.user?users[item.user].fullname:'no userid'}}</q-item-label>
                   <q-item-label class="text-bold">Date:</q-item-label>
                   <q-item-label>{{item.date}}</q-item-label>
                   <q-item-label class="text-bold">Country:</q-item-label>
@@ -26,7 +26,6 @@
                 <q-item-section side top>
                   <div class="row">
                     <message-user :userId="item.user"/>
-                    <!-- <q-btn flat dense @click="messageDialogMethod(item.user)" icon="chat" /> -->
                     <q-btn flat dense :to="/user/+item.user" icon="fas fa-address-card" />
                    
                   </div>
@@ -89,7 +88,7 @@ export default {
             }
           })
           this.setItemAction({
-            path:'countries/' + data.country + '/contactperson/' +data.user,
+            path:'Country_data/' + data.country +'countries/contactperson/' +data.user,
             data:true
           })
           this.deleteItemAction({

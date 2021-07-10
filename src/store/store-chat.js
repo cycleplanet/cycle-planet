@@ -211,10 +211,10 @@ const actions = {
   firebaseAcceptRequest({},payload){
   let userId = firebase.auth.currentUser.uid;
   let answer='accepted'
-  firebase.db.ref('Users/' + userId + '/hosting/requests/'+ payload.timestamp+ '/status/').update(answer)
-  firebase.db.ref('Users/' + payload.sender + '/hosting/requests/' + payload.timestamp+ '/status/').update(answer)
-  firebase.db.ref('Chats/' + payload.sender + '/' + userId + '/' + payload.timestamp+ '/status/').update(answer)
-  firebase.db.ref('Chats/' + userId + '/' + payload.sender + '/' + payload.timestamp+ '/status/').update(answer)
+  firebase.db.ref('Users/' + userId + '/hosting/requests/'+ payload.timestamp).update({status:answer})
+  firebase.db.ref('Users/' + payload.sender + '/hosting/requests/' + payload.timestamp).update({status:answer})
+  firebase.db.ref('Chats/' + payload.sender + '/' + userId + '/' + payload.timestamp).update({status:answer})
+  firebase.db.ref('Chats/' + userId + '/' + payload.sender + '/' + payload.timestamp).update({status:answer})
 },
   firebaseRefuseRequest({},payload){
   let userId = firebase.auth.currentUser.uid;

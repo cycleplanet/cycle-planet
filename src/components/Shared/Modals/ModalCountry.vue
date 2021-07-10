@@ -1,7 +1,7 @@
 <template>
 	<div >
 	<q-select 
-	:options="Object.keys(countriesAll)" 
+	:options="Object.keys(allCountries)" 
 	v-model="payload" 
 	label="Select country" 
 	behavior="menu" filled
@@ -17,7 +17,7 @@ import { mapActions, mapState, mapGetters } from 'vuex'
 		props: ['payload'],
 		
 		computed: { 
-		...mapGetters('countries', ['countriesAll']),
+		...mapGetters('countries', ['allCountries']),
 		}
 	}
 </script>

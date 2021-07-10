@@ -10,7 +10,7 @@
                   <q-item-label>Island?</q-item-label>
                 </q-item-section>
                 <q-item-section side >
-                  <q-toggle  v-model="countryData.countries.settings.island" val="battery"/>
+                  <q-toggle  v-model="countryData.settings.island" val="battery"/>
                 </q-item-section>
               </q-item>
 
@@ -19,7 +19,7 @@
                   <q-item-label>Open borders?</q-item-label>
                 </q-item-section>
                 <q-item-section side >
-                  <q-toggle  v-model="countryData.countries.settings.openBorders" val="battery"/>
+                  <q-toggle  v-model="countryData.settings.openBorders" val="battery"/>
                 </q-item-section>
               </q-item>
 
@@ -28,7 +28,7 @@
                   <q-item-label>Too dangerous?</q-item-label>
                 </q-item-section>
                 <q-item-section side >
-                  <q-toggle  v-model="countryData.countries.settings.dangerous" val="battery"/>
+                  <q-toggle  v-model="countryData.settings.dangerous" val="battery"/>
                 </q-item-section>
               </q-item>
 
@@ -37,7 +37,7 @@
                   <q-item-label>Visa free?</q-item-label>
                 </q-item-section>
                 <q-item-section side >
-                  <q-toggle  v-model="countryData.countries.settings.visaFree" val="battery"/>
+                  <q-toggle  v-model="countryData.settings.visaFree" val="battery"/>
                 </q-item-section>
               </q-item>
 
@@ -46,7 +46,7 @@
                   <q-item-label>Map zoom level</q-item-label>
                 </q-item-section>
                 <q-item-section side >
-                  <q-input  v-model="countryData.countries.zoom" val="battery"/>
+                  <q-input  v-model="countryData.zoom" val="battery"/>
                 </q-item-section>
               </q-item>
 
@@ -83,8 +83,8 @@ export default {
 
       saveCountrySettings(){
         this.updateItemAction({
-          path:'countries/'+this.countryKey,
-          data:this.countryData.countries
+          path:'Country_data/'+this.countryKey,
+          data:this.countryData
         })
        
       this.$emit('close')

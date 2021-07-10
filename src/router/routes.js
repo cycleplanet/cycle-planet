@@ -38,6 +38,7 @@ const routes = [
       { path: '/terms-of-use', component: () => import('pages/Other/PageTerms.vue') },
       { path: '/cookie-policy', component: () => import('pages/Other/PageCookiePolicy.vue') },
       { path: '/thanks', component: () => import('pages/Other/PageThanks.vue') },
+      { path: '/codebook', component: () => import('pages/Other/PageCodeBook.vue') },
 
     ]
   },

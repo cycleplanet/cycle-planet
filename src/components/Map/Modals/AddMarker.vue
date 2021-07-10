@@ -35,7 +35,6 @@
 
 					<p class="text-h6" v-if="countryKey"><b>Country:</b> {{countryKey}}</p>
 					<div class="text-h6" v-if="!countryKey"><b>Country:</b> {{payload.country}}{{currentLocation}}</div>
-					<!-- <q-select filled v-if="!countryKey" :options="Object.keys(countriesAll)" v-model="payload.country" label="Select country" behavior="menu" :rules="[val => !!val || 'Field is required']"/> -->
 					<q-input filled v-model="payload.title" label="Title activity"  :rules="[val => val.length >= 5 || 'Use at least 5 characters']"/>
 					<modal-description :description.sync="payload.description"/>
 					<div v-if="warningDescription" class="text-red">The description is too short!</div>
@@ -122,6 +121,17 @@ import { Geoapify } from 'src/functions/geoapify';
 							this.payload.country=this.countryKey
 						}
 						let markerId=uid()
+
+						this.updateItemAction({
+							path:'Users/'+this.myUserId+'/points/markers_added',
+							data:{
+								[this.timeStamp]:markerId
+							}
+						})
+						this.addPoints(10)
+						Notify.create('Thanks for your contribution. You`ve earned 10 points!')
+
+
 					
 						this.setItemActionFs({
 							collection:'Markers',

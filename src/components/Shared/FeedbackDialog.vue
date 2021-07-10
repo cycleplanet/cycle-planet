@@ -4,6 +4,7 @@
 
         <q-card-section>
           <div class="">Please tell us what is on your mind. Try to describe the feedback as detailed as possible.</div>
+          <q-banner v-if="!loggedIn" rounded class="bg-orange-2 text-orange-10">You're not logged in. You can still write some feedback for us, but we won't be able to respond to you. If you want to have a response, please log in first.</q-banner>
         </q-card-section>
 
         <q-card-section class="q-pt-none">

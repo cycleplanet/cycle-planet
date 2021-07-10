@@ -6,7 +6,7 @@
 
         <q-input filled label="summary*" v-model="newTrip.summary" type="textarea" :rules="[val => !!val || 'Field is required']"/>
 
-        <q-select outlined filled v-model="newTrip.countries" :options="Object.keys(countriesAll)" label="Start country" class="q-mb-md bg-white" :rules="[val => !!val || 'Field is required']"/>
+        <q-select outlined filled v-model="newTrip.countries" :options="Object.keys(allCountries)" label="Start country" class="q-mb-md bg-white" :rules="[val => !!val || 'Field is required']"/>
 
         <div>Start date*</div>
         <modal-due-date :dueDate.sync="newTrip.dueDate" />

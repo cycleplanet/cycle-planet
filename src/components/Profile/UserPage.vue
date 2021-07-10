@@ -1,7 +1,7 @@
 <template>
     <div class="constrain bg-white" v-if="userData" style="min-height:100%">
 
-        <q-card class=" q-pa-md text-center no-padding">
+        <div class=" q-pa-md text-center no-padding">
             <q-img :src="userData.backgroundimageurl" :ratio="16/9"></q-img>
             <div>
                 <q-avatar style="margin-top:-70px" size="140px" class="">
@@ -9,27 +9,48 @@
                 </q-avatar>
             </div>
 
-            <p class="cp-h2 no-margin">{{userData.fullname}}</p>
-            <!-- <p class="text-bold">{{userData.hosting.status}}</p> -->
+            <div class="justify-center">
+                
+                <div class="justify-center">
+                    <div class="cp-h2 no-margin">{{userData.fullname}}</div>
 
-            <div class="row justify-center">
-                <div class="col-2">
-                    <p class="text-bold text-bg-secondary cursor-pointer" @click="loggedIn?clickFollowDialog('followers'):showLoginDialog()" clickable>{{otherFollowData?(otherFollowData.followers ? Object.keys(otherFollowData.followers).length :0):0}}</p>
-                    <p>Followers</p>
+                    <q-chip outline :color="userData.hosting.status==='Touring'?'primary':(userData.hosting.status==='Available for hosting'?'red':'grey')">
+                        <q-avatar>
+                            <img :src="markerlist[userData.hosting.status].iconurl">
+                        </q-avatar>
+                    {{userData.hosting.status}}
+                    </q-chip>
                 </div>
-                <div class="col-1"></div>
-                <div class="col-2">
-                    <p class="text-bold text-bg-secondary cursor-pointer" @click="loggedIn?clickFollowDialog('following'):showLoginDialog()" clickable>{{otherFollowData?(otherFollowData.following ? Object.keys(otherFollowData.following).length :0):0}}</p>
-                    <p>Following</p>
+
+                <!-- <hosting-stats class="q-my-lg" :data="userData"/> -->
+
+                
+                <div class="row justify-center">
+                    <div><b class="cursor-pointer" @click="loggedIn?clickFollowDialog('followers'):showLoginDialog()" clickable>{{otherFollowData?(otherFollowData.followers ? Object.keys(otherFollowData.followers).length :0):0}}</b> followers</div>
+                    <div class="q-mx-sm">•</div>
+                    <div><b class="cursor-pointer" @click="loggedIn?clickFollowDialog('following'):showLoginDialog()" clickable>{{otherFollowData?(otherFollowData.following ? Object.keys(otherFollowData.following).length :0):0}}</b> following</div>
                 </div>
+                <div class="row justify-center q-mt-sm">
+                    <div><b class="cursor-pointer" @click="markerDialogAdded()">{{userData.points.markers_added?Object.keys(userData.points.markers_added).length:0}}</b> markers added</div>
+                    <div class="q-mx-sm">•</div>
+                    <div><b class="cursor-pointer" @click="markerDialogChecked()">{{userData.points.markers_checked?Object.keys(userData.points.markers_checked).length:0}}</b> markers checked</div>
+                    <div class="q-mx-sm">•</div>
+                    <div><b class="cursor-pointer" @click="markerDialogLiked()">{{userData.points.markers_liked?Object.keys(userData.points.markers_liked).length:0}}</b> markers liked</div>
+                </div>
+
             </div>
 
             <div class="q-mb-sm q-pa-sm">
-                <q-btn :style="buttonStyle" v-if="myProfile||admin" label="Edit profile" @click="editProfileForm = true" />
+                <q-btn :style="buttonStyle" v-if="myProfile" label="Edit profile" @click="editProfileForm = true" />
+                <q-btn :style="buttonStyle" v-if="loggedIn&&!myProfile" label="Send host request" @click="hostRequestDialog = true" />
 
                 <div v-if="!myProfile" class="q-ma-sm row justify-center">
                     <modal-follow-button :otherUserId="userData.userId" class="q-ma-sm" />
                     <modal-message-button :otherUserId="userData.userId" class="q-ma-sm" />
+                    <!-- <q-btn @click="hostRequestDialog=true" class="no-padding" :style="buttonStyle" :size="screenwidthbig?'md':'sm'" label="sending"></q-btn> -->
+                   
+    
+                  
                 </div>
             </div>
 
@@ -66,14 +87,13 @@
                     </q-btn>
                 </div>
             </div>
-        </q-card>
+        </div>
 
-        <request-send v-if="myProfile" />
 
-        <q-card class="q-mt-xs">
+        <div class="q-mt-xs" v-if="loggedIn">
             <q-tabs v-model="tab" dense class="text-black" align="justify">
                 <q-tab name="about" label="About" />
-                <q-tab name="trips" label="Trips" />
+                <!-- <q-tab name="trips" label="Trips (beta)" /> -->
                 <q-tab name="hosting" label="Hosting" />
             </q-tabs>
 
@@ -84,15 +104,18 @@
                     <about-tab :userId="userId" :userData="userData" />
                 </q-tab-panel>
 
-                <q-tab-panel name="trips">
+                <!-- <q-tab-panel name="trips">
                     <trips-tab :userId="userId" :userData="userData" />
-                </q-tab-panel>
+                </q-tab-panel> -->
 
                 <q-tab-panel name="hosting">
                     <hosting-tab :userId="userId" :userData="userData" />
                 </q-tab-panel>
             </q-tab-panels>
-        </q-card>
+        </div>
+        <div class="justify-center flex q-my-lg" v-if="!loggedIn">
+            You need to login to see more information
+        </div>
 
         <q-dialog v-model="followDialog">
             <q-card style="min-width: 60%" class="no-padding">
@@ -135,6 +158,26 @@
             <edit-profile v-if="!isWebApp" :userData="userDataComputed" @close="editProfileForm = false" />
             <edit-profile-web v-if="isWebApp" :userData="userDataComputed" @close="editProfileForm = false" />
         </q-dialog>
+
+        <q-dialog :maximized="true" v-model="markerAddedDialog" class="bg-white">
+            <markerlist-dialog :markersArray="userData.points.markers_added?Object.values(userData.points.markers_added):0" :title="'Added markers'"/>
+        </q-dialog>
+
+         <q-dialog :maximized="true" v-model="markerCheckedDialog" class="bg-white">
+            <markerlist-dialog :markersArray="userData.points.markers_checked?Object.values(userData.points.markers_checked):0" :title="'Checked markers'"/>
+        </q-dialog>
+
+        <q-dialog :maximized="true" v-model="markerLikedDialog" class="bg-white">
+            <markerlist-dialog :markersArray="userData.points.markers_liked?Object.keys(userData.points.markers_liked):0" :title="'Liked markers'"/>
+        </q-dialog>
+
+        <q-dialog v-model="hostRequestDialog" :maximized="!isWebApp">
+            <host-request
+            @close="hostRequestDialog = false"
+            />
+        </q-dialog>
+
+        
     </div>
 </template>
 
@@ -153,6 +196,10 @@ export default {
             showMessages: false,
             followDialog: false,
             followType: 'followers',
+            markerAddedDialog:false,
+            markerCheckedDialog:false,
+            markerLikedDialog:false,
+            hostRequestDialog:false,
         }
     },
 
@@ -165,6 +212,12 @@ export default {
         'hosting-tab': require('components/Profile/Tabs/HostingTab.vue').default,
         'modal-follow-button': require('components/Shared/Modals/FollowButton.vue').default,
         'modal-message-button': require('components/Shared/Modals/MessageButton.vue').default,
+        'hosting-stats' : require('components/Shared/Modals/HostingStats.vue').default,
+        'markerlist-dialog' : require('components/Marker/MarkerListDialog.vue').default,
+		'host-request' : require('components/Chat/HostRequestDialog.vue').default,
+
+
+
     },
 
     computed: {
@@ -194,6 +247,7 @@ export default {
         ...mapActions('auth', ['setFollow', 'setUnfollow', 'firebaseGetFollowers']),
         ...mapActions('country', ['destroyData']),
         ...mapActions('profile', ['getUserDetails']),
+		...mapActions('markers',['getMainMarkersData']),
 
         clickFollowDialog(type) {
             this.followType = type
@@ -208,6 +262,17 @@ export default {
         clickUnfollow(key) {
             this.setUnfollow(key)
         },
+
+        markerDialogAdded(){
+            this.markerAddedDialog=true
+        },
+        markerDialogChecked(){
+            this.markerCheckedDialog=true
+        },
+        markerDialogLiked(){
+            this.markerLikedDialog=true
+        },
+        
     },
     created() {
         if (this.users) {

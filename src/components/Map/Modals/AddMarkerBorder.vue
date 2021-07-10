@@ -34,21 +34,12 @@
 
 						<p class="cp-h2">Details of first country</p>
 						<div class="text-h6"><b>Country:</b> {{payload.country1.country}}{{currentLocation}}</div>
-						<!-- <q-select 
-						:options="Object.keys(countriesAll)" 
-						v-model="payload.country1.country"
-						ref="country1" 
-						label="Select country" 
-						behavior="menu" 
-						lazy-rules filled
-						:rules="[val => val && val.length > 0 || 'Field is required']"
-						/> -->
+					
       					<q-input  filled v-model="payload.country1.city" label="Nearest town" :rules="[val => val && val.length > 0 || 'Field is required']"/>
 							 
 					<div v-if="payload.country1.country">
-						 <!-- {{countriesAll[payload.country1.country].borders_new}} -->
 						<p class="cp-h2">Details of second country</p>
-						<q-select :options="Object.keys(countriesAll[payload.country1.country].borders_new)" v-model="payload.country2.country" filled label="Select country" behavior="menu" :rules="[val => val && val.length > 0 || 'Field is required']"/>
+						<q-select :options="Object.keys(allCountries[payload.country1.country].borders_new)" v-model="payload.country2.country" filled label="Select country" behavior="menu" :rules="[val => val && val.length > 0 || 'Field is required']"/>
       					<q-input filled v-model="payload.country2.city" label="Nearest town" :rules="[val => val && val.length > 0 || 'Field is required']"/>
 						<modal-description :description.sync="payload.description"/>
 						<div v-if="warningDescription" class="text-red">The description is too short!</div>
@@ -128,6 +119,16 @@ import { Geoapify } from 'src/functions/geoapify';
 					this.$refs.myForm.validate().then(success => {
 						if (success) {
 							let markerId=uid()
+
+							this.updateItemAction({
+								path:'Users/'+this.myUserId+'/points/markers_added',
+								data:{
+									[this.timeStamp]:markerId
+								}
+							})
+							this.addPoints(10)
+							Notify.create('Thanks for your contribution. You`ve earned 10 points!')
+							
 							this.setItemActionFs({
 								collection:'Markers',
 								doc:markerId,

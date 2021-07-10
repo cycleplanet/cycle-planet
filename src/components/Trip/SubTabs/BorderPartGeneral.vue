@@ -5,14 +5,14 @@
               <div class="cp-h2 underline ">
                 {{mySelectedCountriesComputed[index-1]}} - {{mySelectedCountriesComputed[index]}}
               </div>
-              <div v-if="countriesAll[mySelectedCountriesComputed[index-1]].schengen&&countriesAll[mySelectedCountriesComputed[index]].schengen">
+              <div v-if="allCountries[mySelectedCountriesComputed[index-1]].schengen&&allCountries[mySelectedCountriesComputed[index]].schengen">
                 Both countries are part of the Schengen Area, thus there are open borders.
               </div>
-              <div v-if="!countriesAll[mySelectedCountriesComputed[index-1]].borders_new?true:false">
+              <div v-if="!allCountries[mySelectedCountriesComputed[index-1]].borders_new?true:false">
                 {{mySelectedCountriesComputed[index-1]}} doesn't have landborders, so you need to enter this country by airplane or boat.
               </div>
               <div v-else-if="!checkBorderData(index)" class="text-italic">
-                <div v-if="countriesAll[mySelectedCountriesComputed[index-1]].schengen&&countriesAll[mySelectedCountriesComputed[index]].schengen">
+                <div v-if="allCountries[mySelectedCountriesComputed[index-1]].schengen&&allCountries[mySelectedCountriesComputed[index]].schengen">
                 </div>
                 <div v-else>
                   There is no data for this border crossing yet, we're sorry.

@@ -27,7 +27,7 @@ export default {
 		...mapState('post', ['postData']),    
 
 		...mapGetters('auth', ['users','usersWithMapLocation']),
-		...mapGetters('countries', ['countries','countriesAll','country_likes','countriesFiltered','continent_likes']),
+		...mapGetters('countries', ['allCountries']),
 		...mapGetters('chat', ['unreadchatlistnew','userMessagesSortedByDate']),
 		...mapGetters('post', ['blogPostsSorted','blogPostsSortedByDate','videoPostsSorted','videoPostsSortedByDate','routePostsSorted']),
 
@@ -327,7 +327,16 @@ export default {
             let diff = date.getDateDiff(date1, date2, unit)
             return diff 
 	    },
-		
+		addPoints(points){
+			this.updateItemAction({
+				path:'Users/'+this.myUserId+'/points',
+				data:{
+					score:this.myUserDetails.points.score+points
+				}
+			})
+
+		}
+
 	},
 	components: {
 		'nice-date': 			require('components/Shared/Modals/NiceDate.vue').default,
@@ -347,6 +356,7 @@ export default {
 		'modal-banner': 	require('components/Map/Modals/Shared/ModalBanner.vue').default,
 		'modal-location': 		require('components/Shared/Modals/ModalLocation.vue').default,
 		'city-country': 		require('components/Shared/Modals/CityCountry.vue').default,
+		'marker-title': 		require('components/Shared/Modals/MarkerTitle.vue').default,
 		// 'modal-follow-button': require('components/Shared/Modals/FollowButton.vue').default,
 
 		'loading-page': 		require('components/Shared/Modals/LoadingPage.vue').default,

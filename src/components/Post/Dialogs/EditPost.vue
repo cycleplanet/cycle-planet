@@ -3,7 +3,7 @@
       <modal-header>Edit post</modal-header>
       <div class="q-pa-sm">
           
-        <q-select class="q-mb-md" filled v-model="countriesSelected" multiple :options="Object.keys(countriesAll)" use-chips stack-label label="Select countries" behavior="menu"/>
+        <q-select class="q-mb-md" filled v-model="countriesSelected" multiple :options="Object.keys(allCountries)" use-chips stack-label label="Select countries" behavior="menu"/>
         <q-input outlined  filled v-model="editDetails.title" label="Title *" lazy-rules :rules="[ val => val && val.length > 0 || 'Please type something']"/>
         <q-input outlined type="textarea"  filled v-model="editDetails.description" label="Description*" lazy-rules :rules="[ val => val && val.length > 0 || 'Please type something']"/>
 
@@ -62,7 +62,7 @@ import mixinGeneral from 'src/mixins/mixin-general.js'
 
     mounted(){
         this.editDetails = Object.assign({}, this.postItemData)
-        this.countries
+        // this.countries
 
     }
 

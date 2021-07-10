@@ -19,7 +19,7 @@
           use-input
           input-debounce="0"
           label="Select related country*"
-          :options="Object.keys(countriesAll)"
+          :options="Object.keys(allCountries)"
           behavior="menu"
           
           filled

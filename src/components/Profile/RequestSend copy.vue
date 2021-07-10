@@ -1,26 +1,12 @@
 <template>
 <div class="bg-white">
     <modal-header>My requests</modal-header>
-
-    <q-tabs
-          v-model="tab"
-          dense
-          class="text-grey"
-          active-color="primary"
-          indicator-color="primary"
-          align="justify"
-          narrow-indicator
-        >
-          <q-tab name="current" label="Current" />
-          <q-tab name="history" label="History" />
-        </q-tabs>
-         <q-separator />
-          <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="current">
     <!-- {{requestsNeedFeedback}} -->
+    <div>Requests received ({{Object.keys(requestsReceived).length}})</div>
 <div class="q-pa-md q-mt-md" v-if=" myUserDetails.hosting.requests?(Object.keys(requestsSend).length||Object.keys(requestsReceived).length||Object.keys(requestsNeedFeedback).length):false">
+<div class="text-italic">Only you can see the data in this field.</div>
     
-    <div class="text-h6 q-my-md" :style="isWebApp?'width:500px':'width:300px'" v-if="Object.keys(requestsReceived).length">Host requests received ({{Object.keys(requestsReceived).length}})</div>
+    <div class="cp-h2 q-my-md" v-if="Object.keys(requestsReceived).length">Host requests received ({{Object.keys(requestsReceived).length}})</div>
     <q-list v-for="(bool, key) in requestsReceived" :key="key">
         <div >
             <div v-if="requestsReceived&& myUserDetails.hosting.requests[key].from==='them'">
@@ -35,31 +21,30 @@
                                 <q-item-label>
                                     <modal-username :userId="myUserDetails.hosting.requests[key].sender"/>
                                 </q-item-label>
+                                <q-item-label caption>{{myUserDetails.hosting.requests[key].dateProposal}} (Happens in {{daysToGo(myUserDetails.hosting.requests[key].dateProposal)}} {{daysToGo(myUserDetails.hosting.requests[key].dateProposal)>1?'days':'day'}})</q-item-label>
                             </q-item-section>
-                           
-                            <q-item-section side v-if="myUserDetails.hosting.requests[key].status==='unanswered'">
-                                    <q-btn round color="green" icon="done"  @click="acceptRequest(myUserDetails.hosting.requests[key])"/>  
-                            </q-item-section >
-                            <q-item-section side v-if="myUserDetails.hosting.requests[key].status==='unanswered'">
-                                    <q-btn round color="red" icon="clear" @click="refuseRequest(myUserDetails.hosting.requests[key])"/>  
-                            </q-item-section>
-                            <q-item-section side v-if="myUserDetails.hosting.requests[key].status!=='unanswered'">
-                                    <q-btn outline label="cancel" @click="cancelRequest(myUserDetails.hosting.requests[key])"/>  
+                            <q-item-section>
+                                <div>Status: {{myUserDetails.hosting.requests[key].status}}</div>
                             </q-item-section>
                         </q-item>
-                       
-                        <div class="q-ma-sm">
-                            <div><b>Status: </b>{{myUserDetails.hosting.requests[key].status}}</div>
-                            <div><b>When: </b>{{myUserDetails.hosting.requests[key].dateProposal}} ({{daysToGo(myUserDetails.hosting.requests[key].dateProposal)}} {{daysToGo(myUserDetails.hosting.requests[key].dateProposal)>1?'days left':'day left'}})</div>
-                            <div><b>Description: </b>{{myUserDetails.hosting.requests[key].text}}</div>
-                        </div>
+                            <q-item v-if="myUserDetails.hosting.requests[key].status==='unanswered'" class="q-gutter-y-sm">
+                                <q-item-section style="max-width:150px">
+                                        <q-btn color="green" icon="done" label="accept" @click="acceptRequest(myUserDetails.hosting.requests[key])"/>  
+                                </q-item-section >
+                                <q-item-section style="max-width:150px">
+                                        <q-btn color="red" icon="clear" label="refuse" @click="refuseRequest(myUserDetails.hosting.requests[key])"/>  
+                                </q-item-section>
+                        </q-item>
+                        <q-item>
+                            <q-item-section>{{myUserDetails.hosting.requests[key].text}}</q-item-section>
+                        </q-item>
                     </div>
                     <q-separator color="black"/>
 				</div>
         </div>
     </q-list>
 
-    <div class="text-h6 q-my-md" >Requests sent ({{Object.keys(requestsSend).length}})</div>
+    <div class="cp-h2 q-my-md" v-if="Object.keys(requestsSend).length">Requests sent ({{Object.keys(requestsSend).length}})</div>
    
     <q-list v-for="(bool, key) in requestsSend" :key="key">
         <div>
@@ -96,7 +81,7 @@
         </div>
     </q-list>
 
-    <div class="text-h6 q-my-md">Waiting for feedback ({{Object.keys(requestsNeedFeedback).length}})</div>
+    <div class="cp-h2 q-my-md" v-if="Object.keys(requestsNeedFeedback).length">Waiting for feedback ({{Object.keys(requestsNeedFeedback).length}})</div>
     <q-list v-for="(bool, key) in requestsNeedFeedback" :key="key">
         <div >
             <div v-if="requestsNeedFeedback&&daysToGo(myUserDetails.hosting.requests[key].dateProposal)<0&&myUserDetails.hosting.requests[key].status==='accepted'&&!myUserDetails.hosting.requests[key].wroteFeedback" class="q-mt-md">
@@ -143,30 +128,6 @@
         </q-dialog>
 
 	</div>
-    <div v-else>There are no host requests to display  </div>
-
-   
-          </q-tab-panel>
-          <q-tab-panel  name="history">
-            <q-list bordered separator v-if="myUserDetails.hosting.requests">
-                <q-item v-for="request in myUserDetails.hosting.requests" :key="request">
-                    <q-item-section>
-                        <q-item-label class="row">
-                            <modal-username2 :userId="request.sender"/>
-                            <q-icon name="arrow_forward" />
-                            <modal-username2 :userId="request.receiver"/></q-item-label>
-                        <q-item-label caption></q-item-label>
-                    </q-item-section>
-                    <q-item-section side class="justify-center">
-                        <div>{{request.dateProposal}}</div>
-                        <q-chip :class="request.status==='accepted'?'bg-green-3':''">{{request.status}}</q-chip>
-                    </q-item-section>
-                </q-item>
-            </q-list>
-            <div v-if="!myUserDetails.hosting.requests">There are no host requests to display</div>
-              
-          </q-tab-panel>
-          </q-tab-panels>
    </div>
 </template>
 
@@ -180,7 +141,6 @@ export default {
 	mixins: [mixinGeneral],
     data() {
 	  	return {
-            tab:'current',
 			addFeedbackDialog:false,
             feedbackData:{},
             editRequestDialog:false,
@@ -239,7 +199,6 @@ export default {
         },
        
        acceptRequest(requestData){
-           console.log('acceptRequest 1',requestData);
             this.firebaseAcceptRequest(requestData)
         },
         refuseRequest(requestData){
