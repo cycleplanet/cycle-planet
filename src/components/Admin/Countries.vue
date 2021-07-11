@@ -18,7 +18,7 @@
 
 <script>
 import mixinGeneral from 'src/mixins/mixin-general.js'
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
 
 export default {
     mixins:[mixinGeneral],
@@ -28,8 +28,7 @@ export default {
         }
     },
     computed:{
-      ...mapState('countries', ['countryCodes','countryCodes_rev']),
-
+      countryCodes_rev: countryCodes_rev
     }
 }
 </script>

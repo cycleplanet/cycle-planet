@@ -27,7 +27,6 @@ export default {
 	},
 	computed: { 
 		...mapState('markers', ['markerlist','settings','markeruserlist']),    
-		...mapState('countries', ['countryCodes']),    
 		locationSupported() {
 			if ('geolocation' in navigator) return true
 			return false
