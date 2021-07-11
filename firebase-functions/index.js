@@ -99,7 +99,7 @@ exports.scheduledFirestoreExport = functions.pubsub
   });
 });
 
-exports.computeCountryMarkerCounts = functions.pubsub.schedule('*/1 * * * *').onRun((context) => {
+exports.computeCountryMarkerCounts = functions.pubsub.schedule('* */12 * * *').onRun((context) => {
   console.log('Running marker count aggregation per country');
   const countryMarkerCounts = {};
   const fs = admin.firestore()
