@@ -18,7 +18,7 @@ class Geoapify {
     }
 
     static async reverseGeocodeToCountryCode (lat, lng) {
-        const addres = await this.reverseGeocode(lat, lng);
+        const address = await this.reverseGeocode(lat, lng);
         return address ? address.country_code.toUpperCase() : null;
     }
 }
