@@ -1,12 +1,13 @@
 <template>
   <div>
+    <!-- {{countryCodes_rev}} -->
  <q-expansion-item
       expand-separator
       class="bg-white"
-      :label="'Countries ('+Object.keys(allCountries).length+')'"
+      :label="'Countries ('+Object.keys(countryCodes_rev).length+')'"
     >
     <q-card  class="q-my-md q-pa-md">
-          <div v-for="(country, countryKey) in allCountries" :key="countryKey" >
+          <div v-for="(country, countryKey) in countryCodes_rev" :key="countryKey" >
             <div :class="countryCodes_rev[countryKey]?'bg-green-2':'bg-red-2'">
               {{countryKey}} - {{countryCodes_rev[countryKey]}}
             </div>
@@ -24,12 +25,13 @@ export default {
     mixins:[mixinGeneral],
     data(){
         return{
-
+          countryCodes_rev: countryCodes_rev
         }
     },
     computed:{
-      countryCodes_rev: countryCodes_rev
-    }
+
+    },
+   
 }
 </script>
 

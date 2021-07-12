@@ -5,6 +5,7 @@ import { openURL } from 'quasar'
 import { version } from '../../package.json'
 import { Platform } from 'quasar'
 import { LocalStorage } from 'quasar'
+import { countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
 
 import Embed from 'v-video-embed'
 Vue.use(Embed); 
@@ -13,6 +14,7 @@ export default {
 	data() {
 		return {
 			version:version,
+			countryCodes_rev: countryCodes_rev
 
 		}
 	},

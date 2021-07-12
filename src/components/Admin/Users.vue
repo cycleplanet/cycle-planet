@@ -8,7 +8,7 @@
     <q-card  class="q-my-md q-pa-md">
       Sorted by last login, red has no coordinates.
           <div v-for="(user, itemKey) in usersSortedByLastLogin" :key="itemKey" >
-             <q-list bordered separator class="full-width" :class="!user.coordinates?'bg-red-2':'bg-green-2'">
+             <q-list bordered separator class="full-width" >
                <q-expansion-item>
                 <template v-slot:header>
                   <q-item-section avatar>
@@ -20,6 +20,10 @@
                     <q-item-label>{{user.fullname}}</q-item-label>
                     <q-item-label caption >{{user.userId}}</q-item-label>
                     <q-item-label caption >last login {{user.online_date}}</q-item-label>
+                    <q-item-label caption >
+                      <q-chip outlined :class="user.coordinates?'bg-green-2 text-green-10':'bg-red-2 text-red-10'" :icon="user.coordinates?'check_circle':'highlight_off'" label="Coordinates" />
+                      <q-chip outlined :class="user.points?'bg-green-2 text-green-10':'bg-red-2 text-red-10'" :icon="user.points?'check_circle':'highlight_off'" :label="user.points?'Points('+(user.points.score?user.points.score:0)+')':'no points node in firebase'" />
+                    </q-item-label>
                   </q-item-section>
                   
                 </template>

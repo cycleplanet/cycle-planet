@@ -4,17 +4,26 @@
         <template  v-if="landMarkers">
           <v-map ref="mymap" :options="screenwidthbig?{scrollWheelZoom:true,preferCanvas: true, zoomSnap:0.25, wheelPxPerZoomLevel: 50}:(!isWebApp?'':{scrollWheelZoom:false, dragging:false, tap: false,preferCanvas: true})"  :zoom="zoom" :min-zoom="mapsettings.minZoom" :center="mapsettings.center" :max-bounds="mapsettings.bounds">
             <v-tilelayer :url="mapsettings.url" :attribution="mapsettings.attribution"></v-tilelayer>
-            <div v-for="(marker, markerKey) in markerCounts" :key="markerKey" v-if="zoom<4.5">
-                <v-marker v-if="marker.location&&marker.poi" :lat-lng="mapMarkersNew==='markers'?[marker.location.lat,marker.location.lng]:[0,720]" >
-
+            <div v-for="(marker, markerKey) in markerCounts" :key="markerKey" v-if="zoom<6.5">
+              <div v-if="mapMarkersNew==='markers'">
+                <v-marker v-if="marker.location&&marker.poi" :lat-lng="[marker.location.lat,marker.location.lng]" >
                   <l-icon v-if="marker.poi" style="margin:1px">
-                    <q-btn size="sm" rounded transparent outline color="black" class="bg-amber" :label="marker.poi+' '" @click="badgeclick(marker)" />
+                    <q-btn size="sm" rounded transparent outline color="black" class="bg-amber" :label="marker.poi+' '"/>
                   </l-icon>
                    
                 </v-marker>
               </div>
-            <v-marker-cluster v-if="zoom>=4.5" :options="clusterOptions" @clusterclick="click()" @ready="true">
-              <div v-for="(marker, markerKey) in landMarkers" :key="markerKey">
+              <div v-if="mapMarkersNew==='users'">
+                <v-marker v-if="marker.location&&marker.users" :lat-lng="[marker.location.lat,marker.location.lng]" >
+                  <l-icon v-if="marker.users" style="margin:1px">
+                    <q-btn size="sm" rounded transparent outline color="white" class="bg-teal " :label="marker.users+' '"/>
+                  </l-icon>
+                   
+                </v-marker>
+              </div>
+            </div>
+            <v-marker-cluster v-if="zoom>=6.5" :options="clusterOptions" @clusterclick="click()" @ready="true">
+              <div  v-for="(marker, markerKey) in landMarkers" :key="markerKey">
                 <v-marker :lat-lng="mapMarkersNew==='markers'?[marker.coordinates.lat,marker.coordinates.lng]:[0,720]" v-if="markerlist[marker.refKey].active">
 
                   <l-icon :icon-url="markerlist[marker.refKey].iconurl" :icon-size="dynamicSize" :icon-anchor="dynamicAnchor"></l-icon>
@@ -22,7 +31,6 @@
                 </v-marker>
               </div>
                <div v-for="(userData, userKey) in usersWithMapLocation" :key="userKey">
-                 <div @click="userpopupmethod(userKey)">
                     <div v-if="usermarkeroptions.pets.active&&userData.hosting.status!=='Touring'?userData.hosting.pets_allowed:true">
                       <v-marker v-if="markerlist[userData.hosting.status].active" :lat-lng="mapMarkersNew==='users'?[userData.coordinates.lat,userData.coordinates.lng]:[0,720]" >
                         <l-icon :icon-url="markerlist[userData.hosting.status].iconurl" :icon-size="dynamicSize" :icon-anchor="dynamicAnchor" ></l-icon>
@@ -31,24 +39,23 @@
                           </v-popup>
                       </v-marker>
                     </div>
-                 </div>
               </div>
             </v-marker-cluster>
 
-            <div v-for="(country, countryKey) in countriesAll" :key="countryKey">
-              <v-marker :lat-lng="mapMarkersNew==='countries'?[country.location.lat,country.location.lng]:[country.location.lat,country.location.lng+720]">
+            <div v-for="(country, countryKey) in countryCodes_rev" :key="countryKey">
+              <v-marker :lat-lng="mapMarkersNew==='countries'?[markerCounts[country].location.lat,markerCounts[country].location.lng]:[markerCounts[country].location.lat,markerCounts[country].location.lng+720]">
                 <l-icon>
                     <q-chip  style="margin-left:-10px;margin-top:-10px" size="md"  clickable outline class="text-subtitle1 " >
                     <q-avatar rounded style="width:auto;" class="" clickable @click="clickedcountry(countryKey)">
-                      <img style="border:1px solid black; margin-left:-1px" :src="('countryflags/Flag_of_'+country.name+'.svg.png').split(' ').join('_')" >
+                      <img style="border:1px solid black; margin-left:-1px" :src="('countryflags/Flag_of_'+countryKey+'.svg.png').split(' ').join('_')" >
                     </q-avatar>
                     </q-chip>
                 </l-icon>
                 <v-popup style="min-width:150px">
-                  <div class="no-padding" dense :to="'/country/'+country.name">
+                  <div class="no-padding" dense :to="'/country/'+countryKey.name">
                     <div class="text-bold">
-                      <div class="text-h6">{{country.name}}</div>
-                      <div class="underline-hover cursor-pointer" @click="$router.push('/country/'+country.name)">View more</div>
+                      <div class="text-h6">{{countryKey}}</div>
+                      <div class="underline-hover cursor-pointer" @click="$router.push('/country/'+countryKey)">View more</div>
                     </div>
                   </div>
                 </v-popup>
@@ -62,7 +69,7 @@
               </l-control>
 
               <l-control position="topright" class="column items-end">
-                <div class="q-pa-md">
+                <div class="q-pa-md" style="background-color: rgba(255,255,255, 0.7); border-radius:10px">
                 <q-option-group
                   :options="radio_options"
                   type="radio"
@@ -130,6 +137,7 @@ import { mapState, mapGetters } from 'vuex'
 import mixinGeneral from 'src/mixins/mixin-general.js'
 import { LMap, LTileLayer, LControl, LMarker, LIcon, LPopup } from 'vue2-leaflet'
 import Vue2LeafletMarkercluster from 'src/clustermarkers/Vue2LeafletMarkercluster'
+import { Geoapify } from 'src/functions/geoapify';
 
 export default {
     mixins: [mixinGeneral, ],
@@ -225,8 +233,50 @@ export default {
         petstoggleclicked() {
             this.pets = !this.pets
         },
-        badgeclick(marker){
-          console.log('badgeclick 1', marker);
+        
+        writeuserstomarkercount(){
+          console.log('writeuserstomarkercount 1',this.usersWithMapLocation);
+          let ccArray={}
+          let usersArray=Object.keys(this.usersWithMapLocation)
+            usersArray.forEach(element => {
+            console.log('writeuserstomarkercount 2',element);
+            Geoapify.reverseGeocodeToCountryCode(this.usersWithMapLocation[element].coordinates.lat, this.usersWithMapLocation[element].coordinates.lng).then(cc => {
+              // console.log('writeuserstomarkercount 3', cc);
+              // console.log('writeuserstomarkercount 4', countryCodes[cc]);
+              if(!ccArray[cc]){
+                ccArray[cc]=1
+              }else{
+                ccArray[cc]=ccArray[cc]+1
+              }
+              console.log('writeuserstomarkercount 5', ccArray);
+              
+              let ccArrayKeys=Object.keys(ccArray)
+              ccArrayKeys.forEach(element => {
+                console.log('ccArrayKeys 1',element);
+                console.log('ccArrayKeys 2',ccArray[element]);
+                this.setItemAction({
+                  path:'CountryMarkerCounts/'+element+'/users/',
+                  data:ccArray[element]
+                })
+              });
+
+            }).catch(err => {
+              console.log('writeuserstomarkercount err',err);
+            })
+          });
+          
+        },
+        writeuserstomarkercount2(){
+          console.log('writeuserstomarkercount2 1',this.countryCodes_rev);
+          Object.values(this.countryCodes_rev).forEach(element => {
+            console.log('writeuserstomarkercount2 2',element);
+            if(!this.markerCounts[element].users){
+              this.setItemAction({
+                  path:'CountryMarkerCounts/'+element+'/users/',
+                  data:0
+                })
+            }
+          });
         }
     
 

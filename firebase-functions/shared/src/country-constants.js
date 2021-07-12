@@ -69,7 +69,7 @@ countryCodes = {
 		"FI" : "Finland",
 		"FJ" : "Fiji",
 		// "FK" : "Falkland Islands (Malvinas)",
-		"FM" : "Micronesia, Federated States of",
+		"FM" : "Micronesia",
 		"FO" : "Faroe Islands",
 		"FR" : "France",
 		"GA" : "Gabon",
