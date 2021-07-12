@@ -1,13 +1,11 @@
 const functions = require('firebase-functions');
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-
 const admin = require('firebase-admin');
 const serviceAccount = require('./serviceaccount.json');
 const firestore = require('@google-cloud/firestore');
 const client = new firestore.v1.FirestoreAdminClient();
+
+const countryConstants = require('./shared/src/country-constants');
 
 const adminConfig = JSON.parse(process.env.FIREBASE_CONFIG);
 adminConfig.credential = admin.credential.cert(serviceAccount);
@@ -101,35 +99,48 @@ exports.scheduledFirestoreExport = functions.pubsub
   });
 });
 
-exports.computeCountryMarkerCounts = functions.pubsub.schedule('*/1 * * * *').onRun((context) => {
-  console.log('Beh, another minute passed apparently');
-  return null;
+exports.computeCountryMarkerCounts = functions.pubsub.schedule('* */12 * * *').onRun((context) => {
+  console.log('Running marker count aggregation per country');
+  const countryMarkerCounts = {};
+  const fs = admin.firestore()
+
+  Object.values(countryConstants.countryCodes_rev).forEach(cc => {
+    countryMarkerCounts[cc] = {
+      poi: 0
+    }
+  });
+
+  function countMarker(countryName) {
+    if (!countryName) return;
+
+    const cc = countryConstants.countryCodes_rev[countryName];
+    if (!cc) return;
+
+    countryMarkerCounts[cc].poi++;
+  }
+
+  return fs.collection("Markers").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+      const itemDetails = doc.data();
+      if (itemDetails.refKey === 'Border_item') {
+        countMarker(itemDetails.country1.country);
+        countMarker(itemDetails.country2.country);
+      } else {
+        countMarker(itemDetails.countryKey);
+      }
+    });
+    
+    const countryCodes = Object.keys(countryMarkerCounts);
+    console.log(`Got counts for ${countryCodes.length} countries`);
+    countryCodes.forEach(cc => {
+      db.ref(`CountryMarkerCounts/${cc}/poi`)
+        .set(countryMarkerCounts[cc].poi)
+        .catch((err) => console.error('Could not write POI count for country', err));
+    });
+
+    console.log('wrote POI counts');
+    return null;
+  }).catch(err => {
+    console.error('Could not compute marker counts per country', err);
+  });
 });
-
-// exports.pushNotification = functions.database.ref('/Chats/{pushId}').onUpdate
-//   ((change, context) => {
-
-//     //  Get the current value of what was written to the Realtime Database.
-//     const valueObject = change.val();
-
-//     functions.logger.log("valueObject:", valueObject);
-//     // Create a notification
-//     const payload = {
-//       notification: {
-//         title: valueObject.from.toString(),
-//         body: valueObject.text.toString()
-//       },
-//       token: "c25NQ4YtTY-Lh-4Sg51b4M:APA91bHgZgvaCmjuR7bBIDhuXufFaZ64nHiL5MNfYx8SezMR-juYAXLHd1oDbJNPAhLh45GuvVVfbU-sCvvJEukAQ9YEyHxJaT7igUeCZ5_-cJhH-4owQ_fbKU7cSnA7L5hvsBDGqU91"
-
-//     };
-//     functions.logger.log("payload", payload);
-
-//     //Create an options object that contains the time to live for the notification and the priority
-//     const options = {
-//       priority: "high",
-//       timeToLive: 60 * 60 * 24
-//     };
-//     send
-//     return admin.messaging().send(payload, options);
-//     // return admin.messaging().sendToTopic("pushNotifications", payload, options);
-//   });

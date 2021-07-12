@@ -145,44 +145,11 @@ const actions = {
 	},
 
 	getAllLandMarkersFs({commit}){
-		const countryMarkerCounts = {};
-
-		function countMarker(countryKey) {
-			if (!countryKey) return;
-
-			console.log('Adding a POI count for ' + countryKey)
-			const cc = state.countryCodes_rev[countryKey];
-
-			if (!cc) return;
-
-			countryMarkerCounts[cc].poi++;
-		}
-
-		Object.values(state.countryCodes_rev).forEach(cc => {
-			countryMarkerCounts[cc] = {
-				poi: 0
-			}
-		});
-
 		firebase.fs.collection("Markers").get().then((querySnapshot) => {
 			querySnapshot.forEach((doc) => {
 				let itemId=doc.id
 				let itemDetails=doc.data()
-
-				if(itemDetails.refKey==='Border_item'){
-					countMarker(itemDetails.country1.country);
-					countMarker(itemDetails.country2.country);
-				} else {
-					countMarker(itemDetails.countryKey);
-				}				
-				// commit('addCountryMarkerCounts', {itemId,itemDetails})
-			});
-		}).then(_ => {
-			const countryCodes = Object.keys(countryMarkerCounts)
-			countryCodes.forEach(cc => {
-				console.log('writing count for country ' + cc);
-				firebase.db.ref(`CountryMarkerCounts/${cc}/poi`).set(countryMarkerCounts[cc].poi).catch((err) => console.error('Could not write POI count for country', err));
-				
+	            commit('addLandMarkers', {itemId,itemDetails})
 			});
 		});
 

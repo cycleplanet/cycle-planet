@@ -23,7 +23,6 @@ export default {
 		...mapState('markers', ['landMarkers','usermarkeroptions','markerCounts']),   
 		...mapState('country', ['refsextra']),
 		...mapState('admin', ['adminData']),
-		...mapState('countries', ['countryCodes']),    
 		...mapState('post', ['postData']),    
 
 		...mapGetters('auth', ['users','usersWithMapLocation']),
