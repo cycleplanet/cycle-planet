@@ -1,9 +1,19 @@
 <template>
     <div>
-        <template v-if="landMarkers">
-          <v-map :options="screenwidthbig?{scrollWheelZoom:true,preferCanvas: true}:(!isWebApp?'':{scrollWheelZoom:false, dragging:false, tap: false,preferCanvas: true})"  :zoom="zoom " :min-zoom="mapsettings.minZoom" :center="mapsettings.center" :max-bounds="mapsettings.bounds">
+      {{zoomlevel}}
+        <template  v-if="landMarkers">
+          <v-map ref="mymap" :options="screenwidthbig?{scrollWheelZoom:true,preferCanvas: true, zoomSnap:0.25, wheelPxPerZoomLevel: 50}:(!isWebApp?'':{scrollWheelZoom:false, dragging:false, tap: false,preferCanvas: true})"  :zoom="zoom" :min-zoom="mapsettings.minZoom" :center="mapsettings.center" :max-bounds="mapsettings.bounds">
             <v-tilelayer :url="mapsettings.url" :attribution="mapsettings.attribution"></v-tilelayer>
-            <v-marker-cluster :options="clusterOptions" @clusterclick="click()" @ready="true">
+            <div v-for="(marker, markerKey) in markerCounts" :key="markerKey" v-if="zoom<4.5">
+                <v-marker v-if="marker.location&&marker.poi" :lat-lng="mapMarkersNew==='markers'?[marker.location.lat,marker.location.lng]:[0,720]" >
+
+                  <l-icon v-if="marker.poi" style="margin:1px">
+                    <q-btn size="sm" rounded transparent outline color="black" class="bg-amber" :label="marker.poi+' '" @click="badgeclick(marker)" />
+                  </l-icon>
+                   
+                </v-marker>
+              </div>
+            <v-marker-cluster v-if="zoom>=4.5" :options="clusterOptions" @clusterclick="click()" @ready="true">
               <div v-for="(marker, markerKey) in landMarkers" :key="markerKey">
                 <v-marker :lat-lng="mapMarkersNew==='markers'?[marker.coordinates.lat,marker.coordinates.lng]:[0,720]" v-if="markerlist[marker.refKey].active">
 
@@ -28,7 +38,7 @@
             <div v-for="(country, countryKey) in countriesAll" :key="countryKey">
               <v-marker :lat-lng="mapMarkersNew==='countries'?[country.location.lat,country.location.lng]:[country.location.lat,country.location.lng+720]">
                 <l-icon>
-                    <q-chip   size="md"  clickable outline class="text-subtitle1 " >
+                    <q-chip  style="margin-left:-10px;margin-top:-10px" size="md"  clickable outline class="text-subtitle1 " >
                     <q-avatar rounded style="width:auto;" class="" clickable @click="clickedcountry(countryKey)">
                       <img style="border:1px solid black; margin-left:-1px" :src="('countryflags/Flag_of_'+country.name+'.svg.png').split(' ').join('_')" >
                     </q-avatar>
@@ -52,14 +62,21 @@
               </l-control>
 
               <l-control position="topright" class="column items-end">
-                <q-btn-group flat outline color="black" rounded  class="q-mb-md">
+                <div class="q-pa-md">
+                <q-option-group
+                  :options="radio_options"
+                  type="radio"
+                  v-model="mapMarkersNew"
+                />
+              </div>
+                <!-- <q-btn-group flat outline color="black" rounded  class="q-mb-md">
                   <q-btn :color="mapMarkersNew==='markers'?'teal-4':'secondary'" icon="room" @click="mapMarkersNew='markers'" :label="mapMarkersNew==='markers'?'Markers':''"
                   :size="isWebApp?'md':'sm'"/>
                   <q-btn :color="mapMarkersNew==='users'?'teal-4':'secondary'" icon="person" @click="mapMarkersNew='users'" :label="mapMarkersNew==='users'?'users':''"
                   :size="isWebApp?'md':'sm'"/>
                   <q-btn :color="mapMarkersNew==='countries'?'teal-4':'secondary'" icon="flag" @click="mapMarkersNew='countries'" :label="mapMarkersNew==='countries'?'countries':''"
                   :size="isWebApp?'md':'sm'"/>
-                </q-btn-group>
+                </q-btn-group> -->
 
                 <marker-filter v-if="mapMarkersNew==='markers'" class="col"/>
                 <user-filter v-if="mapMarkersNew==='users'" class="col"/>
@@ -146,8 +163,9 @@ export default {
     data() {
 
         return {
+          map:null,
             zoom: 3,
-            mapMarkersNew: '',
+            // mapMarkersNew: '',
             loadingMarkers: true,
             showAddNewMarker: false,
             clusterOptions: {},
@@ -156,18 +174,26 @@ export default {
             clickedUserId: '',
             itemDetails: {},
             isload: false,
+            mapMarkersNew: 'markers',
+
+            radio_options: [
+              { label: 'Land markers', value: 'markers', color:'red' },
+              { label: 'Users', value: 'users', color: 'red' },
+              { label: 'Country Wiki', value: 'countries', color: 'red' }
+            ]
         }
     },
     computed: {
         ...mapState('auth', ['usersWithMapLocation']),
 		    ...mapGetters('countries', ['countriesAll']),
-        showmarkerType() {
-            if (this.loggedIn) {
-                this.mapMarkersNew = 'users'
-            } else {
-                this.mapMarkersNew = 'users'
-            }
+
+        zoomlevel(){
+          if(this.map){
+            this.zoom=this.map._zoom
+          }
+          
         }
+      
     },
 
     methods: {
@@ -198,12 +224,17 @@ export default {
         },
         petstoggleclicked() {
             this.pets = !this.pets
+        },
+        badgeclick(marker){
+          console.log('badgeclick 1', marker);
         }
+    
 
     },
     mounted() {
-        this.showmarkerType
+      
         this.$nextTick(() => {
+          this.map = this.$refs.mymap.mapObject 
             this.clusterOptions = { disableClusteringAtZoom: 11 }
         });
     }
