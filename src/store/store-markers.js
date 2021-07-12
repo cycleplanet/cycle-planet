@@ -25,7 +25,7 @@ const state = {
 	fbUserRefs:[
 	],
 
-	f
+	
 	markerlist:{
 		'Touring':{title:'Touring',fbref:'Touring',hideInList:true,iconcolor:'black', markercolor:'bg-secondary', markertint:'bg-secondary-2',active:true, iconurl:"markers/Touring.png"},
 		'Available for hosting':{title:'Hosting',hideInList:true,fbref:'Available for hosting',iconcolor:'black', markercolor:'bg-red',active:true, markertint:'bg-red-2', iconurl:"markers/Hosting.png"},

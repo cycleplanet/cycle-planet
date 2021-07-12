@@ -82,10 +82,10 @@ const mutations = {
 
 const actions = {
   loadBaseData({dispatch}){
+    dispatch('markers/getMarkerCounts', null, { root: true })
 		dispatch('firebaseGetUsers')
     dispatch('countries/firebasegetCountries', null, { root: true })
     dispatch('markers/getAllLandMarkersFs', null, { root: true })
-    dispatch('markers/getMarkerCounts', null, { root: true })
     // dispatch('post/getPosts', null, { root: true })
 		firebase.db.ref('PostsVideo').remove()
 

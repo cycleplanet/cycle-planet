@@ -87,10 +87,13 @@ import { Geoapify } from 'src/functions/geoapify';
 				}
 			},
 			currentLocation(){
+				console.log('currentLocation 1', this.payload);
 				if(this.payload.coordinates.lat){
 					Geoapify.reverseGeocodeToCountryCode(this.payload.coordinates.lat, this.payload.coordinates.lng).then(cc => {
+						console.log('currentLocation 3',cc);
 						this.payload.country=this.countryCodes[cc];
 					}).catch(err => {
+						console.log('currentLocation 3',err);
 					})
 				}
 			}, 
