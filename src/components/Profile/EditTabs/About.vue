@@ -22,13 +22,19 @@
     
     <div class="col-xs-12 col-sm-12 col-md-6">
       <l-map @click="clickCoordinates"  :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}" style="height: 250px" :zoom="zoom" :center="userData.coordinates" :max-bounds="mapsettings.bounds" key="map" >
-        <l-tile-layer :url="mapsettings.url" :attribution="mapsettings.attribution"></l-tile-layer>  
-        <l-marker v-if="userData.coordinates" :lat-lng.sync="userData.coordinates" :draggable="true">
+        <l-tile-layer :url="mapsettings.url" :attribution="mapsettings.attribution"></l-tile-layer> 
+        <div v-if="userData.coordinates_hide">
+          <l-circle
+          :lat-lng="userData.coordinates_approx?userData.coordinates_approx:[userData.coordinates.lat+Math.random()*0.01,userData.coordinates.lng+Math.random()*0.01]"
+          :radius="1100"
+          />
+        </div> 
+        <l-marker v-if="userData.coordinates&&!userData.coordinates_hide"  :lat-lng.sync="userData.coordinates" :draggable="true">
           <l-icon
           :icon-size="dynamicSize"
           :icon-anchor="dynamicAnchor"
-          :icon-url="markerlist[userData.hosting.status].iconurl"
-          > </l-icon>
+          :icon-url="markerlist[userData.hosting.status].iconurl" class-name="someExtraClass"
+          ></l-icon>
         </l-marker>
           <l-control position="topleft"  class="q-ma-md">
           <q-btn icon="add" dense class="row bg-white q-pa-xs" size="sm" @click="zoom++"/>
@@ -36,6 +42,7 @@
         </l-control>
       </l-map>
       <getlocation-button/>
+      <q-toggle v-model="userData.coordinates_hide" label="Hide exact location" />
       <div v-if="userData.coordinates" class="q-my-md">
         <city-country class="text-bold" :lat="userData.coordinates.lat" :lng="userData.coordinates.lng" />
         <div>{{userData.coordinates.lat}}, {{userData.coordinates.lng}}</div>
@@ -58,7 +65,7 @@
       <q-input outlined type="textarea"  v-model="userData.interests" label="Interests" />
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4  q-pa-xs">
-      <q-select outlined  type="textarea" v-model="userData.countries_cycled_new" multiple :options="Object.keys(countries)" use-chips stack-label label="Countries cycled" behavior="menu"/>
+      <q-select outlined  type="textarea" v-model="userData.countries_cycled_new" multiple :options="Object.keys(countryCodes_rev)" use-chips stack-label label="Countries cycled" behavior="menu"/>
 
     </div>
   </div>
@@ -108,7 +115,7 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import mixinGeneral from 'src/mixins/mixin-general.js'
-import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup } from 'vue2-leaflet'
+import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup, LCircle } from 'vue2-leaflet'
 
 export default {
     mixins: [mixinGeneral],
@@ -130,7 +137,7 @@ export default {
   
   
   components:{
-       	LMap, LTileLayer,  LControl, LMarker,  LIcon,  LPopup, LFeatureGroup,
+       	LMap, LTileLayer,  LControl, LMarker,  LIcon,  LPopup, LFeatureGroup, LCircle,
 		'edit-backgroundpicture': require('components/Profile/EditBackgroundImage.vue').default,
 		'edit-profilepicture': require('components/Profile/EditProfileImage.vue').default,
 		'add-gear': require('components/Profile/AddGear.vue').default,

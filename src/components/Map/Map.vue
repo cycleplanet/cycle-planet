@@ -1,7 +1,8 @@
 <template>
     <div>
+      {{zoomlevel}}{{checkmapdata}}
         <template  v-if="landMarkers">
-          <v-map ref="mymap" :options="screenwidthbig?{scrollWheelZoom:true,preferCanvas: true, zoomSnap:0.25, wheelPxPerZoomLevel: 50}:(!isWebApp?'':{scrollWheelZoom:false, dragging:false, tap: false,preferCanvas: true})"  :zoom="zoom" :min-zoom="mapsettings.minZoom" :center="mapsettings.center" :max-bounds="mapsettings.bounds">
+          <v-map ref="mymap" @ready="doSomethingOnReady()" @move="movemapfunction()" :options="screenwidthbig?{scrollWheelZoom:true,preferCanvas: true, zoomSnap:0.25, wheelPxPerZoomLevel: 50}:(!isWebApp?'':{scrollWheelZoom:false, dragging:false, tap: false,preferCanvas: true})"  :zoom="zoom" :min-zoom="mapsettings.minZoom" :center="mapsettings.center" :max-bounds="mapsettings.bounds">
             <v-tilelayer :url="mapsettings.url" :attribution="mapsettings.attribution"></v-tilelayer>
             <div v-for="(marker, markerKey) in markerCounts" :key="markerKey" v-if="zoom<clusterbreak">
               <div v-if="mapMarkersNew==='markers'">
@@ -21,19 +22,26 @@
                 </v-marker>
               </div>
             </div>
+            <div v-if="loggedIn&&zoom>=clusterbreak&&mapMarkersNew==='users'&&clickedUserId2" >
+                <l-circle v-if="users[clickedUserId2].coordinates_hide"
+                :lat-lng="users[clickedUserId2].coordinates_approx?users[clickedUserId2].coordinates_approx:[users[clickedUserId2].coordinates.lat+Math.random()*0.01,users[clickedUserId2].coordinates.lng+Math.random()*0.01]"
+                :radius="1100"/>
+            </div>
             <v-marker-cluster v-if="zoom>=clusterbreak" :options="clusterOptions" @clusterclick="click()" @ready="true">
               <div  v-for="(marker, markerKey) in landMarkers" :key="markerKey">
                 <v-marker :lat-lng="mapMarkersNew==='markers'?[marker.coordinates.lat,marker.coordinates.lng]:[0,720]" v-if="markerlist[marker.refKey].active">
 
-                  <l-icon :icon-url="markerlist[marker.refKey].iconurl" :icon-size="dynamicSize" :icon-anchor="dynamicAnchor"></l-icon>
+                  <l-icon :icon-url="markerlist[marker.refKey].iconurl" 
+                  
+                  :icon-size="dynamicSize" :icon-anchor="dynamicAnchor"></l-icon>
                     <mapmarker-popup :singleItemData="marker" @markerClick="clickedMarkerMethod(markerKey)"/>
                 </v-marker>
               </div>
-               <div v-for="(userData, userKey) in usersWithMapLocation" :key="userKey">
+               <div v-if="mapMarkersNew==='users'" v-for="(userData, userKey) in usersWithMapLocation" :key="userKey">
                     <div v-if="usermarkeroptions.pets.active&&userData.hosting.status!=='Touring'?userData.hosting.pets_allowed:true">
-                      <v-marker v-if="markerlist[userData.hosting.status].active" :lat-lng="mapMarkersNew==='users'?[userData.coordinates.lat,userData.coordinates.lng]:[0,720]" >
-                        <l-icon :icon-url="markerlist[userData.hosting.status].iconurl" :icon-size="dynamicSize" :icon-anchor="dynamicAnchor" ></l-icon>
-                          <v-popup style="min-width:150px">
+                      <v-marker v-if="markerlist[userData.hosting.status].active" :lat-lng="!userData.coordinates_hide&&loggedIn?[userData.coordinates.lat,userData.coordinates.lng]:(userData.coordinates_approx?userData.coordinates_approx:[userData.coordinates.lat+randomLat,userData.coordinates.lng+randomLng])" @click="clickusermarker(userKey)">
+                        <l-icon :icon-url="markerlist[userData.hosting.status].iconurl" :icon-size="dynamicSize" :icon-anchor="dynamicAnchor"  ></l-icon>
+                          <v-popup :options="{offset:[0,-40]}"  style="min-width:150px;">
                               <user-popup :data="userData" :image="isload" @viewUserProfile="clickedUserMethod(userKey)"/>
                           </v-popup>
                       </v-marker>
@@ -41,8 +49,8 @@
               </div>
             </v-marker-cluster>
 
-            <div v-for="(country, countryKey) in countryCodes_rev" :key="countryKey">
-              <v-marker :lat-lng="mapMarkersNew==='countries'?[markerCounts[country].location.lat,markerCounts[country].location.lng]:[markerCounts[country].location.lat,markerCounts[country].location.lng+720]">
+            <div v-for="(countryKey) in countriesFiltered" :key="countryKey">
+              <v-marker v-if="countryKey&&countryCodes_rev" :lat-lng="mapMarkersNew==='countries'?[markerCounts[countryCodes_rev[countryKey]].location.lat,markerCounts[countryCodes_rev[countryKey]].location.lng]:[markerCounts[countryCodes_rev[countryKey]].location.lat,markerCounts[countryCodes_rev[countryKey]].location.lng+720]">
                 <l-icon>
                     <q-chip  style="margin-left:-10px;margin-top:-10px" size="md"  clickable outline class="text-subtitle1 " >
                     <q-avatar rounded style="width:auto;" class="" clickable @click="clickedcountry(countryKey)">
@@ -51,7 +59,7 @@
                     </q-chip>
                 </l-icon>
                 <v-popup style="min-width:150px">
-                  <div class="no-padding" dense :to="'/country/'+countryKey.name">
+                  <div class="no-padding" dense :to="'/country/'+countryKey">
                     <div class="text-bold">
                       <div class="text-h6">{{countryKey}}</div>
                       <div class="underline-hover cursor-pointer" @click="$router.push('/country/'+countryKey)">View more</div>
@@ -63,6 +71,7 @@
 
             <div>
               <l-control position="topleft"  class="q-ma-md">
+               
                 <q-btn icon="add" dense class="row bg-white q-pa-xs" size="sm" @click="zoom++"/>
                 <q-btn icon="remove" dense class="row bg-white q-pa-xs q-mt-sm" size="sm" @click="zoom--"/>
               </l-control>
@@ -84,6 +93,9 @@
               </l-control>
 
               <l-control position="bottomleft" >
+                 <q-banner v-if="mapMarkersNew==='users'&&!loggedIn" class="bg-red-3 text-black">
+                  Location of users are not correct. You need to login to see accurate locations
+                </q-banner>
                   <q-btn
                 rounded  class="q-my-sm row"
                 :size="isWebApp?'md':'sm'"
@@ -128,7 +140,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import mixinGeneral from 'src/mixins/mixin-general.js'
-import { LMap, LTileLayer, LControl, LMarker, LIcon, LPopup } from 'vue2-leaflet'
+import { LMap, LTileLayer, LControl, LMarker, LIcon, LPopup, LCircle } from 'vue2-leaflet'
 import Vue2LeafletMarkercluster from 'src/clustermarkers/Vue2LeafletMarkercluster'
 import { Geoapify } from 'src/functions/geoapify';
 
@@ -141,7 +153,8 @@ export default {
         LIcon,
         LTileLayer,
         LMarker,
-        LPopup,
+        LPopup, 
+        LCircle,
         'mapmarker-popup': require('components/Shared/MapMarkerPopUp.vue').default,
         'add-marker-list': require('components/Map/Modals/AddMarkerList.vue').default,
         'user-popup': require('components/Map/Modals/Popup/UserPopup.vue').default,
@@ -174,13 +187,16 @@ export default {
           userdialog: false,
           itemDialog: false,
           clickedUserId: '',
+          clickedUserId2: '',
           itemDetails: {},
           isload: false,
-          mapMarkersNew: 'markers',
+          mapMarkersNew: 'countries',
           localcenter: {
             lat:0,
             lng:0
           },
+          randomLat:0.05,
+          randomLng:0.05,
 
           radio_options: [
             { label: 'Land markers', value: 'markers', color:'red' },
@@ -193,6 +209,19 @@ export default {
         ...mapState('auth', ['usersWithMapLocation']),
 		    ...mapGetters('countries', ['countriesAll']),
 
+        zoomlevel(){
+          if(this.map){
+            this.zoom=this.map._zoom
+          }
+        },
+        checkmapdata(){
+           if(this.map){
+             console.log('checkmapdata 1', this.map)
+              // this.movemapfunction()
+              console.log('checkmapdata 2', this.localcenter.lat)
+           }
+        }
+      
     },
 
     methods: {
@@ -224,12 +253,40 @@ export default {
         petstoggleclicked() {
             this.pets = !this.pets
         },
+        clickusermarker(userKey){
+          console.log('clickusermarker 1', userKey);
+          this.clickedUserId2=userKey
+        },
+        doSomethingOnReady() {
+          console.log('doSomethingOnReady 1',this.$refs.mymap);
+          console.log('doSomethingOnReady 1',this.$refs.mymap.mapObject);
+          this.map = this.$refs.mymap.mapObject 
+        },
+        clickmarkercounter(cc){
+          console.log('clickmarkercounter 1',cc);
+          console.log('clickmarkercounter 2',this.markerCounts[cc].location);
+          console.log('clickmarkercounter 3', this.map);
+          console.log('clickmarkercounter 4', this.map._lastCenter);
+          this.zoom++
+          this.localcenter.lat=this.markerCounts[cc].location.lat
+          this.localcenter.lng=this.markerCounts[cc].location.lng
+          console.log('clickmarkercounter 5', this.localcenter.lat);
 
+        },
+        movemapfunction(){
+        //   console.log('movemapfunction 1',this.map);
+        //   console.log('movemapfunction 2',this.map._lastCenter.lat);
+        //   this.localcenter.lat=this.map._lastCenter.lat
+        //   this.localcenter.lng=this.map._lastCenter.lng
+        },
+        
     },
     mounted() {
       this.$nextTick(() => {
         this.clusterOptions = { disableClusteringAtZoom: 11 }
       })
+      this.randomLat=(Math.random()*0.02)-0.01
+      this.randomLng=(Math.random()*0.02)-0.01
     }
 }
 </script>
@@ -282,4 +339,5 @@ body {
         box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
     }
 }
+
 </style>

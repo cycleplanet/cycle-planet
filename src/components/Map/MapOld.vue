@@ -1,8 +1,7 @@
 <template>
     <div>
-      {{zoomlevel}}{{checkmapdata}}
         <template  v-if="landMarkers">
-          <v-map ref="mymap" @ready="doSomethingOnReady()" @move="movemapfunction()" :options="screenwidthbig?{scrollWheelZoom:true,preferCanvas: true, zoomSnap:0.25, wheelPxPerZoomLevel: 50}:(!isWebApp?'':{scrollWheelZoom:false, dragging:false, tap: false,preferCanvas: true})"  :zoom="zoom" :min-zoom="mapsettings.minZoom" :center="mapsettings.center" :max-bounds="mapsettings.bounds">
+          <v-map ref="mymap" :options="screenwidthbig?{scrollWheelZoom:true,preferCanvas: true, zoomSnap:0.25, wheelPxPerZoomLevel: 50}:(!isWebApp?'':{scrollWheelZoom:false, dragging:false, tap: false,preferCanvas: true})"  :zoom="zoom" :min-zoom="mapsettings.minZoom" :center="mapsettings.center" :max-bounds="mapsettings.bounds">
             <v-tilelayer :url="mapsettings.url" :attribution="mapsettings.attribution"></v-tilelayer>
             <div v-for="(marker, markerKey) in markerCounts" :key="markerKey" v-if="zoom<clusterbreak">
               <div v-if="mapMarkersNew==='markers'">
@@ -194,19 +193,6 @@ export default {
         ...mapState('auth', ['usersWithMapLocation']),
 		    ...mapGetters('countries', ['countriesAll']),
 
-        zoomlevel(){
-          if(this.map){
-            this.zoom=this.map._zoom
-          }
-        },
-        checkmapdata(){
-           if(this.map){
-             console.log('checkmapdata 1', this.map)
-              // this.movemapfunction()
-              console.log('checkmapdata 2', this.localcenter.lat)
-           }
-        }
-      
     },
 
     methods: {
@@ -238,29 +224,7 @@ export default {
         petstoggleclicked() {
             this.pets = !this.pets
         },
-        doSomethingOnReady() {
-          console.log('doSomethingOnReady 1',this.$refs.mymap);
-          console.log('doSomethingOnReady 1',this.$refs.mymap.mapObject);
-          this.map = this.$refs.mymap.mapObject 
-        },
-        clickmarkercounter(cc){
-          console.log('clickmarkercounter 1',cc);
-          console.log('clickmarkercounter 2',this.markerCounts[cc].location);
-          console.log('clickmarkercounter 3', this.map);
-          console.log('clickmarkercounter 4', this.map._lastCenter);
-          this.zoom++
-          this.localcenter.lat=this.markerCounts[cc].location.lat
-          this.localcenter.lng=this.markerCounts[cc].location.lng
-          console.log('clickmarkercounter 5', this.localcenter.lat);
 
-        },
-        movemapfunction(){
-        //   console.log('movemapfunction 1',this.map);
-        //   console.log('movemapfunction 2',this.map._lastCenter.lat);
-        //   this.localcenter.lat=this.map._lastCenter.lat
-        //   this.localcenter.lng=this.map._lastCenter.lng
-        },
-        
     },
     mounted() {
       this.$nextTick(() => {
