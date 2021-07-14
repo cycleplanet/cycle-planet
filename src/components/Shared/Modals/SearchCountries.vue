@@ -8,7 +8,7 @@
           <q-icon v-if="searchField !== ''" name="close" @click="searchField = ''" class="cursor-pointer" />
 
           <q-icon name="search" />
-</template>
+        </template>
 
   </q-input>
 </template>

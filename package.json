@@ -1,6 +1,6 @@
 {
   "name": "cpq",
-  "version": "2.0.01",
+  "version": "2.0.02",
   "description": "The Bicycle Touring Platform",
   "keywords": [
     "cycle planet",
@@ -31,6 +31,7 @@
     "copy-webpack-plugin": "^5.1.1",
     "cordova-plugin-fcm-with-dependecy-updated": "^7.8.0",
     "core-js": "^3.6.5",
+    "cpq-shared": "file:firebase-functions/shared",
     "emailjs-com": "^2.6.4",
     "firebase": "^8.5.0",
     "firebase-admin": "9.4.2",

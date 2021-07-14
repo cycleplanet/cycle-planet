@@ -113,7 +113,7 @@
                 </q-tab-panel>
             </q-tab-panels>
         </div>
-        <div class="justify-center flex q-my-lg" v-if="!loggedIn">
+        <div class="justify-center flex q-my-lg" style="padding-bottom:50px" v-if="!loggedIn">
             You need to login to see more information
         </div>
 

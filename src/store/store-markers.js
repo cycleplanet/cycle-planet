@@ -25,6 +25,7 @@ const state = {
 	fbUserRefs:[
 	],
 
+	
 	markerlist:{
 		'Touring':{title:'Touring',fbref:'Touring',hideInList:true,iconcolor:'black', markercolor:'bg-secondary', markertint:'bg-secondary-2',active:true, iconurl:"markers/Touring.png"},
 		'Available for hosting':{title:'Hosting',hideInList:true,fbref:'Available for hosting',iconcolor:'black', markercolor:'bg-red',active:true, markertint:'bg-red-2', iconurl:"markers/Hosting.png"},
@@ -71,6 +72,7 @@ const state = {
 	seeDoData:{},
 	userMarkerData:{},
 	checkMarkerData:{},
+	markerCounts:{}
 
 }
 
@@ -82,6 +84,9 @@ const mutations = {
 	},
 	addLandMarkersOnceNew(state, payload) {
 		Object.assign(state.landMarkers, payload)
+	},
+	addMarkerCounts(state, payload) {
+		Vue.set(state.markerCounts, payload.countryCode, payload.countryCounts)
 	},
 	addLandMarkers(state, payload) {
 		Vue.set(state.landMarkers, payload.itemId, payload.itemDetails)
@@ -130,14 +135,24 @@ const actions = {
 	// 	  }).catch(err=>{
 	// 	})
 	// },
+
+	getMarkerCounts({commit}){
+		firebase.db.ref('CountryMarkerCounts/').on('child_added', snapshot => {
+			let countryCounts = snapshot.val()
+			let countryCode = snapshot.key
+			commit('addMarkerCounts', {countryCode,countryCounts})
+		})
+	},
+
 	getAllLandMarkersFs({commit}){
 		firebase.fs.collection("Markers").get().then((querySnapshot) => {
 			querySnapshot.forEach((doc) => {
 				let itemId=doc.id
 				let itemDetails=doc.data()
-				commit('addLandMarkers', {itemId,itemDetails})
+	            commit('addLandMarkers', {itemId,itemDetails})
 			});
 		});
+
 		firebase.fs.collection("Markers").onSnapshot(function(snapshot) {
 			snapshot.docChanges().forEach(function(change) {
 				if (change.type === "added") {

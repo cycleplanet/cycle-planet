@@ -1,6 +1,5 @@
 <template>
-    <div style="padding-top:-100px">
-        <l-popup style="min-width:150px;">
+        <l-popup :options="{offset:[0,-40]}"  style="min-width:150px;">
             <div v-if="refKey==='Embassy'">
                 <embassy-popup :singleItemData="singleItemData" @markerclick="markermethod" />
             </div>
@@ -11,7 +10,6 @@
                 <other-popup :singleItemData="singleItemData" @markerclick="markermethod" />
             </div>
         </l-popup>
-    </div>
 </template>
 
 <script>

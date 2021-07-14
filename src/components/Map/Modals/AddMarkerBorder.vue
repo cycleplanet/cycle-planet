@@ -61,6 +61,7 @@ import mixinGeneral from 'src/mixins/mixin-general.js'
 import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup } from 'vue2-leaflet'
 import { uid } from 'quasar'
 import { Geoapify } from 'src/functions/geoapify';
+import { countryCodes } from 'app/firebase-functions/shared/src/country-constants.js'
 
 	export default {
 		props:['refKey','countryKey'],
@@ -96,7 +97,7 @@ import { Geoapify } from 'src/functions/geoapify';
 				if(this.payload.coordinates.lat){
 					Geoapify.reverseGeocodeToCountryCode(this.payload.coordinates.lat, this.payload.coordinates.lng).then(cc => {
 						if (cc) {
-							 this.payload.country1.country=this.countryCodes[cc]
+							 this.payload.country1.country=countryCodes[cc]
 						}
 					}).catch(err => {
 

@@ -82,7 +82,7 @@
                         <div v-for="(userData, userKey) in usersWithMapLocation" :key="userKey" class="q-mt-md">
                             <l-marker v-if="userData.hosting.status==='Available for hosting'" :lat-lng="userData.coordinates">
                                 <l-icon :icon-url="markerlist['Available for hosting'].iconurl" :icon-size="dynamicSize" :icon-anchor="dynamicAnchor"></l-icon>
-                                    <l-popup style="min-width:150px">
+                                    <l-popup :options="{offset:[0,-40]}" style="min-width:150px">
                                         <user-popup :data="userData" />
                                     </l-popup>
                                 </l-marker>

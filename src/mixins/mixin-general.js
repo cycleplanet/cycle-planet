@@ -5,6 +5,7 @@ import { openURL } from 'quasar'
 import { version } from '../../package.json'
 import { Platform } from 'quasar'
 import { LocalStorage } from 'quasar'
+import { countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
 
 import Embed from 'v-video-embed'
 Vue.use(Embed); 
@@ -13,6 +14,7 @@ export default {
 	data() {
 		return {
 			version:version,
+			countryCodes_rev: countryCodes_rev
 
 		}
 	},
@@ -20,14 +22,13 @@ export default {
 	computed: { 
 		...mapState('auth', ['myUserIdState','followData','loggedIn']),
 		...mapState('markers', ['markerlist','mapsettings','markeruserlist']),   
-		...mapState('markers', ['landMarkers','usermarkeroptions']),   
+		...mapState('markers', ['landMarkers','usermarkeroptions','markerCounts']),   
 		...mapState('country', ['refsextra']),
 		...mapState('admin', ['adminData']),
-		...mapState('countries', ['countryCodes']),    
 		...mapState('post', ['postData']),    
 
 		...mapGetters('auth', ['users','usersWithMapLocation']),
-		...mapGetters('countries', ['allCountries']),
+		...mapGetters('countries', ['allCountries','countriesFiltered']),
 		...mapGetters('chat', ['unreadchatlistnew','userMessagesSortedByDate']),
 		...mapGetters('post', ['blogPostsSorted','blogPostsSortedByDate','videoPostsSorted','videoPostsSortedByDate','routePostsSorted']),
 
@@ -123,11 +124,14 @@ export default {
 			return formattedString
 		},
 		dynamicSize () {
-			return [this.mapsettings.iconSize, this.mapsettings.iconSize];
+			return [this.mapsettings.iconSize, this.mapsettings.iconSize*1.0];
 		},
 		dynamicAnchor () {
 			return [this.mapsettings.iconSize / 2, this.mapsettings.iconSize * 1.0];
 		},
+		// popupAnchor () {
+		// 	return [0,-this.mapsettings.iconSize * 1.0];
+		// },
 	
 		itemUserCreatedMixin () {
 			if(this.users[this.itemUserCreated]){

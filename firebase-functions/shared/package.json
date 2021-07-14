@@ -1,0 +1,12 @@
+
+{
+  "name": "cpq-shared",
+  "version": "2.0.01",
+  "description": "The Bicycle Touring Platform: shared code between client app and cloud functions",
+  "private": true,
+  "engines": {
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}

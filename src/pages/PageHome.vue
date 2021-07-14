@@ -1,6 +1,6 @@
 <template>
     <div>
-        <map-all :style="'height:'+(screenInnerHeight-135)+'px'" />
+        <map-all :style="isWebApp?'height:'+(screenInnerHeight-85)+'px':'height:'+(screenInnerHeight-135)+'px'" />
     </div>
 </template>
 

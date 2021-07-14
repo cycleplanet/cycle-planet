@@ -6,17 +6,17 @@
 
 					<modal-banner/>
 
-					
+
 					<div  class="q-gutter-y-md" >
-						
+
 						<q-banner inline-actions rounded key="banner" class="bg-green-2 text-green-10 q-mt-md">
 								<template v-slot:avatar>
 									<q-icon name="star" size="sm" />
 								</template>
-								PRO TIP: You can click on the map to get the coordinates. {{isWebApp?'You can also drag the marker to a position to change the coordinates.':'In the desktop version you can drag the marker to the right position.'}}					
-						</q-banner>	
+								PRO TIP: You can click on the map to get the coordinates. {{isWebApp?'You can also drag the marker to a position to change the coordinates.':'In the desktop version you can drag the marker to the right position.'}}
+						</q-banner>
 						<l-map @click="clickCoordinates"  :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}" style="height: 250px" :zoom="zoom" :center="payload.coordinates" :max-bounds="mapsettings.bounds" key="map" >
-							<l-tile-layer :url="mapsettings.url" :attribution="mapsettings.attribution"></l-tile-layer>  
+							<l-tile-layer :url="mapsettings.url" :attribution="mapsettings.attribution"></l-tile-layer>
 							<l-marker v-if="payload.coordinates.lat && payload.coordinates.lng" :lat-lng.sync="payload.coordinates" :draggable="true">
 								<l-icon
 								:icon-size="dynamicSize"
@@ -53,6 +53,7 @@ import mixinGeneral from 'src/mixins/mixin-general.js'
 import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup } from 'vue2-leaflet'
 import { uid, Notify } from 'quasar'
 import { Geoapify } from 'src/functions/geoapify';
+import { countryCodes } from 'app/firebase-functions/shared/src/country-constants.js'
 	export default {
 		props:['refKey','countryKey'],
 		mixins: [mixinGeneral],
@@ -70,12 +71,12 @@ import { Geoapify } from 'src/functions/geoapify';
 						lat:'',
 						lng:''
 					}
-					
+
 				}
 			}
 		},
 		computed: {
-			
+
 			mapUpdated(){
 				if(this.payload.coordinates.lat===this.marker.position.lat&&this.payload.coordinates.lng===this.marker.position.lng){
 					return true
@@ -87,13 +88,15 @@ import { Geoapify } from 'src/functions/geoapify';
 				}
 			},
 			currentLocation(){
+				console.log('currentLocation 1', this.payload);
 				if(this.payload.coordinates.lat){
 					Geoapify.reverseGeocodeToCountryCode(this.payload.coordinates.lat, this.payload.coordinates.lng).then(cc => {
-						this.payload.country=this.countryCodes[cc];
+						this.payload.country=countryCodes[cc];
 					}).catch(err => {
+						console.log('currentLocation 3',err);
 					})
 				}
-			}, 
+			},
 		},
 
 		mounted(){
@@ -104,7 +107,7 @@ import { Geoapify } from 'src/functions/geoapify';
 			clickCoordinates(event) {
 				this.payload.coordinates=event.latlng
 			},
-			
+
 			errorCountry(){
 				this.$q.dialog({
 					title: 'No valid country',
@@ -112,7 +115,7 @@ import { Geoapify } from 'src/functions/geoapify';
 				}).onOk(() => {
 				})
 			},
-			
+
 			submitMarker(){
 				this.$refs.myForm.validate().then(success => {
 				  	if (success) {
@@ -132,7 +135,7 @@ import { Geoapify } from 'src/functions/geoapify';
 						Notify.create('Thanks for your contribution. You`ve earned 10 points!')
 
 
-					
+
 						this.setItemActionFs({
 							collection:'Markers',
 							doc:markerId,
@@ -151,12 +154,12 @@ import { Geoapify } from 'src/functions/geoapify';
 								}
 							}
 						}).then(response=>{
-							
+
 							this.$emit('close')
 
 						}).catch(err=>{
 						})
-						
+
 					  }
 				})
 			},
@@ -164,6 +167,6 @@ import { Geoapify } from 'src/functions/geoapify';
 				this.addVisa=true
 			},
 		}
-		
+
 	}
 </script>

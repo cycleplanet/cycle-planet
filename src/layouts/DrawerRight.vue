@@ -14,7 +14,7 @@
             <q-item-section>Donate</q-item-section>
           </q-item>
           <q-separator  />
-          <q-item class="bg-white text-black" clickable v-ripple @click="openUrl('https://join.slack.com/t/cycle-planet/shared_invite/zt-qloxugog-OOzaXfyO79vxalGAoFbHlA')">
+          <q-item class="bg-white text-black" clickable v-ripple @click="openUrl('https://join.slack.com/t/cycle-planet/shared_invite/zt-shfov7n9-c608GlSNiGPCbRTb8D5nQA')">
             <q-item-section  avatar>
               <q-avatar>
                 <img src="social_icons/icon_slack.png">
