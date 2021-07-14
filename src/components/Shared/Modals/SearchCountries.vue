@@ -1,5 +1,5 @@
 <template>
-    <q-input v-model="searchField" @keyup.esc="searchField = ''" v-select-all rounded outlined class="col bg-white" label="Search country">
+    <q-input dense v-model="searchField" @keyup.esc="searchField = ''" v-select-all  class="col inputfield q-pl-sm" label="Search country">
         <template v-slot:append>
           <q-icon v-if="searchField !== ''" name="close" @click="searchField = ''" class="cursor-pointer" />
           <q-icon name="search" />
@@ -31,3 +31,11 @@ export default {
     }
 }
 </script>
+<style>
+.inputfield{
+    width:150px;
+    background-color:white;
+    border-radius:20px;
+    border:1px solid black;
+}
+</style>
