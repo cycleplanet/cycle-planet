@@ -3,7 +3,7 @@
   <q-chip class="justify-center" size="md" >
     <q-avatar @click="clickedcountry">
       <img :src="('countryflags/Flag_of_'+countryId+'.svg.png').split(' ').join('_')"  >
-      <q-tooltip content-class="">{{allCountries[countryId].name}}</q-tooltip>
+      <q-tooltip content-class="">{{countryId}}</q-tooltip>
     </q-avatar>
      <q-avatar @click="clickuser">
       <img :src="users[userIdChecked].imageurl"  >

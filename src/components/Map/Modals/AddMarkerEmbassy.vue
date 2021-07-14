@@ -176,7 +176,7 @@ import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup } from
 					this.payload.country=this.payload.country
 				}
 				if(this.payload.onlineVisa){
-					this.payload.coordinates=this.allCountries[this.payload.country].location
+					this.payload.coordinates=this.markerCounts[this.countryCodes_rev[this.payload.country]].location
 				}
 				let markerId=uid()
 				
