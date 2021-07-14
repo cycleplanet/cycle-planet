@@ -28,7 +28,7 @@ export default {
 		...mapState('post', ['postData']),    
 
 		...mapGetters('auth', ['users','usersWithMapLocation']),
-		...mapGetters('countries', ['allCountries']),
+		...mapGetters('countries', ['allCountries','countriesFiltered']),
 		...mapGetters('chat', ['unreadchatlistnew','userMessagesSortedByDate']),
 		...mapGetters('post', ['blogPostsSorted','blogPostsSortedByDate','videoPostsSorted','videoPostsSortedByDate','routePostsSorted']),
 
@@ -124,11 +124,14 @@ export default {
 			return formattedString
 		},
 		dynamicSize () {
-			return [this.mapsettings.iconSize, this.mapsettings.iconSize];
+			return [this.mapsettings.iconSize, this.mapsettings.iconSize*1.0];
 		},
 		dynamicAnchor () {
 			return [this.mapsettings.iconSize / 2, this.mapsettings.iconSize * 1.0];
 		},
+		// popupAnchor () {
+		// 	return [0,-this.mapsettings.iconSize * 1.0];
+		// },
 	
 		itemUserCreatedMixin () {
 			if(this.users[this.itemUserCreated]){

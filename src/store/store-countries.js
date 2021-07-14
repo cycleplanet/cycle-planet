@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { firebase } from 'boot/config'
 import {showErrorMessage} from 'src/functions/function-show-error-message'
+import { countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
 
 const state = {
 	countries:{},
@@ -92,18 +93,22 @@ const actions = {
 const getters = {
 	
 	allCountries:(state)=>{
-        return state.countries
+        return Object.keys(countryCodes_rev)
 	},
 
 	
 	countriesFiltered: (state, getters) => {
+		console.log('countriesFiltered 1');
 		let countriesSorted = getters.allCountries,
 			countriesFiltered = {}
+			console.log('countriesFiltered 2', countriesSorted);
 
 		if (state.search) {
 			Object.keys(countriesSorted).forEach((key)=> {
+				console.log('countriesFiltered 3', countriesSorted);
+				console.log('countriesFiltered 4', countriesSorted[key]);
 				let country = countriesSorted[key]
-				let countryName=country.name.toLowerCase()
+				let countryName=countriesSorted[key].toLowerCase()
 				let searchstring=state.search.toLowerCase()
 				let valid = countryName.includes(searchstring)
 				if (valid) {
@@ -113,7 +118,7 @@ const getters = {
 			})
 			return countriesFiltered		
 		}
-		return state.countries
+		return Object.keys(countryCodes_rev)
 	},
 	countriesAll: (state, getters) => {
 		
