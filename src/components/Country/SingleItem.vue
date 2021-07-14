@@ -5,7 +5,7 @@
                 <q-item-section class="cp-h2">{{refsextra[refKey].title}}</q-item-section>
                 <q-item-section side top >
                     <div>
-                    <q-btn :style="buttonStyle" round icon="edit" size="sm" @click.native="loggedIn ? editItemMethod() : showLoginDialog()" v-if="!(refKey==='Visa'&&allCountries[countryKey].schengen)"/>
+                    <q-btn :style="buttonStyle" round icon="edit" size="sm" @click.native="loggedIn ? editItemMethod() : showLoginDialog()" v-if="!(refKey==='Visa'&&data.schengen)"/>
                     <q-btn flat @click.native="loggedIn ? editItemMethod() : showLoginDialog()"></q-btn>
                     </div>
 
@@ -23,7 +23,7 @@
         
 
         <div v-if="data" class="cp-p">
-            <p v-if="refKey==='Visa'&&allCountries[countryKey].schengen" v-html="adminData.visas.schengen.text"></p>
+            <p v-if="refKey==='Visa'&&data.schengen" v-html="adminData.visas.schengen.text"></p>
             <p v-else v-html="data.body"></p>
         </div>
 
