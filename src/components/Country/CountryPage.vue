@@ -1,7 +1,14 @@
 <template>
 <div class="q-ma-sm">
-
-<div v-if="countryData&&pageReady&&checkCountry&&checkMarkersLoaded&&allCountries">
+	<!-- <div>countryKey:{{countryKey}}</div>
+	<div>countryData name:{{countryData.name}}</div>
+	<div>countryData qf:{{countryData.quickFacts}}</div> -->
+<!-- <div>countryData:{{countryData}}</div>
+<div>pageReady:{{pageReady}}</div>
+<div>checkCountry:{{checkCountry}}</div>
+<div>checkMarkersLoaded:{{checkMarkersLoaded}}</div>
+<div>allCountries:{{allCountries}}</div> -->
+<div v-if="Object.keys(countryData).length&&countryData.name===countryKey&&pageReady&&checkCountry&&checkMarkersLoaded&&allCountries">
 	 <div v-if="countryData.settings">
        <q-banner inline-actions class="text-white bg-red " v-if="countryData.settings.dangerous">
             <template v-slot:avatar>
@@ -26,7 +33,7 @@
 
 		<div v-if="countryData && mapsettings">
 			<div v-if="countryData.zoom">
-				<l-map :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}" style="height: 350px" :zoom="zoom" :center="countryData.location">
+				<l-map :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}" :style="screenwidthbig?'height: 650px':'height: 350px'" :zoom="screenwidthbig?countryData.zoom+1:countryData.zoom" :center="countryData.location">
 				<l-tile-layer :url="mapsettings.url" :attribution="mapsettings.attribution"></l-tile-layer>
 					<map-marker :countryKey="countryKey"/>
 
@@ -38,6 +45,9 @@
 			</div>
 		</div>
 	</div>
+	<div class="flex justify-center q-mt-md">
+		<download-gpx v-if="markersArray" :markersArray="Object.keys(markersArray)"/>
+	</div>
 
 	<div v-for="(refData,refKey,index) in refsextra" :key="index" v-if="countryData" >
 		<div style="min-height:100px;margin-top:35px" v-if="!(refKey==='Embassy'&&isSchengenCountry)">
@@ -46,7 +56,7 @@
 			</div>
 
 			<div v-if="refData.type==='summarylist'">
-				<summary-item :refKey="refKey" :countryKey="countryKey" :data="countryData[refKey]"/>
+				<summary-item :refKey="refKey" :countryKey="countryKey" :data="countryData"/>
 			</div>
 
 			<div v-if="refData.type==='postlist'">
@@ -114,6 +124,7 @@ Icon.Default.mergeOptions({
 	    'map-marker' : require('components/Shared/MapMarker.vue').default,
 		'edit-country-settings': require('components/Country/Modals/EditCountrySettings.vue').default,
 		'share-dialog': require('components/Shared/ShareDialog.vue').default,
+		'download-gpx': require('components/Shared/Modals/DownloadGpx.vue').default,
 	},
 	
 	data() {
@@ -138,6 +149,17 @@ Icon.Default.mergeOptions({
 	 
 	  computed: {
 		...mapState('country', ['singleItemData','countryData']),
+		markersArray(){
+			let allMarkerKeys=Object.keys(this.landMarkers)
+			let array={}
+			allMarkerKeys.forEach(element => {
+				if(this.landMarkers[element].countryKey===this.countryKey){
+					array[element]=element
+				}
+			});
+			console.log('markersArray 1',array);
+			return array
+		},
 		checkMarkersLoaded(){
 			if(!this.loadedLandmarkers){
 				this.loadedLandmarkers=false
@@ -162,8 +184,8 @@ Icon.Default.mergeOptions({
 			
 		},
 		isSchengenCountry(){
-			if(Object.keys(this.allCountries).length){
-				if(this.allCountries[this.countryKey].schengen){
+			if(this.countryData){
+				if(this.countryData.schengen){
 					return true
 				}else{
 					return false

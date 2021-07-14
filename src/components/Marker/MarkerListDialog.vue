@@ -3,6 +3,10 @@
     <q-card style="height:100%" class="no-padding">
         <modal-header>{{title}}</modal-header>
         <map-marker2 :markersArray="markersArray" style="height:500px"/>
+        <div class="flex justify-center q-my-md">
+            <!-- {{markersArray}} -->
+            <download-gpx v-if="markersArray" :markersArray="markersArray"/>
+        </div>
         <q-list bordered class="rounded-borders" v-if="Object.keys(landMarkers).length&&markersArray">
                 <div v-for="itemKey in markersArray" :key="itemKey">
                         <q-expansion-item v-if="landMarkers[itemKey]" expand-separator 
@@ -104,6 +108,7 @@ export default {
         'item-dialog':		require('components/Marker/ItemDialog.vue').default,
         'like-item': require('components/Shared/Modals/LikeMarker.vue').default,
         'map-marker2': require('components/Shared/MapMarker2.vue').default,
+		'download-gpx': require('components/Shared/Modals/DownloadGpx.vue').default,
 
     },
     methods:{
