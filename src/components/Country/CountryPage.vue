@@ -33,7 +33,7 @@
 
 		<div v-if="countryData && mapsettings">
 			<div v-if="countryData.zoom">
-				<l-map :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}" :style="screenwidthbig?'height: 650px':'height: 350px'" :zoom="screenwidthbig?countryData.zoom+1:countryData.zoom" :center="countryData.location">
+				<l-map :options="screenwidthbig?{scrollWheelZoom:true,preferCanvas: true, zoomSnap:0.25, wheelPxPerZoomLevel: 50}:(!isWebApp?'':{scrollWheelZoom:false, dragging:false, tap: false,preferCanvas: true})" :style="screenwidthbig?'height: 650px':'height: 350px'" :zoom="screenwidthbig?zoom+1:zoom" :center="countryData.location">
 				<l-tile-layer :url="mapsettings.url" :attribution="mapsettings.attribution"></l-tile-layer>
 					<map-marker :countryKey="countryKey"/>
 
@@ -225,6 +225,9 @@ Icon.Default.mergeOptions({
 		}
 		if(!this.loadedPosts){
     		this.getPosts()
+		}
+		if(this.countryData){
+			this.zoom=this.countryData.zoom
 		}
 	},
 	destroyed() {//call a method when page is left
