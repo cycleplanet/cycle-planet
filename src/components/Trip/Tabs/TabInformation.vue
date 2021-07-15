@@ -46,8 +46,8 @@
       <q-separator class="q-my-md"/>
       <div class="cp-h2 q-my-sm">Where do you wanna go after {{tripDetails.countries[Object.keys(tripDetails.countries).length-1]}}?</div>
       <div >
-        <div class="row" v-if="allCountries[tripDetails.countries[Object.keys(tripDetails.countries).length-1]].borders_new">
-          <div v-for="(countryBorder, indexBorder) in allCountries[tripDetails.countries[Object.keys(tripDetails.countries).length-1]].borders_new" :key="indexBorder">
+        <div class="row" v-if="allCountryData[tripDetails.countries[Object.keys(tripDetails.countries).length-1]].borders_new">
+          <div v-for="(countryBorder, indexBorder) in allCountryData[tripDetails.countries[Object.keys(tripDetails.countries).length-1]].borders_new" :key="indexBorder">
             <div  :style="screenwidthbig?'padding:2px':'padding:1px'" >
               <q-chip   :size="screenwidthbig?'15px':'12px'"  clickable outline class="text-subtitle1 " >
                 <q-avatar rounded style="width:auto;" class="" clickable @click="clickedcountryMethod(indexBorder)">

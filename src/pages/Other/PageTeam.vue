@@ -33,20 +33,6 @@
           </div>
 
           <div>
-            <div class="cp-h2 q-mt-md">Contact persons for countries</div>
-            <div class="text-blue-8 cursor-pointer" v-if="loggedIn" @click="applyContact=true">Become a contact person for your country</div>
-          </div>
-          <div class="row q-mt-sm">
-            <div v-for="(country, countryKey) in allCountries" :key="countryKey">
-              <div v-if="country.contactperson" >
-                <div v-for="(user, userId) in country.contactperson" :key="userId">
-                  <modal-username4 :userId="userId" :countryKey="countryKey"/>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div>
             <div class="cp-h2 q-mt-md">Editors</div>
             <div class="text-blue-8 cursor-pointer" v-if="loggedIn" @click="applyEditor=true">Become an editor</div>
           </div>

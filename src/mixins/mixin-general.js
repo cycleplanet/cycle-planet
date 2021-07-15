@@ -26,12 +26,18 @@ export default {
 		...mapState('country', ['refsextra']),
 		...mapState('admin', ['adminData']),
 		...mapState('post', ['postData']),    
+		...mapState('countries', ['allCountryData']),    
 
 		...mapGetters('auth', ['users','usersWithMapLocation']),
-		...mapGetters('countries', ['allCountries','countriesFiltered']),
+		...mapGetters('countries', ['countriesFiltered']),
 		...mapGetters('chat', ['unreadchatlistnew','userMessagesSortedByDate']),
 		...mapGetters('post', ['blogPostsSorted','blogPostsSortedByDate','videoPostsSorted','videoPostsSortedByDate','routePostsSorted']),
-
+		countryKeys(){
+			return Object.keys(this.countryCodes_rev)
+		},
+		countryCodes(){
+			return Object.values(this.countryCodes_rev)
+		},
 		isLoggedIn(){
 			if(LocalStorage.getItem('loggedIn')){
 				return true
@@ -39,6 +45,7 @@ export default {
 				return false
 			}
 		},
+		
 		loadedPosts(){
 			if(Object.keys(this.blogPostsSorted).length){
 				return true
@@ -184,6 +191,17 @@ export default {
 		...mapActions('other',['setItemActionFs','setItemActionFs2','deleteItemActionFs','updateItemActionFs']),
 		...mapActions('markers',['updateMarkerAction']),
     	...mapActions('post', ['getPosts']),
+
+		countryNameToCode(countryKey){
+			return this.countryCodes_rev[countryKey]
+		},
+		countryCoordinatesWithKey(countryKey){
+			let cc = this.countryNameToCode(countryKey)
+			return this.markerCounts[cc].location
+		},
+		countryCoordinatesWithCode(countrycode){
+			return this.markerCounts[countrycode].location
+		},
 
 
 		updateAppVersion(){
@@ -354,7 +372,6 @@ export default {
 		'modal-username2': 		require('components/Shared/Modals/ModalUsername2.vue').default,
 		'modal-username3': 		require('components/Shared/Modals/ModalUsername3.vue').default,
 		'modal-username4': 		require('components/Shared/Modals/ModalUsername4.vue').default,
-		'modal-countryselect': 	require('components/Shared/Modals/ModalCountry.vue').default,
 		'modal-title': 			require('components/Shared/Modals/ModalTitle.vue').default,
 		'modal-description': 	require('components/Map/Modals/Shared/ModalDescription.vue').default,
 		'modal-banner': 	require('components/Map/Modals/Shared/ModalBanner.vue').default,
