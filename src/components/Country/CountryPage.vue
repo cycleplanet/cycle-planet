@@ -7,8 +7,8 @@
 <div>pageReady:{{pageReady}}</div>
 <div>checkCountry:{{checkCountry}}</div>
 <div>checkMarkersLoaded:{{checkMarkersLoaded}}</div>
-<div>allCountries:{{allCountries}}</div> -->
-<div v-if="Object.keys(countryData).length&&countryData.name===countryKey&&pageReady&&checkCountry&&checkMarkersLoaded&&allCountries">
+ -->
+<div v-if="Object.keys(countryData).length&&countryData.name===countryKey&&pageReady&&checkCountry&&checkMarkersLoaded">
 	 <div v-if="countryData.settings">
        <q-banner inline-actions class="text-white bg-red " v-if="countryData.settings.dangerous">
             <template v-slot:avatar>

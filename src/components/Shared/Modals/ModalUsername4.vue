@@ -27,7 +27,6 @@ export default {
     },
     computed: {
 		...mapGetters('auth', ['users']),
-		...mapGetters('countries', ['allCountries']),
      userIdChecked(){
       if(this.users[this.userId]){
         return this.userId

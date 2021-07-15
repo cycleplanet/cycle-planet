@@ -1,6 +1,7 @@
 <template>
   <div style="height:400px;" >
     <div>
+      
       <div :style="screenwidthbig?'height:500px':'height:300px'">
         <map-trip-general :tripDetails="tripDetails" :showParts="true"/>
       </div>

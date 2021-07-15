@@ -2,7 +2,7 @@
 <div>
   <div v-if="!tripDetails.countries">
     <div v-if="myProfile">
-      <q-select outlined filled v-model="newTrip.countries" :options="Object.keys(allCountries)" label="Select your start country" class="q-mb-md bg-white"/>
+      <q-select outlined filled v-model="newTrip.countries" :options="countryKeys" label="Select your start country" class="q-mb-md bg-white"/>
       <q-btn v-if="newTrip.countries" :style="buttonStyle" label="add" @click="clickedcountryMethod(newTrip.countries)"/>
     </div>
     <div v-if="!myProfile">
@@ -71,7 +71,7 @@
     <q-card class="no-padding" style="width:40%;max-width:400px">
       <modal-header>Select country</modal-header/>
       <div class="q-pa-md">
-        <q-select outlined v-model="countrySelected" :options="Object.keys(allCountries)" label="Select country" class="q-mb-md bg-white"/>
+        <q-select outlined v-model="countrySelected" :options="countryKeys" label="Select country" class="q-mb-md bg-white"/>
         <q-btn label="select" :style="buttonStyle" v-if="countrySelected" @click="selectCountry"/>
       </div>
     </q-card>

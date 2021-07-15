@@ -23,7 +23,7 @@
                     <div>Country name correct?:{{(item.refKey==='Border_item'?true:item.countryKey)?true:false}}</div>
                    
                     <div v-if="item.refKey==='Border_item'?false:!item.countryKey">
-                      <q-select filled :options="Object.keys(allCountries)" v-model="changeCountryKey"  behavior="menu" />
+                      <q-select filled :options="countryKeys" v-model="changeCountryKey"  behavior="menu" />
                       <q-btn @click="changeMarkerCountry(item.itemKey,changeCountryKey)" label="save"/>
                     </div>
                   </div>

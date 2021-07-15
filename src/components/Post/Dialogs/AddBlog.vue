@@ -12,14 +12,13 @@
         <q-card-section class="q-gutter-y-sm">
           <q-banner rounded class="bg-orange-2 text-orange-10">All logged in users can add their own blog posts, but please make sure to follow our <span class="underline cursor-pointer" @click="clickGuidelines()">guidelines</span>.
           </q-banner>
-
           <q-select outlined
           
           v-model="countryKey"
           use-input
           input-debounce="0"
           label="Select related country*"
-          :options="Object.keys(allCountries)"
+          :options="countryKeys"
           behavior="menu"
           
           filled
