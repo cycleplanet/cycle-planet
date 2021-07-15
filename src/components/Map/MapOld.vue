@@ -46,7 +46,7 @@
                 <l-icon>
                     <q-chip  style="margin-left:-10px;margin-top:-10px" size="md"  clickable outline class="text-subtitle1 " >
                     <q-avatar rounded style="width:auto;" class="" clickable @click="clickedcountry(countryKey)">
-                      <img style="border:1px solid black; margin-left:-1px" :src="('countryflags/Flag_of_'+countryKey+'.svg.png').split(' ').join('_')" >
+                      <img style="border:1px solid black; margin-left:-1px" :src="('countryflagsnew/'+countryCodes_rev[countryKey]+'.svg')" >
                     </q-avatar>
                     </q-chip>
                 </l-icon>
