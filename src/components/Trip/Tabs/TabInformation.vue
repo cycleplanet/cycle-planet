@@ -24,7 +24,7 @@
       </div>
       <div v-else>
         <div v-for="(boolean,countryKey) in getStoryCountryKeys" :key="countryKey" >
-          <modal-countrychip :countryId="countryKey"/>
+          <modal-countrychip :countryKey="countryKey"/>
         </div>
       </div>
       
@@ -36,7 +36,7 @@
       <div class="cp-h2 q-my-sm">{{myProfile?'Your':users[userId].fullname+'`s'}} current route</div>
       <div class="row" >
         <div v-for="(country, countryKey) in mySelectedCountriesComputed" :key="countryKey" >
-          <modal-countrychip3 :countryId="country" :index="countryKey" @delete="deletecountry(countryKey)" :last="Object.keys(mySelectedCountriesComputed).length===(countryKey+1)?true:false" :myProfile="myProfile"/>
+          <modal-countrychip3 :countryKey="country" :index="countryKey" @delete="deletecountry(countryKey)" :last="Object.keys(mySelectedCountriesComputed).length===(countryKey+1)?true:false" :myProfile="myProfile"/>
         </div>
       </div>
     </div>
@@ -51,7 +51,7 @@
             <div  :style="screenwidthbig?'padding:2px':'padding:1px'" >
               <q-chip   :size="screenwidthbig?'15px':'12px'"  clickable outline class="text-subtitle1 " >
                 <q-avatar rounded style="width:auto;" class="" clickable @click="clickedcountryMethod(indexBorder)">
-                  <img style="border:1px solid black; margin-left:-1px" :src="('countryflags/Flag_of_'+allCountries[indexBorder].name+'.svg.png').split(' ').join('_')" >
+                  <img style="border:1px solid black; margin-left:-1px" :src="('countryflagsnew/'+countryCodes_rev[indexBorder]+'.svg')" >
                 </q-avatar>
                 <div clickable @click="clickedcountryMethod(indexBorder)">{{indexBorder}}</div>
               </q-chip>

@@ -12,7 +12,7 @@
           <div class="row flex-items-center q-ma-sm" v-if="postItemData.countries">
               <div class=" row q-gutter-x-sm">
                   <div v-for="(country, countryKey, index) in postItemData.countries" :key="index" >
-                      <modal-countrychip2 :countryId="countryKey"/>
+                      <modal-countrychip2 :countryKey="countryKey"/>
                   </div>
               </div>
           </div>
@@ -42,7 +42,7 @@
                                 <div class="row flex-items-center q-ma-sm">
                                 <div class=" row q-gutter-x-sm">
                                     <div v-for="(country, countryKey, index) in routePostsSorted[routeKey].countries" :key="index" >
-                                        <modal-countrychip2 :countryId="countryKey"/>
+                                        <modal-countrychip2 :countryKey="countryKey"/>
                                     </div>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@
                                 <div class="row flex-items-center q-ma-sm">
                                     <div class=" row q-gutter-x-sm">
                                         <div v-for="(country, countryKey, index) in routePostsSorted[routeCollectionData[postItemData.collections[0]].routes[index+1]].countries" :key="index" >
-                                            <modal-countrychip2 :countryId="countryKey"/>
+                                            <modal-countrychip2 :countryKey="countryKey"/>
                                         </div>
                                     </div>
                                 </div>

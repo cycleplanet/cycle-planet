@@ -24,7 +24,7 @@
                                 <div class="row items-center">
                                 <div>{{markerlist[landMarkers[itemKey].refKey].title}}</div>
                                 <div class="q-mx-sm" v-if="landMarkers[itemKey].refKey!=='Border_item'">•</div>
-                                    <modal-countrychip2 v-if="landMarkers[itemKey].refKey!=='Border_item'" :countryId="landMarkers[itemKey].countryKey"/>
+                                    <modal-countrychip2 v-if="landMarkers[itemKey].refKey!=='Border_item'" :countryKey="landMarkers[itemKey].countryKey"/>
                             </div>
                             <!-- <div>{{markerlist[landMarkers[itemKey].refKey].title}}</div> -->
                         </q-item-section>
@@ -66,7 +66,7 @@
                     <div class="bg-white text-black q-pa-sm">
                         <div><b>Status: </b>{{landMarkers[itemKey].status?landMarkers[itemKey].status:'Pending (but visible)'}}</div>
                         
-                        <div v-if="landMarkers[itemKey].countryKey" class="row items-center"><b>Country:</b> <modal-countrychip2 :countryId="landMarkers[itemKey].countryKey" class="q-ml-sm"/></div>
+                        <div v-if="landMarkers[itemKey].countryKey" class="row items-center"><b>Country:</b> <modal-countrychip2 :countryKey="landMarkers[itemKey].countryKey" class="q-ml-sm"/></div>
                         <div><b>Description:</b><div v-html="landMarkers[itemKey].description"></div></div>
                         <q-btn :style="buttonStyle" @click="openItem(landMarkers[itemKey])">See more</q-btn>
                     </div>

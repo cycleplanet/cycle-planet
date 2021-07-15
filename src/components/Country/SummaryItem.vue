@@ -34,7 +34,7 @@
                         <div class="text-bold">Neighbour countries</div>
                         <div class="row">
                             <div v-for="(country, index) in data.borders_new" :key="index">
-                                <modal-countrychip :countryId="index"/>
+                                <modal-countrychip :countryKey="index"/>
                             </div>
                         </div>
                     </div>

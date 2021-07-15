@@ -37,10 +37,10 @@
             <div class="text-blue-8 cursor-pointer" v-if="loggedIn" @click="applyContact=true">Become a contact person for your country</div>
           </div>
           <div class="row q-mt-sm">
-            <div v-for="(country, countryId) in allCountries" :key="countryId">
+            <div v-for="(country, countryKey) in allCountries" :key="countryKey">
               <div v-if="country.contactperson" >
                 <div v-for="(user, userId) in country.contactperson" :key="userId">
-                  <modal-username4 :userId="userId" :countryId="countryId"/>
+                  <modal-username4 :userId="userId" :countryKey="countryKey"/>
                 </div>
               </div>
             </div>

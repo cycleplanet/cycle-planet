@@ -203,8 +203,8 @@ export default {
 		clickuser(userId){
 			this.$router.push('/user/'+userId)
 		},
-		clickedcountry(countryId){
-			this.$router.push('/country/'+countryId)
+		clickedcountry(countryKey){
+			this.$router.push('/country/'+countryKey)
 		},
 		clickedcontinent(continentId){
 			this.$router.push('/continent/'+continentId)

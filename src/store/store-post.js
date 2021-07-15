@@ -17,11 +17,11 @@ const mutations = {
 	
 	// addBlogCountryData(state, payload) {
 	// 	Vue.set(state.blogData, payload.itemId, payload.itemDetails)
-	// 	Vue.set(state.blogData[payload.itemId], 'country', payload.countryId)
+	// 	Vue.set(state.blogData[payload.itemId], 'country', payload.countryKey)
 	// },
 	// addVideoCountryData(state, payload) {
 	// 	Vue.set(state.videoData, payload.itemId, payload.itemDetails)
-	// 	Vue.set(state.videoData[payload.itemId], 'country', payload.countryId)
+	// 	Vue.set(state.videoData[payload.itemId], 'country', payload.countryKey)
 	// },
 	addPostsData(state, payload){
 		Vue.set(state.postData, payload.itemId, payload.itemDetails)

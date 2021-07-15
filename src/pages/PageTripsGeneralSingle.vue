@@ -19,7 +19,7 @@
 
           <div class="row" >
             <div v-for="(country, countryKey) in tripDetails.countries" :key="countryKey" >
-              <modal-countrychip3 :countryId="country" :index="countryKey" :last="false" :myProfile="false"/>
+              <modal-countrychip3 :countryKey="country" :index="countryKey" :last="false" :myProfile="false"/>
             </div>
           </div>
         </div>
