@@ -1,5 +1,5 @@
 <template>
-    <div v-if="countryKey&&allCountries&&refKey">
+    <div v-if="countryKey&&data&&refKey">
         <div class=" q-mb-md">
             <q-item class="no-padding">
                 <q-item-section class="cp-h2">{{refsextra[refKey].title}}</q-item-section>
@@ -21,37 +21,37 @@
         <div class="row">
                 <q-list v-if="refKey==='QuickFacts'" class="q-gutter-y-sm cp-p">
                     <div>
-                        <div class="text-bold">Region: </div>
-                        <div>{{allCountries[countryKey].quickFacts.region}}</div>
+                        <div class="text-bold">Region</div>
+                        <div>{{data.quickFacts.region}}</div>
                     </div>
 
                     <div>
-                        <div class="text-bold">Subregion: </div>
-                        <div>{{allCountries[countryKey].quickFacts.subregion}}</div>
+                        <div class="text-bold">Subregion</div>
+                        <div>{{data.quickFacts.subregion}}</div>
                     </div>
 
                     <div>
                         <div class="text-bold">Neighbour countries</div>
                         <div class="row">
-                            <div v-for="(country, index) in allCountries[countryKey].borders_new">
-                                <modal-countrychip :countryId="index"/>
+                            <div v-for="(country, index) in data.borders_new" :key="index">
+                                <modal-countrychip :countryKey="index"/>
                             </div>
                         </div>
                     </div>
 
                     <div>
-                        <div class="text-bold">Capital: </div>
-                        <div>{{allCountries[countryKey].quickFacts.capital}}</div>
+                        <div class="text-bold">Capital </div>
+                        <div>{{data.quickFacts.capital}}</div>
                     </div>
 
                     <div>
                         <div class="text-bold">Currency</div>
-                        <div>{{allCountries[countryKey].quickFacts.currencies.name}} ({{allCountries[countryKey].quickFacts.currencies.code}} {{allCountries[countryKey].quickFacts.currencies.symbol}})</div>
+                        <div>{{data.quickFacts.currencies.name}} ({{data.quickFacts.currencies.code}} {{data.quickFacts.currencies.symbol}})</div>
                     </div>
                     <div>
                         <div class="text-bold">WhatsApp groups</div>
                         <div class="row">
-                            <div v-for="WAgroup in continentAdapter[allCountries[countryKey].quickFacts.subregion].whatsappgroups" :key="WAgroup">
+                            <div v-for="WAgroup in continentAdapter[data.quickFacts.subregion].whatsappgroups" :key="WAgroup">
                                 <whatsapp-button :WAgroup="whatsappgroups[WAgroup]"/>
                             </div>
                         </div>
@@ -62,15 +62,15 @@
                 
                    
                     <div  dense v-for="(listitem, key) in refsextra[refKey].items" :key="key" class="no-padding">
-							<div class="text-bold cp-p" :class="data?(data[key]?'':'text-grey'):'text-grey'" >{{listitem.title}}</div>
-							<div class="cp-p" v-if="data" v-html="data[key]"></div>
+							<div class="text-bold cp-p" :class="data[refKey]?(data[refKey][key]?'':'text-grey'):'text-grey'" >{{listitem.title}}</div>
+							<div class="cp-p" v-if="data" v-html="data[refKey][key]"></div>
 					</div>
                 </q-list>
 				<q-list v-else class="full-width">
 					<q-item  dense v-for="(listitem, key) in refsextra[refKey].items" :key="key" class="no-padding">
 						<q-item-section >
-							<p class="text-bold cp-p" :class="data?(data[key]?'':'text-grey'):'text-grey'" >{{listitem.title}}</p>
-							<p v-if="data" class="cp-p" v-html="data[key]"></p>
+							<p class="text-bold cp-p" :class="data[refKey]?(data[refKey][key]?'':'text-grey'):'text-grey'" >{{listitem.title}}</p>
+							<p v-if="data[refKey]" class="cp-p" v-html="data[refKey][key]"></p>
 						</q-item-section>
 					</q-item>
 				</q-list>
@@ -100,7 +100,7 @@
 			<edit-list-item
 			:countryKey="countryKey"
 			:refKey="refKey"
-			:data="data"
+			:data="data[refKey]"
 			@close="editItem = false" 
 			/>
 		</q-dialog>
@@ -153,7 +153,11 @@ export default {
     computed:{
 		...mapState('country', ['countryData']),
 		...mapState('auth', ['usersWithMapLocation']),  
-		...mapState('countries', ['continentAdapter','whatsappgroups']),    
+		...mapState('countries', ['continentAdapter','whatsappgroups']),   
+        
+        quickFacts(){
+            return this.data.quickFacts
+        }
         
     },
 

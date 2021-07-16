@@ -12,7 +12,7 @@
           <div class="row flex-items-center q-ma-sm" v-if="postItemData.countries">
               <div class=" row q-gutter-x-sm">
                   <div v-for="(country, countryKey, index) in postItemData.countries" :key="index" >
-                      <modal-countrychip2 :countryId="countryKey"/>
+                      <modal-countrychip2 :countryKey="countryKey"/>
                   </div>
               </div>
           </div>
@@ -21,10 +21,68 @@
       </div>
       <q-separator></q-separator>
 
+      <div v-if="postItemData.refKey==='Route'&&admin" class="bg-blue-3">
+        <div v-if="postItemData.collections">
+                <div v-for="(routeKey, index) in routeCollectionData[postItemData.collections[0]].routes" :key="index" class="row">
+                    <div class="col-4" v-if="postItemData.postKey===routeKey">
+                        <q-card class="my-card" v-if="index>0">
+                            <q-card-section>
+                                <div class="text-h6">{{index}}. {{routePostsSorted[routeCollectionData[postItemData.collections[0]].routes[index-1]].title}}  </div>
+                                <div class="text-subtitle2">by John Doe</div>
+                            </q-card-section>
+                            <q-card-section>
+                                {{routePostsSorted[routeCollectionData[postItemData.collections[0]].routes[index-1]].description?routePostsSorted[routeCollectionData[postItemData.collections[0]].routes[index-1]]:'There is no description'}}
+                            </q-card-section>
+                        </q-card>
+                    </div>
+                    <div class="col-4 text-bold" v-if="postItemData.postKey===routeKey">
+                        <q-card class="my-card">
+                            <q-card-section>
+                                <div class="text-h6"> {{index+1}}. {{routePostsSorted[routeKey].title}}</div>
+                                <div class="row flex-items-center q-ma-sm">
+                                <div class=" row q-gutter-x-sm">
+                                    <div v-for="(country, countryKey, index) in routePostsSorted[routeKey].countries" :key="index" >
+                                        <modal-countrychip2 :countryKey="countryKey"/>
+                                    </div>
+                                </div>
+                            </div>
+                            </q-card-section>
+                            <q-card-section>
+                                {{routePostsSorted[routeKey].description?routePostsSorted[routeKey].description:'There is no description'}}
+                            </q-card-section>
+                        </q-card>
+                        <q-card>
+
+
+                        </q-card>
+                    </div>
+                    <div class="col-4" v-if="postItemData.postKey===routeKey">
+                        <q-card class="my-card">
+                            <q-card-section>
+                                <div class="text-h6">{{index+2}}. {{routePostsSorted[routeCollectionData[postItemData.collections[0]].routes[index+1]].title}}</div>
+                                <div class="row flex-items-center q-ma-sm">
+                                    <div class=" row q-gutter-x-sm">
+                                        <div v-for="(country, countryKey, index) in routePostsSorted[routeCollectionData[postItemData.collections[0]].routes[index+1]].countries" :key="index" >
+                                            <modal-countrychip2 :countryKey="countryKey"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </q-card-section>
+                            <q-card-section>
+                                {{routePostsSorted[routeCollectionData[postItemData.collections[0]].routes[index+1]].description?routePostsSorted[routeCollectionData[postItemData.collections[0]].routes[index+1]].description:'There is no description'}}
+                            </q-card-section>
+                        </q-card>
+
+                    </div>
+                </div>
+        </div>
+        <q-separator></q-separator>
+      </div>
+
       <div class="row flex items-center q-gutter-x-sm q-mt-sm">
         <like-post :postItemData="postItemData" class="q-ml-md"/>
         <q-space></q-space>
-        <q-btn v-if="postItemData.refKey==='Route'" icon="get_app" rounded :style="buttonStyle" label="Download gpx" @click="opengpxurl(postItemData.file)"/>
+    <q-btn class="bg-blue-3" v-if="postItemData.refKey==='Route'&&admin" icon="get_app" rounded :style="buttonStyle" label="Link other routes" @click="linkRoutesDialog=true"/>    <q-btn v-if="postItemData.refKey==='Route'" icon="get_app" rounded :style="buttonStyle" label="Download gpx" @click="opengpxurl(postItemData.file)"/>
         <q-btn v-if="postItemData.refKey==='Blog'" icon="open_in_new" rounded :style="buttonStyle" label="Visit article" @click="openUrl(postItemData.link)"/>
         <q-btn class="q-mr-sm" rounded :style="buttonStyle" label="share" icon="share" @click="shareItem()"/>
       </div>
@@ -54,12 +112,16 @@
     <q-dialog v-model="editPostDialog">
       <edit-post :postItemData="postItemData" @close="editPostDialog=false"/>
     </q-dialog>
+
+     <q-dialog v-model="linkRoutesDialog">
+        <add-linking-route :postItemData="postItemData"/>
+    </q-dialog>
     
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState  } from 'vuex'
 import mixinGeneral from 'src/mixins/mixin-general.js'
 
 	export default {
@@ -70,6 +132,7 @@ import mixinGeneral from 'src/mixins/mixin-general.js'
         return {
             editPostDialog:false,
             shareDialog:false,
+            linkRoutesDialog:false,
         }
     },
     components:{
@@ -77,11 +140,15 @@ import mixinGeneral from 'src/mixins/mixin-general.js'
         'comment': require('components/Shared/Modals/Comment.vue').default,
         'like-post': require('components/Post/Modals/LikePost.vue').default,
         'share-dialog': require('components/Shared/ShareDialog.vue').default,
+        'add-linking-route': require('components/Post/Dialogs/AddLinkingRoute.vue').default,
+    },
+    computed:{
+		...mapState('post', ['routeCollectionData']),
     },
    
     methods: {
-        ...mapActions('post', ['likePost','dislikePost']),
-
+    ...mapActions('post', ['likePost','dislikePost']),
+    ...mapActions('post', ['likePost','dislikePost','getRouteCollections','getPosts']),
         shareItem(){
             this.shareDialog=true
         },
@@ -90,6 +157,10 @@ import mixinGeneral from 'src/mixins/mixin-general.js'
             window.open(url, '_blank');
 		},
       
+    },
+    created(){
+        this.getRouteCollections()
+        this.getPosts()
     },
     
 	

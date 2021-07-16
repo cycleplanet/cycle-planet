@@ -71,7 +71,7 @@
                         <div class="text-bold">{{neighbourcountry}}</div>
                     
                         <div v-if="!countryData.borders_new[neighbourcountry] ">
-                        You can cross this border without having to go through customs.{{countryData.schengen&&allCountries[neighbourcountry].schengen?' Both countries are part of the Schengen Area.':''}}
+                        You can cross this border without having to go through customs.{{countryData.schengen&&allCountryData[neighbourcountry].schengen?' Both countries are part of the Schengen Area.':''}}
                         </div>
 
                         <div v-else-if="countryPresent[neighbourcountry]">

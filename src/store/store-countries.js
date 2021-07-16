@@ -4,7 +4,7 @@ import {showErrorMessage} from 'src/functions/function-show-error-message'
 import { countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
 
 const state = {
-	countries:{},
+	allCountryData:{},
 	search: '',
 
 	whatsappgroups:{
@@ -51,10 +51,10 @@ const state = {
 
 const mutations = {
 	addCountry(state, payload) {
-		Vue.set(state.countries, payload.countryKey, payload.countryDetails)
+		Vue.set(state.allCountryData, payload.countryKey, payload.countryDetails)
 	},
 	updateCountry(state, payload) {
-		Object.assign(state.countries[payload.countryKey], payload.countryDetails)
+		Object.assign(state.allCountryData[payload.countryKey], payload.countryDetails)
 	},
 	setSearch(state, value) {
 		state.search = value
@@ -92,14 +92,9 @@ const actions = {
 
 const getters = {
 	
-	allCountries:(state)=>{
-        return Object.keys(countryCodes_rev)
-	},
-
-	
 	countriesFiltered: (state, getters) => {
 		console.log('countriesFiltered 1');
-		let countriesSorted = getters.allCountries,
+		let countriesSorted = Object.keys(countryCodes_rev),
 			countriesFiltered = {}
 			console.log('countriesFiltered 2', countriesSorted);
 

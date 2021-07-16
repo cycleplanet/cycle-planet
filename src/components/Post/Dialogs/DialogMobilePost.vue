@@ -14,7 +14,7 @@
             <div >{{postItemData.description?postItemData.description:'There is no desciption.'}}</div>
             <div class=" row q-gutter-x-sm q-mt-sm">
                  <div v-for="(country, countryKey, index) in postItemData.countries" :key="index" >
-                    <modal-countrychip2 :countryId="countryKey"/>
+                    <modal-countrychip2 :countryKey="countryKey"/>
                 </div>
             </div>
            

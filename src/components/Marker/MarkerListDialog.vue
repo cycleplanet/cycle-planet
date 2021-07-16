@@ -3,6 +3,10 @@
     <q-card style="height:100%" class="no-padding">
         <modal-header>{{title}}</modal-header>
         <map-marker2 :markersArray="markersArray" style="height:500px"/>
+        <div class="flex justify-center q-my-md">
+            <!-- {{markersArray}} -->
+            <download-gpx v-if="markersArray" :markersArray="markersArray"/>
+        </div>
         <q-list bordered class="rounded-borders" v-if="Object.keys(landMarkers).length&&markersArray">
                 <div v-for="itemKey in markersArray" :key="itemKey">
                         <q-expansion-item v-if="landMarkers[itemKey]" expand-separator 
@@ -20,7 +24,7 @@
                                 <div class="row items-center">
                                 <div>{{markerlist[landMarkers[itemKey].refKey].title}}</div>
                                 <div class="q-mx-sm" v-if="landMarkers[itemKey].refKey!=='Border_item'">•</div>
-                                    <modal-countrychip2 v-if="landMarkers[itemKey].refKey!=='Border_item'" :countryId="landMarkers[itemKey].countryKey"/>
+                                    <modal-countrychip2 v-if="landMarkers[itemKey].refKey!=='Border_item'" :countryKey="landMarkers[itemKey].countryKey"/>
                             </div>
                             <!-- <div>{{markerlist[landMarkers[itemKey].refKey].title}}</div> -->
                         </q-item-section>
@@ -62,7 +66,7 @@
                     <div class="bg-white text-black q-pa-sm">
                         <div><b>Status: </b>{{landMarkers[itemKey].status?landMarkers[itemKey].status:'Pending (but visible)'}}</div>
                         
-                        <div v-if="landMarkers[itemKey].countryKey" class="row items-center"><b>Country:</b> <modal-countrychip2 :countryId="landMarkers[itemKey].countryKey" class="q-ml-sm"/></div>
+                        <div v-if="landMarkers[itemKey].countryKey" class="row items-center"><b>Country:</b> <modal-countrychip2 :countryKey="landMarkers[itemKey].countryKey" class="q-ml-sm"/></div>
                         <div><b>Description:</b><div v-html="landMarkers[itemKey].description"></div></div>
                         <q-btn :style="buttonStyle" @click="openItem(landMarkers[itemKey])">See more</q-btn>
                     </div>
@@ -104,6 +108,7 @@ export default {
         'item-dialog':		require('components/Marker/ItemDialog.vue').default,
         'like-item': require('components/Shared/Modals/LikeMarker.vue').default,
         'map-marker2': require('components/Shared/MapMarker2.vue').default,
+		'download-gpx': require('components/Shared/Modals/DownloadGpx.vue').default,
 
     },
     methods:{

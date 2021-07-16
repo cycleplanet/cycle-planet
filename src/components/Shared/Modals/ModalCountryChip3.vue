@@ -1,19 +1,25 @@
 <template>
   <div  :style="screenwidthbig?'padding:2px':'padding:1px'" >
     <q-chip   :size="screenwidthbig?'15px':'12px'"  clickable outline class="text-subtitle1 ">
-      <q-avatar rounded style="width:auto;" class="" clickable @click="clickedcountry(countryId)">
-        <img style="border:1px solid black; margin-left:-1px" :src="('countryflags/Flag_of_'+countryId+'.svg.png').split(' ').join('_')" >
+      <q-avatar rounded style="width:auto;" class="" clickable @click="clickedcountry(countryKey)">
+        <img style="border:1px solid black; margin-left:-1px" :src="('countryflagsnew/'+countryCodes_rev[countryKey]+'.svg')" >
       </q-avatar>
-      <div clickable @click="clickedcountry(countryId)">{{index+1}}. {{countryId}}</div>
+      <div clickable @click="clickedcountry(countryKey)">{{index+1}}. {{countryKey}}</div>
       <q-icon v-if="last &&myProfile" name="clear" size="sm" color="grey" class="q-ml-sm" @click="$emit('delete')"/>
     </q-chip>
   </div>
 </template>
 
 <script>
+import { countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
 
 export default {
-    props:['countryId','index','last','myProfile'],
+    props:['countryKey','index','last','myProfile'],
+    data(){
+      return{
+        countryCodes_rev:countryCodes_rev
+      }
+    },
     computed: {
     screenwidthbig(){
 			let screenWidth = screen.width
@@ -24,9 +30,9 @@ export default {
     },
     methods:{
 
-    clickedcountry(countryId){
+    clickedcountry(countryKey){
       
-			this.$router.push('/country/'+countryId)
+			this.$router.push('/country/'+countryKey)
 		},
     }
 

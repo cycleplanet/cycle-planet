@@ -63,7 +63,7 @@ export default {
             path:'Reports/'+payload.key,
             data:{
               status:'done', 
-              checkedBy:this.userId
+              checkedBy:this.myUserId
             }
           })
           Notify.create('Report marked ready')

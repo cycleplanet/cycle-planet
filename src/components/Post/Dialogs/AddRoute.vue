@@ -9,8 +9,7 @@
         <q-card-section class="q-gutter-y-sm">
           <q-banner rounded class="bg-orange-2 text-orange-10">All logged in users can add their own blog posts, but please make sure to follow our <span class="underline cursor-pointer" @click="clickGuidelines()">guidelines</span>.
           </q-banner>
-
-          <q-select filled v-model="countriesSelected" multiple :options="Object.keys(allCountries)" use-chips stack-label label="Select countries" behavior="menu"/>
+          <q-select filled v-model="countriesSelected" multiple :options="countryKeys" use-chips stack-label label="Select countries" behavior="menu"/>
 
           <q-input outlined  filled v-model="title" label="Route title *" lazy-rules :rules="[ val => val && val.length > 0 || 'Please type something']"/>
           <q-input outlined  filled v-model="description" label="Route description*" lazy-rules :rules="[ val => val && val.length > 0 || 'Please type something']"/>

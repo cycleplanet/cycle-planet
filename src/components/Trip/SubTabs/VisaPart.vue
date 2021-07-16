@@ -11,7 +11,7 @@
               <q-separator></q-separator>
 
                 <!-- {{checkVisaData(index)}} -->
-                <div v-if="allCountries[mySelectedCountriesComputed[index]].schengen">
+                <div v-if="allCountryData[mySelectedCountriesComputed[index]].schengen">
                   You need a Schengen visa for this country.
                 </div>
                 <div v-else>

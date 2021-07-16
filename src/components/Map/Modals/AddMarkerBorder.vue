@@ -39,7 +39,7 @@
 							 
 					<div v-if="payload.country1.country">
 						<p class="cp-h2">Details of second country</p>
-						<q-select :options="Object.keys(allCountries[payload.country1.country].borders_new)" v-model="payload.country2.country" filled label="Select country" behavior="menu" :rules="[val => val && val.length > 0 || 'Field is required']"/>
+						<q-select :options="Object.keys(allCountryData[payload.country1.country].borders_new)" v-model="payload.country2.country" filled label="Select country" behavior="menu" :rules="[val => val && val.length > 0 || 'Field is required']"/>
       					<q-input filled v-model="payload.country2.city" label="Nearest town" :rules="[val => val && val.length > 0 || 'Field is required']"/>
 						<modal-description :description.sync="payload.description"/>
 						<div v-if="warningDescription" class="text-red">The description is too short!</div>

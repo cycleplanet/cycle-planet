@@ -66,7 +66,7 @@
                   filled
                   v-model="userData.countries_cycled_new"
                   multiple
-                  :options="Object.keys(allCountries)"
+                  :options="countryKeys"
                   use-chips
                   stack-label
                   label="Countries cycled"
@@ -126,9 +126,7 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import mixinGeneral from 'src/mixins/mixin-general.js'
-// import mixinGeneral from 'src/mixins/mixin-other-user-details.js'
-import { log } from 'util'
-import Croppa from 'vue-croppa';
+
 export default {
   props:['userData'],
     mixins: [mixinGeneral],

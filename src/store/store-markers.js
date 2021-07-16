@@ -181,17 +181,6 @@ const actions = {
 			let itemDetails = state.landMarkers[element]
 			console.log('getMainMarkersData 2',itemId);
 
-			// if(itemDetails.likes){
-			// 	console.log('getMainMarkersData 3',itemDetails.likes);
-			// 	let userLikes = Object.keys(itemDetails.likes)
-			// 	userLikes.forEach(element => {
-			// 		let userId = element
-			// 		firebase.db.ref('Users/'+userId+'/points/markers_liked').update({
-			// 			[itemId]:itemDetails.date_created
-			// 		})
-			// 	})
-			// }
-			
 			if(itemDetails.refKey==='Border_item'){
 				commit('addBorderData', {itemId,itemDetails})
 			}else if(itemDetails.refKey==='Embassy'){

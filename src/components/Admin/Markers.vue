@@ -13,17 +13,17 @@
           <q-expansion-item expand-separator 
                 :label="item.refKey==='Border_item'?item.country1.country+' - '+item.country2.country:(item.refKey==='Embassy'?'visa '+item.countryKey+' - '+item.country_located:item.title)"
                 :caption="markerlist[item.refKey].title"
-                :class="item.coordinates&&(item.refKey==='Border_item'?true:allCountries[item.countryKey])?'bg-green-2 text-green-10':'bg-red-2 text-red-10'"
+                :class="item.coordinates&&(item.refKey==='Border_item'?true:item.countryKey)?'bg-green-2 text-green-10':'bg-red-2 text-red-10'"
                 >
                 <div class="bg-white text-black ">
                   <div>
                     <div class="row flex items-center">by <modal-username2 :userId="item.user_created"/></div>
                     <div class="text-h6">Checks</div>
                     <div>Has coordinates:{{item.coordinates?true:false}}</div>
-                    <div>Country name correct?:{{(item.refKey==='Border_item'?true:allCountries[item.countryKey])?true:false}}</div>
+                    <div>Country name correct?:{{(item.refKey==='Border_item'?true:item.countryKey)?true:false}}</div>
                    
-                    <div v-if="item.refKey==='Border_item'?false:!allCountries[item.countryKey]">
-                      <q-select filled :options="Object.keys(allCountries)" v-model="changeCountryKey"  behavior="menu" />
+                    <div v-if="item.refKey==='Border_item'?false:!item.countryKey">
+                      <q-select filled :options="countryKeys" v-model="changeCountryKey"  behavior="menu" />
                       <q-btn @click="changeMarkerCountry(item.itemKey,changeCountryKey)" label="save"/>
                     </div>
                   </div>

@@ -52,7 +52,7 @@ export default {
             path:'Feedback/'+payload.key,
             data:{
               status:'done', 
-              checkedBy:this.userId
+              checkedBy:this.myUserId
             }
           })
           Notify.create('Feedback marked ready')

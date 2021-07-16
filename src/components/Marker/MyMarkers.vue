@@ -19,14 +19,14 @@
                         {{' ('+(marker.checked_by?Object.keys(marker.checked_by).length:0)+'/3)'}}</div>
                       
                       <div class="row">
-                        <modal-countrychip2 :countryId="marker.countryKey"/>
+                        <modal-countrychip2 :countryKey="marker.countryKey"/>
                         <div>{{markerlist[marker.refKey].title}}</div>
                       </div>
                     </q-item-section>
                 </template>
                 <div class="bg-white text-black q-pa-sm">
                     <div><b>Status: </b>{{marker.status?marker.status:'Pending (but visible)'}}</div>
-                    <div v-if="marker.countryKey" class="row items-center"><b>Country:</b> <modal-countrychip2 :countryId="marker.countryKey" class="q-ml-sm"/></div>
+                    <div v-if="marker.countryKey" class="row items-center"><b>Country:</b> <modal-countrychip2 :countryKey="marker.countryKey" class="q-ml-sm"/></div>
                     <div><b>Description:</b><div v-html="marker.description"></div></div>
                     <q-btn :style="buttonStyle" @click="openItem(marker)">See more</q-btn>
                 </div>

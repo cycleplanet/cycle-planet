@@ -36,8 +36,6 @@ export default {
         locationSuccess(address, position) {
             let randomNumber1 = (Math.random()*0.02)-0.01
             let randomNumber2 = (Math.random()*0.02)-0.01
-            console.log('locationSuccess random number 1',randomNumber1);
-            console.log('locationSuccess random number 1',randomNumber2);
             if (address) {
                 this.updateItemAction({
                     path:'Users/'+this.myUserId,
@@ -48,7 +46,7 @@ export default {
                             lng: position.coords.longitude
                         },
                         coordinates_approx: {
-                            lat: position.coords.latitude+randomNumber,
+                            lat: position.coords.latitude+randomNumber1,
                             lng: position.coords.longitude+randomNumber2
                         }
                     }

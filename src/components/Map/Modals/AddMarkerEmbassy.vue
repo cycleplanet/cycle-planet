@@ -33,13 +33,13 @@
 					</div>
 					<modal-location :payload.sync="payload" />
 
-
-					<q-select filled :options="Object.keys(allCountries)" v-model="payload.country_located" label="In which country do you apply for this visa?" behavior="menu" :rules="[val => !!val || 'Field is required']"/>
+{{currentLocation}}
+					<q-select filled :options="countryKeys" v-model="payload.country_located" label="In which country do you apply for this visa?" behavior="menu" :rules="[val => !!val || 'Field is required']"/>
 					<q-input filled v-model="payload.city" label="City" :rules="[val => val && val.length > 0 || 'Field is required']"/>
 
 				</div>
-				<q-select filled v-if="!countryKey" :options="Object.keys(allCountries)" v-model="payload.country" label="For which country is this visa?"behavior="menu" :rules="[val => !!val || 'Field is required']"/>
-				<q-select disable filled v-if="countryKey" :options="Object.keys(allCountries)" v-model="countryKey" label="For which country is this visa?"behavior="menu" :rules="[val => !!val || 'Field is required']"/>
+				<q-select filled v-if="!countryKey" :options="countryKeys" v-model="payload.country" label="For which country is this visa?"behavior="menu" :rules="[val => !!val || 'Field is required']"/>
+				<q-select disable filled v-if="countryKey" :options="countryKeys" v-model="countryKey" label="For which country is this visa?"behavior="menu" :rules="[val => !!val || 'Field is required']"/>
 			</q-card-section >
 			
 			<q-card-section >
@@ -121,7 +121,8 @@ import mixinGeneral from 'src/mixins/mixin-general.js'
 import { mapActions, mapState, mapGetters } from 'vuex'
 import { date, uid, Notify } from 'quasar'
 import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup } from 'vue2-leaflet'
-
+import { Geoapify } from 'src/functions/geoapify';
+import { countryCodes } from 'app/firebase-functions/shared/src/country-constants.js'
 
 	export default {
 		props:['refKey','countryKey'],
@@ -138,7 +139,7 @@ import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup } from
 				payload:{
 					visas:[],
 					coordinates:{lat:null,lng:null},
-					onlineVisa:false
+					onlineVisa:false,
 				}
 			}
 		},
@@ -148,7 +149,17 @@ import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup } from
 				if(this.payload.coordinates.lat===this.marker.position.lat&&this.payload.coordinates.lng===this.marker.position.lng){
 					return true
 				}else{return false}
-			}         
+			},
+			currentLocation(){
+				console.log('currentLocation 1', this.payload);
+				if(this.payload.coordinates.lat){
+					Geoapify.reverseGeocodeToCountryCode(this.payload.coordinates.lat, this.payload.coordinates.lng).then(cc => {
+						this.payload.country=countryCodes[cc];
+					}).catch(err => {
+						console.log('currentLocation 3',err);
+					})
+				}
+			},      
 		},
 		methods: {
 
@@ -167,6 +178,7 @@ import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup } from
 				this.visas.costs=''
 				this.addVisa=false
 			},
+			
 
 			submitMarker(){
 				if(Object.keys(this.payload.description).length>50){
@@ -176,7 +188,7 @@ import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup } from
 					this.payload.country=this.payload.country
 				}
 				if(this.payload.onlineVisa){
-					this.payload.coordinates=this.allCountries[this.payload.country].location
+					this.payload.coordinates=this.markerCounts[this.countryCodes_rev[this.payload.country]].location
 				}
 				let markerId=uid()
 				
