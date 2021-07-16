@@ -386,5 +386,8 @@ export default {
 		'modal-header': 		require('src/components/Shared/Modals/ModalHeader.vue').default,
 		'modal-buttons': 		require('src/components/Shared/Modals/ModalButtons.vue').default,
 		'modal-task-country': 	require('src/components/Shared/Modals/ModalTaskName.vue').default,
+		
+		'chart-line': 	require('src/components/Stats/ChartLine.vue').default,
+		// 'chart-bar': 	require('src/components/Stats/ChartBar.vue').default,
 	}
 }
