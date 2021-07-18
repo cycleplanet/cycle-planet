@@ -2,7 +2,8 @@ import Vue from 'vue'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { date, uid, Notify } from 'quasar'
 import { openURL } from 'quasar'
-import { Geoapify } from '../functions/geoapify'
+import { Geoapify } from 'app/firebase-functions/shared/src/geoapify'
+import { geoapify } from '../boot/config.js'
 
 export default {
 	data() {
@@ -152,7 +153,7 @@ export default {
 				this.storyData.coordinates.lat=position.coords.latitude
 				this.storyData.coordinates.lng=position.coords.longitude
 				
-				Geoapify.reverseGeocode(this.storyData.coordinates.lat, this.storyData.coordinates.lng).then(address => {
+				new Geoapify(geoapify.apiKey).reverseGeocode(this.storyData.coordinates.lat, this.storyData.coordinates.lng).then(address => {
 					this.storyData.country = address.country_code.toUpperCase()
 					this.storyData.place = address.city
 				})

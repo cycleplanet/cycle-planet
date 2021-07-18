@@ -1,11 +1,13 @@
-
-import axios from 'axios';
-import { geoapify } from '../boot/config.js'
+const axios = require('axios');
  
 class Geoapify {
-    static async reverseGeocode(lat, lng) {
+    constructor(apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    async reverseGeocode(lat, lng) {
         try {
-            const apiUrl1 = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${geoapify.apiKey}`
+            const apiUrl1 = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${this.apiKey}`
             const result = await axios.get(apiUrl1);
             if (result.data) {
                 return result.data.features[0].properties;
@@ -17,10 +19,10 @@ class Geoapify {
         }
     }
 
-    static async reverseGeocodeToCountryCode (lat, lng) {
+    async reverseGeocodeToCountryCode (lat, lng) {
         const address = await this.reverseGeocode(lat, lng);
         return address ? address.country_code.toUpperCase() : null;
     }
 }
 
-export { Geoapify };
+module.exports.Geoapify = Geoapify;

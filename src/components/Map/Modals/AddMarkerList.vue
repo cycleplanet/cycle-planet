@@ -121,7 +121,8 @@ import mixinGeneral from 'src/mixins/mixin-general.js'
 // import { mapState, mapActions, mapGetters } from 'vuex'
 import { uid } from 'quasar'
 import Vue from 'vue'
-import { Geoapify } from 'src/functions/geoapify'
+import { Geoapify } from 'app/firebase-functions/shared/src/geoapify'
+import { geoapify } from '../../../boot/config.js'
 
 export default {
     mixins: [mixinGeneral],
@@ -190,7 +191,7 @@ export default {
 
                 let markerId = uid()
 
-                Geoapify.reverseGeocode(valuePart[2], valuePart[3]).then(address => {
+                new Geoapify(geoapify.apiKey).reverseGeocode(valuePart[2], valuePart[3]).then(address => {
 
                     let markerData = {
                         refKey: "",

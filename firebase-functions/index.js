@@ -6,6 +6,7 @@ const firestore = require('@google-cloud/firestore');
 const client = new firestore.v1.FirestoreAdminClient();
 
 const countryConstants = require('./shared/src/country-constants');
+const geoapify = require('./shared/src/geoapify');
 
 const adminConfig = JSON.parse(process.env.FIREBASE_CONFIG);
 adminConfig.credential = admin.credential.cert(serviceAccount);
@@ -101,46 +102,63 @@ exports.scheduledFirestoreExport = functions.pubsub
 
 exports.computeCountryMarkerCounts = functions.pubsub.schedule('* */12 * * *').onRun((context) => {
   console.log('Running marker count aggregation per country');
-  const countryMarkerCounts = {};
   const fs = admin.firestore()
+  console.log('Firestore inited');
 
+  console.log('geoapify require', geoapify);
+  const Geoapify = geoapify.Geoapify;
+  const geocoder = new Geoapify(serviceAccount.geoapify_key)
+  console.log('Geoapify inited');
+
+  const countryMarkerCounts = {};
   Object.values(countryConstants.countryCodes_rev).forEach(cc => {
     countryMarkerCounts[cc] = {
-      poi: 0
+      poi: 0,
+      hosts: 0
     }
   });
 
-  function countMarker(countryName) {
+  function countMarker(countedField, countryName) {
     if (!countryName) return;
 
     const cc = countryConstants.countryCodes_rev[countryName];
     if (!cc) return;
 
-    countryMarkerCounts[cc].poi++;
+    countryMarkerCounts[cc][countedField]++;
   }
 
-  return fs.collection("Markers").get().then((querySnapshot) => {
-    querySnapshot.forEach((doc) => {
-      const itemDetails = doc.data();
-      if (itemDetails.refKey === 'Border_item') {
-        countMarker(itemDetails.country1.country);
-        countMarker(itemDetails.country2.country);
-      } else {
-        countMarker(itemDetails.countryKey);
-      }
-    });
-    
-    const countryCodes = Object.keys(countryMarkerCounts);
-    console.log(`Got counts for ${countryCodes.length} countries`);
-    countryCodes.forEach(cc => {
-      db.ref(`CountryMarkerCounts/${cc}/poi`)
-        .set(countryMarkerCounts[cc].poi)
-        .catch((err) => console.error('Could not write POI count for country', err));
-    });
+  return fs.collection("Markers").get().then((markers) => {
+      markers.forEach((doc) => {
+        const itemDetails = doc.data();
+        if (itemDetails.refKey === 'Border_item') {
+          countMarker('poi', itemDetails.country1.country);
+          countMarker('poi', itemDetails.country2.country);
+        } else {
+          countMarker('poi', itemDetails.countryKey);
+        }
+      });
 
-    console.log('wrote POI counts');
-    return null;
-  }).catch(err => {
-    console.error('Could not compute marker counts per country', err);
+    }).then(_ => {
+      return db.ref("Users").get().then(users => {
+      users.forEach((user) => {
+        if (!user.hosting || !user.hosting.status === 'Available for hosting') return;
+        if (!(user.coordinates && user.coordinates.lat && user.coordinates.lng)) return;
+
+        const hostCountryCode = geocoder.reverseGeocodeToCountryCode(user.coordinates.lat, user.coordinates.lng);
+
+        if (hostCountryCode) countMarker('hosts', countryConstants.countryCodes[hostCountryCode]);
+      });
+
+      Object.keys(countryMarkerCounts).forEach(cc => {
+        db.ref(`CountryMarkerCounts/${cc}/hosts`)
+                .set(countryMarkerCounts[cc].hosts)
+                .catch((err) => console.error('Could not write host count for country', err));
+        db.ref(`CountryMarkerCounts/${cc}/poi`)
+                .set(countryMarkerCounts[cc].poi)
+                .catch((err) => console.error('Could not write POI count for country', err));
+      });
+
+      console.log('Wrote counts');
+    });
   });
 });

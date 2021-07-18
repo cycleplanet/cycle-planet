@@ -19,7 +19,7 @@
         <q-input class="col-xs-12 col-sm-12 col-md-9" outlined v-model="userData.fullname" label="Name"/>
       </div>
     </div>
-    
+
     <div class="col-xs-12 col-sm-12 col-md-6">
       <l-map @click="clickCoordinates"  :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}" style="height: 250px" :zoom="zoom" :center="userData.coordinates" :max-bounds="mapsettings.bounds" key="map" >
         <l-tile-layer :url="mapsettings.url" :attribution="mapsettings.attribution"></l-tile-layer> 
@@ -65,7 +65,11 @@
       <q-input outlined type="textarea"  v-model="userData.interests" label="Interests" />
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4  q-pa-xs">
+<<<<<<< HEAD
       <q-select outlined  type="textarea" v-model="userData.countries_cycled_new" multiple :options="Object.keys(countryCodes_rev)" use-chips stack-label label="Countries cycled" behavior="menu"/>
+=======
+      <q-select outlined  type="textarea" v-model="userData.countries_cycled_new" multiple :options="Object.values(countries)" use-chips stack-label label="Countries cycled" behavior="menu"/>
+>>>>>>> 5d04262 (make Geoapify available in firebase-functions)
 
     </div>
   </div>
@@ -91,7 +95,7 @@
                 <q-separator></q-separator>
             </div>
           </div>
-          
+
         </div>
     </q-list>
     <q-btn icon="add" label="add gear item" @click="addItemDialog=true" class="q-mt-md buttontheme1"/>
@@ -108,7 +112,7 @@
   <q-dialog v-model="addItemDialog" >
     <add-gear @close="addItemDialog=false"/>
   </q-dialog>
-          
+
   </div>
 </template>
 
@@ -116,11 +120,12 @@
 import { mapState, mapActions, mapGetters } from 'vuex'
 import mixinGeneral from 'src/mixins/mixin-general.js'
 import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup, LCircle } from 'vue2-leaflet'
+const countryConstants = require('app/firebase-functions/shared/src/country-constants.js')
 
 export default {
     mixins: [mixinGeneral],
     props:['userData'],
-    
+
      data() {
 	  	return {
       editBackgroundDialog:false,
@@ -134,41 +139,40 @@ export default {
       ]
 	  }
   },
-  
-  
+
   components:{
        	LMap, LTileLayer,  LControl, LMarker,  LIcon,  LPopup, LFeatureGroup, LCircle,
 		'edit-backgroundpicture': require('components/Profile/EditBackgroundImage.vue').default,
 		'edit-profilepicture': require('components/Profile/EditProfileImage.vue').default,
 		'add-gear': require('components/Profile/AddGear.vue').default,
 		'getlocation-button': require('components/Shared/GetLocationButton.vue').default,
-    
   },
-  
   methods:{
       ...mapActions('other', ['getAllGearUser','addGearUser','selectGearUser','deleteGearUser']),
+
+      countries() {
+        return countryConstants.countryCodes
+      },
 
       clickCoordinates(event) {
 				this.userData.coordinates=event.latlng
 			},
- 
-    deleteGear(gearKey,itemKey,childitemKey){
-      let path=gearKey+'/'+itemKey+'/'+childitemKey
-      this.$delete( this.userData.gear_list_new[gearKey][itemKey], childitemKey)
+
+      deleteGear(gearKey,itemKey,childitemKey){
+          let path=gearKey+'/'+itemKey+'/'+childitemKey
+          this.$delete( this.userData.gear_list_new[gearKey][itemKey], childitemKey)
           this.deleteGearUser({
               path:path
           })
-
-        }
-  },
-   created(){
-      if(this.userData.coordinates){
-        this.zoom=10
-      }else{
-        this.zoom=1
       }
-    }
-
+  },
+  created(){
+     if(this.userData.coordinates){
+       this.zoom=10
+     }else{
+       this.zoom=1
+     }
+  }
 }
 </script>
 
