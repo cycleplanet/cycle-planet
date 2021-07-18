@@ -69,6 +69,11 @@ const actions = {
 			let itemId = snapshot.key
 			commit('addStatistics', {itemId,itemDetails})
 		})
+		firebase.db.ref('Statistics').on('child_changed', snapshot => {
+			let itemDetails = snapshot.val()
+			let itemId = snapshot.key
+			commit('addStatistics', {itemId,itemDetails})
+		})
 		
 	},
 
