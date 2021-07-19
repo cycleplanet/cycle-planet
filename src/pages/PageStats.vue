@@ -6,13 +6,13 @@
 
 
     <div class="title">Members</div>
-    <div class="row q-gutter-x-md" >
-    <q-card class="col q-pa-md" >
+    <div class="row q-gutter-md" >
+    <q-card class="col-12 col-md q-pa-md" >
         <div class="text-h5">Total users</div>
         <q-separator class="q-my-sm"/>
         <div class="text-h5 text-center flex justify-center items-center" style="height:80%;">{{statistics.total_users}}</div>
     </q-card>
-    <q-card class="col q-pa-md">
+    <q-card class="col-12 col-md q-pa-md">
         <div class="text-h5">Type of users</div>
         <q-separator class="q-my-sm"/>
         <q-chip v-for="(number,refKey,index) in statistics.type_of_users" :key="index">
@@ -22,7 +22,7 @@
             <div>{{number}} {{markerlist[refKey].title}}</div>
         </q-chip>
     </q-card>
-    <q-card class="col q-pa-md" v-if="Object.keys(usersSorted).length">
+    <q-card class="col-12 col-md q-pa-md" v-if="Object.keys(usersSorted).length">
         <div class="text-h5">Countries represented</div>
         <q-separator class="q-my-sm"/>
          <div class="row">
@@ -50,13 +50,13 @@
     </q-card>
 
     <div class="title" style="margin-top:70px">Markers</div>
-    <div class="row q-gutter-x-md" >
-    <q-card class="col q-pa-md" >
+    <div class="row q-gutter-md" >
+    <q-card class="col-12 col-md q-pa-md" >
         <div class="text-h5">Total markers</div>
         <q-separator class="q-my-sm"/>
         <div class="text-h5 text-center flex justify-center items-center" style="height:80%;">{{statistics.total_markers}}</div>
     </q-card>
-    <q-card class="col q-pa-md">
+    <q-card class="col-12 col-md q-pa-md">
         <div class="text-h5">Type of markers</div>
         <q-separator class="q-my-sm"/>
         <q-chip v-for="(number, refKey) in statistics.type_of_markers" :key="refKey">
@@ -66,7 +66,7 @@
             <div>{{number}} {{markerlist[refKey].title}}</div>
         </q-chip>
     </q-card>
-    <q-card class="col q-pa-md">
+    <q-card class="col-12 col-md q-pa-md">
         <div class="text-h5">Countries represented</div>
         <q-separator class="q-my-sm"/>
         <div class="row">
@@ -101,8 +101,8 @@
         <div >
             <div class="text-h2">More statistics (only for admins)</div>
             <div class="title" style="margin-top:70px">Top 10 by points</div>
-            <div class="row q-gutter-x-md">
-                <q-card class="col q-pa-md">
+            <div class="row q-gutter-md">
+                <q-card class="col-12 col-md q-pa-md">
                     <div class="text-h5">Overall</div>
                     <q-separator class="q-my-sm"/>
                    <q-expansion-item v-for="(userId, index) in statistics.toplist_points_overall" :key="user">
@@ -121,7 +121,7 @@
                         </div> -->
                    </q-expansion-item>
                 </q-card>
-                <q-card class="col q-pa-md">
+                <q-card class="col-12 col-md q-pa-md">
                     <div class="text-h5">Give away 2 (july-october 2021)</div>
                     <q-separator class="q-my-sm"/>
                    <q-expansion-item v-for="(userId, index) in statistics.toplist_points_giveaway" :key="user">
@@ -342,20 +342,20 @@ export default {
 
         updateValues(){
             console.log('updateValues 1');
-            // this.totalUsers()
-            // this.totalMarkers()
+            this.totalUsers()
+            this.totalMarkers()
 
-            // this.typeOfUsers()
-            // this.typeOfMarkers()
+            this.typeOfUsers()
+            this.typeOfMarkers()
 
-            // this.usersInCountry()
-            // this.markersInCountry()
+            this.usersInCountry()
+            this.markersInCountry()
 
-            // this.markersPerDay()
-            // this.markersPerDaySum()
+            this.markersPerDay()
+            this.markersPerDaySum()
 
-            // this.assignAddedMarkers()
-            // this.assignCheckedMarkers()
+            this.assignAddedMarkers()
+            this.assignCheckedMarkers()
 
             this.calculatePointsOverall()
             this.topPointsOverall()
