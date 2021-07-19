@@ -2,7 +2,7 @@
 <div clickable class="cursor-pointer row ">
   <q-chip class="justify-center" size="md" >
     <q-avatar @click="clickedcountry">
-      <img :src="('countryflagsnew/'+countryCodes_rev[countryKey]+'.svg')"  >
+      <img :src="('countryflags/Flag_of_'+countryKey+'.svg.png').split(' ').join('_')"  >
       <q-tooltip content-class="">{{countryKey}}</q-tooltip>
     </q-avatar>
      <q-avatar @click="clickuser">
