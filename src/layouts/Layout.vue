@@ -81,7 +81,7 @@
     </q-drawer>
 
     
-    <q-page-container :class="($route.fullPath==='/'||$route.fullPath==='/map')?'':'constrain'">
+    <q-page-container :class="($route.fullPath==='/'||$route.fullPath==='/map')?'':'constrain'" class="bg-white">
        <router-view />
     </q-page-container>
 
