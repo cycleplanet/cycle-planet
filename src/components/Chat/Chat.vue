@@ -124,7 +124,7 @@ import FCM from'cordova-plugin-fcm-with-dependecy-updated'
 				message:{
 					read:true,
 					text: this.newMessage,
-					from: 'me',
+					from: 'me'
 				},
 					otherUserId:this.userId,
 					senderName:this.myUserDetails.fullname

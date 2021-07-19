@@ -16,7 +16,6 @@ export default {
 			version:version,
 			countryCodes: countryCodes,
 			countryCodes_rev: countryCodes_rev
-
 		}
 	},
 	
@@ -33,12 +32,11 @@ export default {
 		...mapGetters('countries', ['countriesFiltered']),
 		...mapGetters('chat', ['unreadchatlistnew','userMessagesSortedByDate']),
 		...mapGetters('post', ['blogPostsSorted','blogPostsSortedByDate','videoPostsSorted','videoPostsSortedByDate','routePostsSorted']),
+		
 		countryKeys(){
 			return Object.keys(this.countryCodes_rev)
 		},
-		countryCodes(){
-			return Object.values(this.countryCodes_rev)
-		},
+		
 		isLoggedIn(){
 			if(LocalStorage.getItem('loggedIn')){
 				return true

@@ -7,6 +7,7 @@
     class="col"
     @input="$emit('update:dueDate',$event)"
     name="date"
+    color="teal"
     >
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">

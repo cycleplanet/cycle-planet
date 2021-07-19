@@ -193,11 +193,13 @@ const actions = {
   firebaseSendHostRequest({dispatch }, payload) {
     let userId = firebase.auth.currentUser.uid;
 	payload.message.sender=userId
-    firebase.db.ref('Users/' + userId + '/hosting/requests/' + payload.message.timestamp).set(payload.message)
+    firebase.db.ref('Users/' + payload.message.sender + '/hosting/requests/' + payload.message.timestamp).set(payload.message)
+	firebase.db.ref('Chats/' + payload.message.sender + '/' + payload.message.receiver + '/' + payload.message.timestamp).set(payload.message)
 	payload.message.from = 'them'
-	firebase.db.ref('Users/' + payload.otherUserId + '/hosting/requests/' + payload.message.timestamp).set(payload.message)
-	payload.message.from = 'me'
-	dispatch('firebaseSendMessage',payload)
+	firebase.db.ref('Users/' + payload.message.receiver + '/hosting/requests/' + payload.message.timestamp).set(payload.message)
+	firebase.db.ref('Chats/' + payload.message.receiver + '/' + payload.message.sender + '/' + payload.message.timestamp).set(payload.message)
+	// payload.message.from = 'me'
+	// dispatch('firebaseSendMessage',payload)
   },
 //   firebaseSendHostRequest({dispatch }, payload) {
 //     let userId = firebaseAuth.currentUser.uid;
@@ -208,22 +210,26 @@ const actions = {
 // 	payload.message.from = 'me'
 // 	dispatch('firebaseSendMessage',payload)
 //   },
-  firebaseAcceptRequest({},payload){
-  let userId = firebase.auth.currentUser.uid;
-  let answer='accepted'
-  firebase.db.ref('Users/' + userId + '/hosting/requests/'+ payload.timestamp).update({status:answer})
-  firebase.db.ref('Users/' + payload.sender + '/hosting/requests/' + payload.timestamp).update({status:answer})
-  firebase.db.ref('Chats/' + payload.sender + '/' + userId + '/' + payload.timestamp).update({status:answer})
-  firebase.db.ref('Chats/' + userId + '/' + payload.sender + '/' + payload.timestamp).update({status:answer})
-},
-  firebaseRefuseRequest({},payload){
-  let userId = firebase.auth.currentUser.uid;
-  let answer='refused'
-  firebase.db.ref('Users/' + userId + '/hosting/requests/' + payload.timestamp+ '/status/').update(answer)
-  firebase.db.ref('Users/' + payload.sender + '/hosting/requests/' + payload.timestamp+ '/status/').update(answer)
-  firebase.db.ref('Chats/' + payload.sender + '/' + userId + '/' + payload.timestamp+ '/status/').update(answer)
-  firebase.db.ref('Chats/' + userId + '/' + payload.sender + '/' + payload.timestamp+ '/status/').update(answer)
-},
+// firebaseAcceptRequest({},payload){
+// 	let userId = firebase.auth.currentUser.uid;
+// 	let answer='accepted'
+// 	firebase.db.ref('Users/' + userId + '/hosting/requests/'+ payload.timestamp).update({status:answer,response:payload.response})
+// 	firebase.db.ref('Users/' + payload.sender + '/hosting/requests/' + payload.timestamp).update({status:answer,response:payload.response})
+// },
+// firebaseRefuseRequest({},payload){
+//   let userId = firebase.auth.currentUser.uid;
+//   let answer='refused'
+//   firebase.db.ref('Users/' + userId + '/hosting/requests/'+ payload.timestamp).update({status:answer,response:payload.response})
+//   firebase.db.ref('Users/' + payload.sender + '/hosting/requests/' + payload.timestamp).update({status:answer,response:payload.response})
+//   firebase.db.ref('Chats/' + payload.sender + '/' + userId + '/' + payload.timestamp+ '/status/').update(answer)
+//   firebase.db.ref('Chats/' + userId + '/' + payload.sender + '/' + payload.timestamp+ '/status/').update(answer)
+// },
+firebaseAnswerRequest({},payload){
+	firebase.db.ref('Users/' + payload.receiver + '/hosting/requests/'+ payload.timestamp).update({status:payload.status,response:payload.response})
+	firebase.db.ref('Users/' + payload.sender + '/hosting/requests/' + payload.timestamp).update({status:payload.status,response:payload.response})
+	firebase.db.ref('Chats/' + payload.sender + '/' + payload.receiver + '/' + payload.timestamp).update({status:payload.status})
+	firebase.db.ref('Chats/' + payload.receiver + '/' + payload.sender + '/' + payload.timestamp).update({status:payload.status})
+  },
 }
 
 const getters = {

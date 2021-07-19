@@ -47,10 +47,6 @@
                 <div v-if="!myProfile" class="q-ma-sm row justify-center">
                     <modal-follow-button :otherUserId="userData.userId" class="q-ma-sm" />
                     <modal-message-button :otherUserId="userData.userId" class="q-ma-sm" />
-                    <!-- <q-btn @click="hostRequestDialog=true" class="no-padding" :style="buttonStyle" :size="screenwidthbig?'md':'sm'" label="sending"></q-btn> -->
-                   
-    
-                  
                 </div>
             </div>
 
@@ -206,7 +202,6 @@ export default {
     components: {
         'edit-profile': require('components/Profile/EditProfile.vue').default,
         'edit-profile-web': require('components/Profile/EditProfileWeb.vue').default,
-        'request-send': require('components/Profile/RequestSend.vue').default,
         'trips-tab': require('components/Profile/Tabs/TripsTab.vue').default,
         'about-tab': require('components/Profile/Tabs/AboutTab.vue').default,
         'hosting-tab': require('components/Profile/Tabs/HostingTab.vue').default,

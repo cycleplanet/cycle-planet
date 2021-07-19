@@ -61,7 +61,6 @@ import mixinGeneral from 'src/mixins/mixin-general.js'
 import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup } from 'vue2-leaflet'
 import { uid } from 'quasar'
 import { Geoapify } from 'src/functions/geoapify';
-import { countryCodes } from 'app/firebase-functions/shared/src/country-constants.js'
 
 	export default {
 		props:['refKey','countryKey'],
