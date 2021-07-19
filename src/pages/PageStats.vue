@@ -23,7 +23,7 @@
         <q-separator class="q-my-sm"/>
         <q-chip v-for="(number,countrycode) in statistics.users_in_country" :key="countrycode">
             <q-avatar>
-                <img :src="('countryflags/Flag_of_'+countryCodes[countrycode]+'.svg.png').split(' ').join('_')">
+                <img :src="flagUrlFor(countryCodes[countrycode])">
             </q-avatar>
             <div>{{number}} users</div>
         </q-chip>
@@ -61,7 +61,7 @@
         <q-separator class="q-my-sm"/>
         <q-chip v-for="(number,countrycode) in statistics.markers_in_country" :key="countrycode">
             <q-avatar>
-                <img :src="('countryflags/Flag_of_'+countryCodes[countrycode]+'.svg.png').split(' ').join('_')">
+                <img :src="flagUrlFor(countryCodes[countrycode])">
             </q-avatar>
             <div>{{number}} users</div>
         </q-chip>

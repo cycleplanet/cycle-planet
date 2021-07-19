@@ -23,7 +23,7 @@
 
 		<div class="row items-center">
 			<q-avatar rounded style="width:auto" :size="isWebApp?'lg':'md'">
-				<img :src="('countryflags/Flag_of_'+countryKey+'.svg.png').split(' ').join('_')">
+				<img :src="flagUrlFor(countryKey)">
 			</q-avatar>
 			<p class="q-mt-md q-ml-sm" :class="isWebApp?'text-h4':'cp-h2'">{{countryKey}}</p>
 			<q-space></q-space>

@@ -198,6 +198,11 @@ export default {
 			return this.markerCounts[countrycode].location
 		},
 
+		flagUrlFor(countryKey){
+			return ('countryflags/Flag_of_'+countryKey+'.svg.png').split(' ').join('_')
+		},
+
+
 		updateAppVersion(){
 			if(this.users[this.myUserId]){
 				this.updateItemAction({
