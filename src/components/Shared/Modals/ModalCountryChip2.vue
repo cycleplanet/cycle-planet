@@ -2,7 +2,7 @@
   <div >
     <q-chip :size="screenwidthbig?'10px':'8px'"  clickable  class="text-subtitle1 no-padding" >
       <q-avatar  style="width:auto;" clickable @click="clickedcountry(countryKey)">
-        <img style="margin-left:-1px" :src="('countryflagsnew/'+countryCodes_rev[countryKey]+'.svg')" >
+        <img style="margin-left:-1px" :src="('countryflags/Flag_of_'+countryKey+'.svg.png').split(' ').join('_')" >
       </q-avatar>
       <div clickable @click="clickedcountry(countryKey)">{{countryKey}}</div>
     </q-chip>

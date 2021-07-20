@@ -7,7 +7,7 @@
         </div>
         <div>
           <q-item-label class="text-black" header>Contribute</q-item-label>
-          <q-item class="bg-white text-black" clickable v-ripple v-if="isWebApp">
+          <q-item class="bg-white text-black" clickable v-ripple v-if="isWebApp" @click="openUrl('https://opencollective.com/cycle-planet')">
             <q-item-section  avatar>
               <q-icon name="fas fa-hand-holding-heart" />
             </q-item-section>

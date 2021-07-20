@@ -1,6 +1,6 @@
 <template>
   <div @click="clickedcountry(countryKey)">
-    <img :src="('countryflagsnew/'+countryCodes_rev[countryKey]+'.svg')" >
+    <img :src="('countryflags/Flag_of_'+countryKey+'.svg.png').split(' ').join('_')" >
   </div>
 </template>
 
