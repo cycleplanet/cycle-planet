@@ -107,7 +107,7 @@ export default {
 		...mapActions('chat',['firebaseGetMessages', 'firebaseStopGettingMessages','firebaseSendHostRequest']),
 
 	    sendMessage(e) {
-        let timestamp=this.timeStamp
+        const timestamp=this.timeStamp
            
           this.firebaseSendHostRequest({
               message:{
