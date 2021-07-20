@@ -82,8 +82,8 @@
                                     <q-item clickable v-if="landMarkers[markerKey].country1.country===neighbourcountry||landMarkers[markerKey].country2.country===neighbourcountry">
                                         <q-item-section  clickable v-ripple @click="openItem(landMarkers[markerKey])">
                                                 <q-item-label class="flex items-center">{{index+1}}. <img 
-                                                :src="('countryflags/Flag_of_'+landMarkers[markerKey].country1.country+'.svg.png').split(' ').join('_')"
-                                                style="width:25px"/>{{landMarkers[markerKey].country1.city}} - <img :src="('countryflags/Flag_of_'+landMarkers[markerKey].country2.country+'.svg.png').split(' ').join('_')" style="width:25px"/>{{landMarkers[markerKey].country2.city}}</q-item-label>
+                                                :src="flagUrlFor(landMarkers[markerKey].country1.country)"
+                                                style="width:25px"/>{{landMarkers[markerKey].country1.city}} - <img :src="flagUrlFor(landMarkers[markerKey].country2.country)" style="width:25px"/>{{landMarkers[markerKey].country2.city}}</q-item-label>
                                                 <q-item-label caption lines="2" v-html="landMarkers[markerKey].description"></q-item-label>
 
                                         </q-item-section>

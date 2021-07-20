@@ -17,6 +17,7 @@
             label="Description"
             type="textarea"
             name="message"
+            color="teal"
             />
            	<modal-due-date class="q-mt-md"
 					:dueDate.sync="dateProposal" 
@@ -103,19 +104,21 @@ export default {
     },
 
     methods:{
-		...mapActions('chat',['firebaseGetMessages', 'firebaseStopGettingMessages','firebaseSendMessage','firebaseSendHostRequest']),
+		...mapActions('chat',['firebaseGetMessages', 'firebaseStopGettingMessages','firebaseSendHostRequest']),
 
 	    sendMessage(e) {
+        const timestamp=this.timeStamp
            
           this.firebaseSendHostRequest({
               message:{
                 type:'request',
                 text: this.newMessage,
                 from: 'me',
-                timestamp:this.timeStamp,
+                timestamp:timestamp,
                 read:false,
                 dateProposal:this.dateProposal,
                 status:'unanswered',
+                response:'',
                 sender:this.myUserId,
                 receiver:this.$route.params.otherUserId
               },

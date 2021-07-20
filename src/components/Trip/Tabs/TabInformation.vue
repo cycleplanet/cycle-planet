@@ -51,7 +51,7 @@
             <div  :style="screenwidthbig?'padding:2px':'padding:1px'" >
               <q-chip   :size="screenwidthbig?'15px':'12px'"  clickable outline class="text-subtitle1 " >
                 <q-avatar rounded style="width:auto;" class="" clickable @click="clickedcountryMethod(indexBorder)">
-                  <img style="border:1px solid black; margin-left:-1px" :src="('countryflagsnew/'+countryCodes_rev[indexBorder]+'.svg')" >
+                  <img style="border:1px solid black; margin-left:-1px" :src="flagUrlFor(indexBorder)" >
                 </q-avatar>
                 <div clickable @click="clickedcountryMethod(indexBorder)">{{indexBorder}}</div>
               </q-chip>

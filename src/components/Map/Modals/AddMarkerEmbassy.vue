@@ -122,7 +122,6 @@ import { mapActions, mapState, mapGetters } from 'vuex'
 import { date, uid, Notify } from 'quasar'
 import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup } from 'vue2-leaflet'
 import { Geoapify } from 'src/functions/geoapify';
-import { countryCodes } from 'app/firebase-functions/shared/src/country-constants.js'
 
 	export default {
 		props:['refKey','countryKey'],

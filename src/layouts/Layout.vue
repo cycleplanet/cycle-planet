@@ -39,30 +39,32 @@
             <q-avatar v-if="myUserDetails">
               <img :src="myUserDetails.imageurl">
             </q-avatar>
-          <q-menu>
-                <q-list separator>
-                  <q-item clickable v-close-popup :to="'/user/'+myUserId">
-                    <q-item-section>View profile</q-item-section>
-                  </q-item>
-                   <q-item clickable v-close-popup @click="myRequestsDialog=true">
-                    <q-item-section>My host requests</q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup @click="myMarkersDialog=true">
-                    <q-item-section>My markers</q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup @click="checkMarkersDialog=true">
-                    <q-item-section>Check markers</q-item-section>
-                  </q-item>
-                  <q-item clickable v-close-popup @click="myTripsDialog=true">
-                    <q-item-section>My trips (beta)</q-item-section>
-                  </q-item>
-                  <q-item  v-close-popup>
-                    <q-item-section>
-                      <q-btn dense :style="buttonStyle" label="Log out" @click="logoutUserMethod" to="/auth"/>
-                    </q-item-section>
-                  </q-item>
-                </q-list>
-          </q-menu>
+            <q-badge v-if="Object.keys(notifyRequest).length" color="red" floating rounded class="text-red">.</q-badge>
+
+            <q-menu>
+                  <q-list separator>
+                    <q-item clickable v-close-popup :to="'/user/'+myUserId">
+                      <q-item-section>View profile</q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup @click="myRequestsDialog=true">
+                      <q-item-section>My host requests {{Object.keys(notifyRequest).length?'('+Object.keys(notifyRequest).length+')':''}}</q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup @click="myMarkersDialog=true">
+                      <q-item-section>My markers</q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup @click="checkMarkersDialog=true">
+                      <q-item-section>Check markers</q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup @click="myTripsDialog=true">
+                      <q-item-section>My trips (beta)</q-item-section>
+                    </q-item>
+                    <q-item  v-close-popup>
+                      <q-item-section>
+                        <q-btn dense :style="buttonStyle" label="Log out" @click="logoutUserMethod" to="/auth"/>
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+            </q-menu>
           </q-btn>
 
           <q-btn dense flat round icon="menu" @click="rightDrawerOpen= !rightDrawerOpen" />
@@ -81,7 +83,7 @@
     </q-drawer>
 
     
-    <q-page-container :class="($route.fullPath==='/'||$route.fullPath==='/map')?'':'constrain'">
+    <q-page-container :class="($route.fullPath==='/'||$route.fullPath==='/map')?'':'constrain'" class="bg-white">
        <router-view />
     </q-page-container>
 
@@ -112,7 +114,7 @@
     </q-dialog>
 
     <q-dialog v-model="myRequestsDialog">
-      <request-send />
+      <my-requests />
     </q-dialog>
 
     <q-dialog v-model="myTripsDialog">
@@ -126,11 +128,13 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import mixinGeneral from 'src/mixins/mixin-general.js'
+import mixinHosting from 'src/mixins/mixin-hosting.js'
+
 import meta from 'src/utils/meta.js'
 
 export default {
   meta,
-  mixins: [mixinGeneral],
+  mixins: [mixinGeneral, mixinHosting],
   
   data () {
     return {
@@ -158,7 +162,7 @@ export default {
 		'check-markers' : require('components/Marker/CheckMarkers.vue').default,
     'map-all': require('components/Map/Map.vue').default,
     'markerlist-dialog' : require('components/Marker/MarkerListDialog.vue').default,
-    'request-send': require('components/Profile/RequestSend.vue').default,
+    'my-requests': require('src/components/Profile/MyRequests.vue').default,
     'trips-dialog': require('components/Profile/myTripsDialog.vue').default,
 
 
