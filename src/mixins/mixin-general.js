@@ -124,6 +124,11 @@ export default {
 			let formattedString = date.formatDate(timeStamp, 'YYYY-MM-DDTHH:mm:ss')
 			return formattedString
 		},
+		statisticsTimeStamp (){
+			let timeStamp = Date.now()
+			let formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD')
+			return formattedString
+		},
 		niceTimeStamp (){
 			let timeStamp = Date.now()
 			let formattedString = date.formatDate(timeStamp, 'DD-MM-YYYY')
