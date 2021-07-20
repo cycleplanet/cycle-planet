@@ -1,7 +1,7 @@
 <template>
   <q-page class="q-pa-sm">
     <q-card class="auth-tabs">
-      <q-tabs  v-model="tab" dense class="text-accent"   narrow-indicator align="justify" active-color="secondary" indicator-color="secondary">
+      <q-tabs  v-model="tab" align="justify" active-color="secondary bg-teal-1" indicator-color="secondary">
         <q-tab name="login" label="Login" />
         <q-tab name="register" label="Register"/>
       </q-tabs>
@@ -103,6 +103,11 @@
                   :rules="[ val => isValidEmailAddress || 'Please enter a valid email address']"
                   lazy-rules />
                 </div>
+                <div class="row items-center q-mb-md">
+                  <q-toggle v-model="accept" class="col-2"/>
+                  <div class="col-10">I agree to the <a v-bind:href="'/cookie-policy'" target="_blank">Cookie Policy</a> , <a v-bind:href="'/privacy-policy'">Privacy Policy</a> and <a v-bind:href="'/terms-of-use'">Terms of Use</a></div>
+                </div>
+               
                 <div class="row">
                    
                     <q-space/>
@@ -117,7 +122,9 @@
                 </div>
             </q-form>  
         </q-tab-panel>
-        
+         <vue-recaptcha sitekey="6LcfDKobAAAAAJjKcuVB9_AhtU8O-IHIwLbLaUDW">
+                  <button>Click me</button>
+                </vue-recaptcha>
       </q-tab-panels>
     </q-card>
 
@@ -164,23 +171,31 @@
 <script>
 import mixinGeneral from 'src/mixins/mixin-general.js'
 import {mapActions} from 'vuex'
+import { date, uid, Notify } from 'quasar'
+import VueRecaptcha from 'vue-recaptcha'
 
 export default {
   	mixins: [mixinGeneral],
    
   data () {
     return {
-      tab: 'login',
+      tab: 'register',
       emailDialog:false,
       forgotPasswordDialog:false,
       error: null,
+      accept:false,
       formData:{
           email:'',
           password:'',
           name:''
       }
+      
     }
   },
+  components:{
+    VueRecaptcha 
+  },
+
   methods:{
       ...mapActions('auth',['registerUser','loginUser','resetPassword']),
       submitForm(){
@@ -190,10 +205,19 @@ export default {
               if(this.tab=='login'){
                   this.loginUser(this.formData)
               }else{
-                  
+                if (this.accept.value !== true) {
+                  this.$q.notify({
+                    color: 'red-5',
+                    textColor: 'white',
+                    icon: 'warning',
+                    message: 'You need to accept the Cookie Policy, Privacy Policy and Terms of Use'
+                  })
+                }else{
                   this.emailDialog=true
                   this.tab='login'
                   this.registerUser(this.formData)
+                }
+               
                   
               }
           }
@@ -215,7 +239,8 @@ export default {
 
 <style>
 .auth-tabs{
-    max-width: 500px;
+    max-width: 600px;
     margin:0 auto;
 }
+
 </style>
