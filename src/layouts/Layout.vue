@@ -5,7 +5,6 @@
         <div >
             <q-img @click="$router.push('/map')"  src="logo/logo_small.png" style="width:40px"></q-img>
         </div>
-
         <p class="text-h6 q-ml-md q-mb-none"> Cycle Planet</p>
         <q-space ></q-space>
 
