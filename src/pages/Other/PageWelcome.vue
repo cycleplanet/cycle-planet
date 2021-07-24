@@ -8,8 +8,8 @@
             <q-btn to="/map" flat icon="home" :label="isWebApp?'home':''" class="q-ma-xs justify-end" :class="isWebApp?'borderbutton':''"/>
             <q-btn flat v-if="!loggedIn" to="/auth" label="Login" class="q-ma-xs" icon="account_circle" :class="isWebApp?'borderbutton':''"/>
     </div>
-    </div>  
-   
+    </div>
+
     <div class="imageclass image1 flex items-end " :style="'height:'+(screenHeight)+'px;margin-top:-50px'">
         <div class="constrain" style="width:100%">
             <div class=" text-white"  >
@@ -24,7 +24,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="imageclass image2 flex items-center " :style="'height:'+screenHeight+'px'">
         <div :class="screenwidthbig?'text-h2':'cp-h2'" class="q-ml-md">
             <mark>Plan your trip</mark><br/><br/>
@@ -33,7 +33,7 @@
             <mark>Get hosted for free</mark><br/><br/>
         </div>
     </div>
-    
+
     <div class="constrain2" style="margin-top:-100px">
         <div class="row justify-center " >
         <div v-for="card in cards" class="col-4 col-md-3 col-sm-5 col-xs-12 card text-center">
@@ -52,7 +52,7 @@
 
     </div>
 
-   
+
 
     <div class=" justify-center image3 imageclass flex">
         <div class="text-center constrain items-center " style="margin-top:50px">
@@ -60,50 +60,7 @@
             <q-btn :style="buttonStyle" label="register" to="/auth" class="q-mt-lg"/>
         </div>
     </div>
-    <div class="bg-secondary " >
-        <div class="text-center constrain" style="padding-top:50px">
-            <div class="cp-h2">Follow us</div>
-               <q-btn round class="bg-white" flat @click="openUrl('https://www.instagram.com/cycle.planet')">
-					<q-avatar rounded class="q-ma-sm" size="34px" >
-						<img :src="('social_icons/icon_instagram.png')">
-					</q-avatar>
-				</q-btn>
-                 <q-btn round class="bg-white q-ml-sm" flat @click="openUrl('https://www.facebook.com/Cycle-Planet-100672311813208')">
-					<q-avatar rounded class="q-ma-sm" size="34px" >
-						<img :src="('social_icons/icon_facebook.png')">
-					</q-avatar>
-				</q-btn>
-            </div>
-            <div class="constrain justify-center row">
-            <div v-for="(section,sectionKey) in sections">
 
-                <q-list  style="width:200px">
-                    <div class="text-bold text-h6 q-mt-md">{{section.name}}</div>
-                    <div v-for="item in section.items" class="text-body1">
-
-                        <q-item v-if="item.to!=='/'" class="underline" style="padding-left:0px" :to="item.to">{{item.title}}</q-item>
-                        <!-- <q-item v-if="item.to==='/'" class="underline cursor-pointer" @click="openUrl('http://cycleplanet.org/')" style="padding-left:0px" >Home</q-item> -->
-                    </div>
-
-                </q-list>
-            </div>
-            <q-separator></q-separator>
-        </div>
-        <div class="bg-grey-3" style="padding-bottom:40px">
-            <div class="constrain text-center">
-                <div class="q-pa-md ">Cycle Planet is a non-profit organization. This website is made by volunteers with love for the bicycle touring community.</div>
-                <div class="row q-gutter-x-sm justify-center">
-                    <q-btn v-if="isWebApp" :style="buttonStyle" label="donate" to="/donate"/>
-                    <q-btn :style="buttonStyle" label="join us" to="/team"/>
-                    <q-btn :style="buttonStyle" label="feedback" @click="feedbackDialog=true"/>
-                </div>
-            </div>
-        </div>
-    </div>
-    <q-dialog v-model="testDialog">
-        hello
-    </q-dialog>
-    
     <q-dialog v-model="feedbackDialog">
         <q-card style="min-width: 350px">
       <modal-header>Feedback</modal-header>
@@ -149,34 +106,6 @@ export default {
                 {title:'Create your own profile',description:'With your own profile you can easily show others all the bike related information you have.',image:'https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/Admin%2FScreens%2FScreenshot_20210219-173826_Cycle%20Planet.jpg?alt=media&token=6721f8e8-162a-40a5-8b38-c0d40f387af5'},
                 {title:'Get hosted for free',description:'In the map you can find hosts, and you can send chat messages to them. This allows you to get hosted during your trip for free. ',image:'https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/Admin%2FScreens%2FScreenshot_20210219-173808_Cycle%20Planet.jpg?alt=media&token=3ec5e5d1-a0d8-4c64-a331-61f7f5653ed4'},
             ],
-            sections : [
-                {name : 'Main', list:true,items : [
-                {title: 'Home', to:'/'},
-                {title: 'Trips', icon: 'alt_route', to:'/trips'},
-                {title: 'Countries', icon: 'public', to:'/countries'},
-                ]},
-                
-               {name : 'Useful', list:true,mobile:true,items : [
-                {title: 'Get inspired', icon: 'far fa-lightbulb', to:'/get-inspired'},
-                {title: 'Resources', icon: 'fas fa-rocket', to:'/resources'},
-                {title: 'Gear', icon: 'fas fa-bicycle', to:'/gear'},
-              ]},
-              {name:'About', list:true,items:[
-                    {title: 'House Rules', icon: 'speaker_notes', to:'/houserules' },
-                    {title: 'Team', icon: 'groups', to:'/team' },
-                    {title: 'Our story', icon: 'fas fa-book', to:'/our-story' },
-                  {title: 'FAQ', icon: 'help', to:'/faq' },
-                ]},
-               
-                
-                
-                {name:'Legal', list:true,items:[
-                    {title: 'Privacy Policy', icon: 'security', to:'/privacy-policy' },
-                    {title: 'Terms of use', icon: 'security', to:'/terms-of-use' },
-                    {title: 'Cookie policy', icon: 'fas fa-cookie-bite', to:'/cookie-policy' },
-                    {title: 'Contact', icon: 'mail', to:'/contact' },
-                ]},
-            ]      
         }
 	},
     methods:{
@@ -189,7 +118,7 @@ export default {
                     user:this.myUserId
                 },
                 path:'Feedback/'+this.timeStamp
-            }) 
+            })
             Notify.create({
                 type: 'positive',
                 color: 'positive',
@@ -246,7 +175,7 @@ export default {
 .titlecard{
     font-size: 30px;
     padding:20px;
-    
+
 }
 .carddescription{
     font-size: 15px;
@@ -262,7 +191,7 @@ export default {
 .image1{
     /* background-image: url("https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/placeholder%2FIMG_9982.JPG?alt=media&token=1ac47a65-cfcd-4863-ad48-4e5540ff4363"); */
     background-image: url("https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/Admin%2FPictures%2F20190531214625_IMG_0152-01.jpeg?alt=media&token=906a5a50-074f-4df4-ad38-7ace76fc5dcd");
-    
+
 }
 .image2{
     background-image: url("../../../public/images/map.png");
