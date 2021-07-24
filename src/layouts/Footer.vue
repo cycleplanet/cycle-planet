@@ -1,23 +1,19 @@
 <template>
   <div>
     <div class="bg-secondary" v-if="isWebApp && !$route.fullPath.includes('/map') && !$route.fullPath.includes('/chat/')">
-      <div class="text-center constrain" style="padding-top:50px">
-        <div class="cp-h2">Follow us</div>
-        <q-btn round class="bg-white" flat @click="openUrl('https://www.instagram.com/cycle.planet')">
-          <q-avatar rounded class="q-ma-sm" size="34px" >
-            <img :src="('social_icons/icon_instagram.png')">
-          </q-avatar>
-        </q-btn>
-        <q-btn round class="bg-white q-ml-sm" flat @click="openUrl('https://www.facebook.com/Cycle-Planet-100672311813208')">
-          <q-avatar rounded class="q-ma-sm" size="34px" >
-            <img :src="('social_icons/icon_facebook.png')">
-          </q-avatar>
-        </q-btn>
+      <div class="text-center constrain q-gutter-x-lg" style="padding-top:30px;padding-bottom:30px">
+        <q-icon name="fab fa-github" size="lg" @click="openUrl('https://github.com/cycleplanet/cycle-planet')" class="cursor-pointer"/>
+        <q-icon name="fab fa-slack" size="lg" @click="openUrl('https://join.slack.com/t/cycle-planet/shared_invite/zt-shfov7n9-c608GlSNiGPCbRTb8D5nQA')" class="cursor-pointer"/>
+        <q-icon name="fab fa-instagram" size="lg" @click="openUrl('https://www.instagram.com/cycle.planet')" class="cursor-pointer"/>
+        <q-icon name="fab fa-facebook" size="lg" @click="openUrl('https://www.facebook.com/Cycle-Planet-100672311813208')" class="cursor-pointer"/>
+        <q-img src="social_icons/opencollective.svg" style="width:30px" @click="openUrl('https://opencollective.com/cycle-planet')" class="cursor-pointer"/>
       </div>
+     
+     
       <div class="constrain justify-center row" style="padding-bottom: 40px;">
         <q-list v-for="(section,sectionKey) in sections" :key="sectionKey" style="width: 25%">
           <div class="text-bold text-h6 q-mt-md">{{section.name}}</div>
-          <router-link v-for="item in section.items" class="quicklink" :to="item.to">
+          <router-link v-for="item in section.items" class="quicklink" :to="item.to" :key="item">
             {{item.title}}
           </router-link>
         </q-list>
