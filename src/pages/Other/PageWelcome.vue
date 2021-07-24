@@ -1,21 +1,24 @@
 <template>
 <div class="bg-grey-3" >
-  <div class="constrain">
-    <div class=" row items-center " @click="$router.push('/map')">
-        <img class="cursor-pointer" :class="isWebApp?'logobig':'logosmall'" src="https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/Admin%2Fvectors%2Flogo_blank.png?alt=media&token=238ff7ca-e2a3-48dc-8184-1e588bd31838" alt="">
-        <div class="text-bold" :class="isWebApp?'text-h6':''">Cycle Planet</div>
+  <header>
+    <div class="constrain">
+      <div class=" row items-center " @click="$router.push('/map')">
+        <div >
+          <q-img @click="$router.push('/map')"  src="logo/logo_small.png" style="width:40px"></q-img>
+        </div>
+        <p class="text-h6 q-ml-md q-mb-none"> Cycle Planet</p>
         <q-space></q-space>
-            <q-btn to="/map" flat icon="home" :label="isWebApp?'home':''" class="q-ma-xs justify-end" :class="isWebApp?'borderbutton':''"/>
-            <q-btn flat v-if="!loggedIn" to="/auth" label="Login" class="q-ma-xs" icon="account_circle" :class="isWebApp?'borderbutton':''"/>
+        <q-btn to="/map" flat icon="home" :label="isWebApp?'home':''" class="q-ma-xs justify-end"/>
+        <q-btn flat v-if="!loggedIn" to="/auth" label="Login" class="q-ma-xs" icon="account_circle"/>
+      </div>
     </div>
-    </div>
-
-    <div class="imageclass image1 flex items-end " :style="'height:'+(screenHeight)+'px;margin-top:-50px'">
+  </header>
+    <div class="imageclass image1 flex items-end " style="min-height: 100vh;">
         <div class="constrain" style="width:100%">
             <div class=" text-white"  >
                 <div class="text-h2 textblock1" >Your bicycle touring adventure starts here</div>
             </div>
-            <div class="row " style="padding-bottom:10px" v-if="isWebApp">
+            <div class="row " style="padding-bottom:20px" v-if="isWebApp">
                 <img class="cursor-pointer" :class="screenwidthbig?'appimagedesktop':'appimage'" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/1200px-Google_Play_Store_badge_EN.svg.png"/>
                 <img class="cursor-pointer" :class="screenwidthbig?'appimagedesktop':'appimage'" src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg"/>
             </div>
@@ -25,7 +28,7 @@
         </div>
     </div>
 
-    <div class="imageclass image2 flex items-center " :style="'height:'+screenHeight+'px'">
+    <div class="imageclass image2 flex items-center " style="min-height: 100vh">
         <div :class="screenwidthbig?'text-h2':'cp-h2'" class="q-ml-md">
             <mark>Plan your trip</mark><br/><br/>
             <mark>Discover new places</mark><br/><br/>
@@ -37,16 +40,12 @@
     <div class="constrain2" style="margin-top:-100px">
         <div class="row justify-center " >
         <div v-for="card in cards" class="col-4 col-md-3 col-sm-5 col-xs-12 card text-center">
+                <div class="cardicon">
+                  <q-icon :name="card.image" />
+                </div>
                 <div class="titlecard">{{card.title}}</div>
                 <div>- - - - - - - - - - - - - - - - - - - - - - - - - - </div>
                 <div class="carddescription">{{card.description}}</div>
-                <div v-if="!card.image2">
-                    <img class="screenimg" :src="card.image" alt="">
-                </div>
-                <div v-if="card.image2">
-                    <img class="screenimg2" :src="card.image" alt=""><br/>
-                    <img  class="screenimg3" :src="card.image2" alt="">
-                </div>
         </div>
         </div>
 
@@ -99,12 +98,12 @@ export default {
             feedbackDialog:false,
             feedback:'',
             cards:[
-                {title:'Fully interactive map',description:'With the fully interactive map you can find border crossings, embassies, activities, other users and much more',image:'https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/Admin%2FScreens%2FScreenshot_20210219-173429_Cycle%20Planet.jpg?alt=media&token=e2332a8f-3853-49d6-aa14-882dc1eb7a7c'},
-                {title:'Plan your next trip',description:'Create a general route through the countries you want to cycle, and find the latests information about those pages on a single page.',image:'https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/Admin%2FScreens%2FScreenshot_20210330-163522_Cycle%20Planet.jpg?alt=media&token=60588d08-ea06-4232-b52f-2d1bdfd8b80b',image2:'https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/Admin%2FScreens%2FScreenshot_20210330-163621_Cycle%20Planet.jpg?alt=media&token=f46f116c-5c6b-4da1-9f27-b233818da916'},
-                {title:'Information about all countries',description:'Every country has it`s page with only the most useful information for bicycle tourists.',image:'https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/Admin%2FScreens%2FScreenshot_20210330-163638_Cycle%20Planet.jpg?alt=media&token=54cbacb3-015b-4d6c-b9e8-9a44ea7c8041',image2:'https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/Admin%2FScreens%2FScreenshot_20210219-173649_Cycle%20Planet.jpg?alt=media&token=aaac3211-9256-46ea-ab52-9f2a8d6e709f'},
-                {title:'Contribute to the community',description:'Every user can add new markers and country information, or edit existing information. This way, you can contribute to the tourbiking community',image:'https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/Admin%2FScreens%2FScreenshot_20210219-173444_Cycle%20Planet.jpg?alt=media&token=2dc8c2a7-0e3c-407e-8094-b851a3dcfda6',image2:'https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/Admin%2FScreens%2FScreenshot_20210219-173514_Cycle%20Planet.jpg?alt=media&token=45e30d79-3789-4c10-941c-47f2e451dab9'},
-                {title:'Create your own profile',description:'With your own profile you can easily show others all the bike related information you have.',image:'https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/Admin%2FScreens%2FScreenshot_20210219-173826_Cycle%20Planet.jpg?alt=media&token=6721f8e8-162a-40a5-8b38-c0d40f387af5'},
-                {title:'Get hosted for free',description:'In the map you can find hosts, and you can send chat messages to them. This allows you to get hosted during your trip for free. ',image:'https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/Admin%2FScreens%2FScreenshot_20210219-173808_Cycle%20Planet.jpg?alt=media&token=3ec5e5d1-a0d8-4c64-a331-61f7f5653ed4'},
+              {title:'Get hosted for free',description:'In the map you can find hosts, and you can send chat messages to them. This allows you to get hosted during your trip for free. ', image: 'eva-home-outline'},
+              {title:'Fully interactive map',description:'With the fully interactive map you can find border crossings, embassies, activities, other users and much more', image: 'eva-map-outline'},
+              {title:'Plan your next trip',description:'Create a general route through the countries you want to cycle, and find the latests information about those pages on a single page.', image: 'eva-globe-2-outline'},
+              {title:'Information about all countries',description:'Every country has it`s page with only the most useful information for bicycle tourists.', image: 'eva-info-outline'},
+              {title:'Contribute to the community',description:'Every user can add new markers and country information, or edit existing information. This way, you can contribute to the tourbiking community', image: 'eva-cloud-upload-outline'},
+              {title:'Create your own profile',description:'With your own profile you can easily show others all the bike related information you have.', image: 'eva-person-add-outline'},
             ],
         }
 	},
@@ -136,6 +135,13 @@ export default {
 <style>
 .borderbutton{
     border:1px solid black;
+}
+header{
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background: #fcba03;
 }
 .constrain2{
   max-width: 1675px;
@@ -180,7 +186,12 @@ export default {
 .carddescription{
     font-size: 15px;
     padding:20px;
-
+}
+.cardicon{
+  background: #fcba03;
+  color: #FFF;
+  padding: 30px;
+  font-size: 100px;
 }
 .imageclass{
     width:100%;
@@ -189,9 +200,20 @@ export default {
     background-position: center;
 }
 .image1{
-    /* background-image: url("https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/placeholder%2FIMG_9982.JPG?alt=media&token=1ac47a65-cfcd-4863-ad48-4e5540ff4363"); */
     background-image: url("https://firebasestorage.googleapis.com/v0/b/cycle-planet-292f5.appspot.com/o/Admin%2FPictures%2F20190531214625_IMG_0152-01.jpeg?alt=media&token=906a5a50-074f-4df4-ad38-7ace76fc5dcd");
-
+    position: relative;
+}
+.image1::before{
+  content: '';
+  position: absolute;
+  background: linear-gradient(180deg, rgba(252,186,3,0.75) 0%, rgba(255,255,255,0) 100%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.image1 .constrain{
+  position: relative;
 }
 .image2{
     background-image: url("../../../public/images/map.png");
@@ -217,8 +239,7 @@ export default {
     margin:10px;
 }
 .appimagedesktop{
-    height:80px;
-    max-width:270px;
+    width:150px;
     margin:10px;
 }
 
@@ -233,7 +254,7 @@ export default {
     background-color:#180c0c;
 }
 .textblock1{
-    max-width:500px;
+    max-width:66.66%;
     padding:12px;
 }
 mark{

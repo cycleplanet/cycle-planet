@@ -1,6 +1,6 @@
 <template>
 <div>
-    
+
       <q-list dark>
         <div class="row q-mt-md justify-center">
           <q-btn v-if="loggedIn"  :style="buttonStyle" label="Feedback"  @click="feedbackDialog=true"/>
@@ -36,7 +36,7 @@
           </q-item>
           <q-separator  />
         </div>
-        
+
         <div v-for="(section,key) in sections" :key="key" class="q-mt-md">
           <div v-if="(section.mobile? screenwidth : true)">
             <q-item-label class="text-black" header>
@@ -47,13 +47,13 @@
                 <div v-if="section.list">
                   <div v-if="item.apple?isWebApp:true">
                   <q-item v-if="item.login?loggedIn:true"
-                  clickable 
-                  v-ripple 
+                  clickable
+                  v-ripple
                   class="text-black"
                   :class="{'q-mr-none q-pr-none':!section.list}"
                   :to="section.name==='Mobile apps'?'':item.to"
                   @click="section.name==='Mobile apps'?mobileAppDialog(item.title):''"
-                  
+
                   >
                     <q-item-section  avatar>
                       <q-icon v-if="item.icon" :name="item.icon" />
@@ -72,22 +72,22 @@
                     </q-avatar>
                   </q-btn>
                 </div>
-           
+
             <q-separator  />
             </div>
 
           <q-separator  />
          </div>
-         
+
         </div>
-        
+
         </div>
 
 
         <div v-if="loggedIn" class="row q-mt-lg q-mb-md justify-center">
           <q-btn flat class="bg-red" label="Log out" @click="logoutUserMethod" to="/auth"/>
         </div>
-        
+
         <div class="text-black text-center">version {{version}}</div>
 
       </q-list>
@@ -111,7 +111,7 @@ export default {
   data () {
     return {
       feedbackDialog:false,
-        
+
             sections : [
                {name : 'Useful', list:true,mobile:true,items : [
                 // {title: 'Donate', icon: 'fas fa-hand-holding-heart', to:'/donate',apple:true},
@@ -126,7 +126,7 @@ export default {
                     {title: 'Our story', icon: 'fas fa-book', to:'/our-story' },
                     {title: 'Credits', icon: 'favorite', to:'/credits' },
                 ]},
-               
+
                 {name : 'Follow us', list:false,items : [
                     {title: 'Facebook', icon: '', img: 'social_icons/icon_facebook.png', url:'https://www.facebook.com/Cycle-Planet-100672311813208' },
                     {title: 'Instagram', icon: '',img:'social_icons/icon_instagram.png', url:'https://www.instagram.com/cycle.planet' },
@@ -135,9 +135,9 @@ export default {
                   {title: 'Settings', icon: 'settings', to:'/settings', login:true },
                   {title: 'Contact', icon: 'mail', to:'/contact' },
                   {title: 'FAQ', icon: 'help', to:'/faq' },
-                
+
                 ]},
-                
+
                 {name:'Legal', list:true,items:[
                     {title: 'Privacy Policy', icon: 'security', to:'/privacy-policy' },
                     {title: 'Terms of use', icon: 'security', to:'/terms-of-use' },
@@ -147,7 +147,7 @@ export default {
             //         {title: 'iOs app', icon: 'fab fa-apple'},
             //         {title: 'Android app', icon: 'fab fa-android' },
             //     ]}
-            ]        
+            ]
     }
   },
   computed:{
@@ -164,14 +164,14 @@ export default {
     logoutUserMethod(){
       this.logoutUser()
     },
-    
+
     android(){
         window.open('https://play.google.com/store/apps/details?id=com.cycleplanet.cycleplanet', '_blank');
     },
     apple(){
       window.open('https://apps.apple.com/app/cycle-planet/id1547132334', '_blank');
     },
-    
+
   }
 }
 </script>
