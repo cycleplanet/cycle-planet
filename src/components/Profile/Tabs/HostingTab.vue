@@ -1,7 +1,7 @@
 <template>
 <div>
     <div >
-        <p class="cp-h2">Description of my home</p>
+        <p class="text-h6">Description of my home</p>
         <p class=""><b>Description: </b>{{userData.hosting ? userData.hosting.description : ''}}</p>
         <p class=""><b>Max guest: </b> {{userData.hosting ? userData.hosting.max_guests :'' }}</p>
         <p class=""><b>Store bike inside: </b> {{userData.hosting ? (userData.hosting.bike_inside ? ' Yes' : ' No'):'' }}</p>
@@ -9,14 +9,14 @@
         <q-separator />
     </div>
     <div>
-        <div class="cp-h2 q-my-md">My hosting experience</div>
+        <div class="text-h6 q-my-md">My hosting experience</div>
         <hosting-stats class="q-my-md" :data="userData"/>
         <q-separator />
 
     </div>
 
 
-    <p class="cp-h2 q-my-md">What others say ({{feedbackReceived}})</p>
+    <p class="text-h6 q-my-md">What others say ({{feedbackReceived}})</p>
     
     <q-list v-if="userData.hosting" class="">
         <div v-for="(requestData, requestKey) in userData.hosting.requests" :key="requestKey" >
