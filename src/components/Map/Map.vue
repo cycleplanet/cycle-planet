@@ -1,8 +1,9 @@
 <template>
 <div>
+
   <v-map  :options="mapOptions"  :zoom="3" :min-zoom="mapsettings.minZoom" :center="mapsettings.center" :max-bounds="mapsettings.bounds">
     <v-tilelayer :url="mapsettings.url" :attribution="mapsettings.attribution"></v-tilelayer>
-    <v-marker-cluster  @clusterclick="click()" :options="clusterOptions" @ready="true">
+    <v-marker-cluster  @clusterclick="click()" :options="clusterOptions">
       <div  v-for="(marker, markerKey) in landMarkers" :key="markerKey">
         <v-marker :lat-lng="mapMarkersNew==='markers'?marker.coordinates:[0,720]" v-if="markerlist[marker.refKey].active" @click="clickedMarkerMethod(markerKey)">
           <l-icon :icon-url="markerlist[marker.refKey].iconurl" 
@@ -22,7 +23,7 @@
     </v-marker-cluster>
 
             <div v-for="(countryKey) in countriesFiltered" :key="countryKey">
-              <v-marker v-if="countryKey&&countryCodes_rev" :lat-lng="mapMarkersNew==='countries'?[markerCounts[countryCodes_rev[countryKey]].location.lat,markerCounts[countryCodes_rev[countryKey]].location.lng]:[markerCounts[countryCodes_rev[countryKey]].location.lat,markerCounts[countryCodes_rev[countryKey]].location.lng+720]">
+              <v-marker v-if="countryKey&&markerCounts" :lat-lng="mapMarkersNew==='countries'?markerCounts[countryCodes_rev[countryKey]].location:[markerCounts[countryCodes_rev[countryKey]].location.lat,markerCounts[countryCodes_rev[countryKey]].location.lng+720]">
                 <l-icon>
                     <q-chip  style="margin-left:-10px;margin-top:-10px" size="md"  clickable outline class="text-subtitle1 " >
                     <q-avatar rounded style="width:auto;" class="" clickable @click="clickedcountry(countryKey)">
@@ -56,8 +57,6 @@
                   type="radio"
                   v-model="mapMarkersNew"
                 />
-                <!-- <div>Zoom: {{zoom}}</div> -->
-                <!-- <div>Lat: {{localcenter.lat}}</div> -->
               </div>
 
                 <marker-filter v-if="mapMarkersNew==='markers'" class="col"/>
@@ -142,7 +141,7 @@ export default {
           clickedUserId2: '',
           itemDetails: {},
           isload: false,
-          mapMarkersNew: 'users',
+          mapMarkersNew: 'countries',
           localcenter: {
             lat:0,
             lng:0
