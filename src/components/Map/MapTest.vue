@@ -1,8 +1,8 @@
 <template>
     <div>
       {{zoomlevel}}{{checkmapdata}}
-        <template  v-if="landMarkers">
-          <v-map ref="mymap" @ready="doSomethingOnReady()" @move="movemapfunction()" :options="screenwidthbig?{scrollWheelZoom:true,preferCanvas: true, zoomSnap:0.25, wheelPxPerZoomLevel: 50}:(!isWebApp?'':{scrollWheelZoom:false, dragging:false, tap: false,preferCanvas: true})"  :zoom="zoom" :min-zoom="mapsettings.minZoom" :center="mapsettings.center" :max-bounds="mapsettings.bounds">
+        <template >
+          <v-map ref="mymap" @ready="doSomethingOnReady()" @move="movemapfunction()" :options="mapOptions"  :zoom="zoom" :min-zoom="mapsettings.minZoom" :center="mapsettings.center" :max-bounds="mapsettings.bounds" style="height:100vh">
             <v-tilelayer :url="mapsettings.url" :attribution="mapsettings.attribution"></v-tilelayer>
             <div v-for="(marker, markerKey) in markerCounts" :key="markerKey" v-if="zoom<clusterbreak">
               <div v-if="mapMarkersNew==='markers'">
@@ -123,9 +123,8 @@
           />
         </q-dialog>
 
-        <q-dialog :maximized="true" v-model="userdialog" v-if="clickedUserId">
-          <mobile-header />
-          <user-page :userData="users[clickedUserId]"/>
+        <q-dialog v-model="userdialog" v-if="clickedUserId" >
+          <user-page-short :userData="users[clickedUserId]" style="width:100%;max-width:600px"/>
         </q-dialog>
   </div>
 
@@ -157,7 +156,7 @@ export default {
         'marker-filter': require('components/Shared/FilterMarkers.vue').default,
         'user-filter': require('components/Shared/FilterUsers.vue').default,
         'getlocation-button': require('components/Shared/GetLocationButton.vue').default,
-        'user-page': require('components/Profile/UserPage.vue').default,
+        'user-page-short': require('components/Profile/UserPageShort.vue').default,
         'item-dialog': require('components/Marker/ItemDialog.vue').default,
     },
 
@@ -166,7 +165,7 @@ export default {
         return {
           map:null,
           zoom: 3,
-          clusterbreak:0.5,
+          clusterbreak:6.5,
           // mapMarkersNew: '',
           showAddNewMarker: false,
           clusterOptions: {},
@@ -176,7 +175,7 @@ export default {
           clickedUserId2: '',
           itemDetails: {},
           isload: false,
-          mapMarkersNew: 'countries',
+          mapMarkersNew: 'users',
           localcenter: {
             lat:0,
             lng:0
@@ -194,6 +193,12 @@ export default {
     computed: {
         ...mapState('auth', ['usersWithMapLocation']),
 		    ...mapGetters('countries', ['countriesAll']),
+
+        mapOptions(){
+          if(this.screenwidthbig){
+            return {scrollWheelZoom:true,preferCanvas: true, zoomSnap:0.25, wheelPxPerZoomLevel: 50}
+          } else { return {scrollWheelZoom:false, dragging:false, tap: false,preferCanvas: true}}
+        },
 
         zoomlevel(){
           if(this.map){
