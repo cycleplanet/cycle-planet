@@ -24,7 +24,6 @@
         </q-item-label>
      
         <q-item-label v-if="myUserId!==data.userId && loggedIn">
-          <q-btn size="sm" :to="'/chat/'+data.userId" :style="buttonStyle">contact</q-btn>
           <q-btn class="q-ml-sm" size="sm" @click="$emit('viewUserProfile')" :style="buttonStyle">View profile</q-btn>
         </q-item-label>
       </q-item-section>
