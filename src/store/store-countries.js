@@ -93,15 +93,11 @@ const actions = {
 const getters = {
 	
 	countriesFiltered: (state, getters) => {
-		console.log('countriesFiltered 1');
 		let countriesSorted = Object.keys(countryCodes_rev),
 			countriesFiltered = {}
-			console.log('countriesFiltered 2', countriesSorted);
 
 		if (state.search) {
 			Object.keys(countriesSorted).forEach((key)=> {
-				console.log('countriesFiltered 3', countriesSorted);
-				console.log('countriesFiltered 4', countriesSorted[key]);
 				let country = countriesSorted[key]
 				let countryName=countriesSorted[key].toLowerCase()
 				let searchstring=state.search.toLowerCase()
