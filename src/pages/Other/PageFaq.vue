@@ -1,19 +1,17 @@
 <template>
- <q-page   >
-    <div class="q-pa-sm">
-      <div class="row">
-          <div class="q-mr-md text-black cp-h2">Frequently Asked Questions (FAQ)</div>
-          <q-btn v-if="loggedIn ?admin:false" label="edit" :style="buttonStyle" @click="editPage=true"/>
-        </div>
-        <q-separator class="q-my-sm" />
-        <div >
-          <q-item-section v-html="getPages[title].section1" />
-        </div>
+ <div class="q-pa-sm">
+    <div class="row">
+        <div class="q-mr-md text-black cp-h2">Frequently Asked Questions (FAQ)</div>
+        <q-btn v-if="loggedIn ?admin:false" label="edit" :style="buttonStyle" @click="editPage=true"/>
+      </div>
+      <q-separator class="q-my-sm" />
+      <div>
+        <q-item-section v-html="getPages[title].section1" />
       </div>
     <q-dialog v-model="editPage" :maximized="maximizedToggle">
       <edit-page :title="title" :data="getPages[title]" @close="editPage = false" />
     </q-dialog>
-  </q-page>
+</div>
 </template>
 
 

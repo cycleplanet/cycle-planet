@@ -1,5 +1,4 @@
 <template>
-   <q-page   >
     <div class="q-pa-md">
         <q-card class="q-pa-md">
           <p class="text-h4">Get inspired</p>
@@ -35,7 +34,6 @@
        
        </q-card>
     </div>
-  </q-page>
 </template>
 
 <script>

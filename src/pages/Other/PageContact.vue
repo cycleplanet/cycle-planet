@@ -1,5 +1,4 @@
 <template>
- <q-page   >
     <div class="q-pa-md">
         <div class="q-pa-md">
           <p class="text-h4">Contact</p>
@@ -8,7 +7,6 @@
           <p class="text-body1">Website <a class="link" @click="openUrl('http://cycleplanet.org')">www.cycleplanet.org</a></p>
         </div>    
       </div>
-  </q-page>
 </template>
 
 
