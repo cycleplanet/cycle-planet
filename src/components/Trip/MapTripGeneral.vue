@@ -1,32 +1,22 @@
 <template>
-  <div style="height:100%" v-if="users && tripDetails &&allCountries">
-    <div style="height:100%">  
-        <l-map ref="mapinformation" style="height:100%" v-if="mapsettings" :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}"  :zoom.sync="zoom" :center="allCountries[tripDetails.countries[Math.floor(Object.keys(tripDetails.countries).length/2)]].location"   :max-bounds="mapsettings.bounds">
-          <l-tile-layer :url="mapsettings.url" ></l-tile-layer>  
-          
-          <div v-for="(country, countryKey) in tripDetails.countries" :key="countryKey">
-            <l-marker v-if="showParts" :lat-lng="[allCountries[country].location.lat,allCountries[country].location.lng]" >
-              <l-icon :class-name="'markerStyleCountry markerStyle-z'+zoomStyle[zoom]">
-                <div class="absolute-center">{{countryKey+1}}</div>
-              </l-icon>
-            </l-marker>
-            <l-polyline v-if="countryKey>0" color="DeepSkyBlue" dashOffset="3" :lat-lngs="[allCountries[tripDetails.countries[countryKey-1]].location,allCountries[tripDetails.countries[countryKey]].location]"></l-polyline>
-          </div>
-
-
-          <div v-if="showParts">
-            <l-control position="topleft"  class="q-ma-md">
-              <q-btn icon="add" dense class="row bg-white q-pa-xs" size="sm" @click="zoom++"/>
-              <q-btn icon="remove" dense class="row bg-white q-pa-xs q-mt-sm" size="sm" @click="zoom--"/>
-            </l-control>
-          </div>
-
-        
-
-      </l-map>
-    </div>
-
-
+  <div style="height:100%">  
+    <l-map ref="mapinformation" style="height:100%" v-if="mapsettings" :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}"  :zoom.sync="zoom" :center="countryCoordinatesWithKey(centerCountry)"   :max-bounds="mapsettings.bounds">
+      <l-tile-layer :url="mapsettings.url" ></l-tile-layer>  
+      <div v-for="(countryKey, index) in tripDetails.countries" :key="index">
+        <l-marker v-if="showParts" :lat-lng="countryCoordinatesWithKey(countryKey)" >
+          <l-icon :class-name="'markerStyleCountry markerStyle-z'+zoomStyle[zoom]">
+            <div class="absolute-center">{{index+1}}</div>
+          </l-icon>
+        </l-marker>
+        <l-polyline v-if="index>0" color="DeepSkyBlue" dashOffset="3" :lat-lngs="[countryCoordinatesWithKey(tripDetails.countries[index-1]),countryCoordinatesWithKey(countryKey)]"></l-polyline>
+      </div>
+      <div v-if="showParts">
+        <l-control position="topleft"  class="q-ma-md">
+          <q-btn icon="add" dense class="row bg-white q-pa-xs" size="sm" @click="zoom++"/>
+          <q-btn icon="remove" dense class="row bg-white q-pa-xs q-mt-sm" size="sm" @click="zoom--"/>
+        </l-control>
+      </div>
+    </l-map>
   </div>
 </template>
 
@@ -53,8 +43,8 @@ export default {
   mixins: [mixinGeneral],
   props:['tripDetails','showParts'],
 
-  components: {LMap,LTileLayer,LControl,LMarker,LIcon,LPopup,LFeatureGroup,LPolyline,
-
+  components: {
+    LMap,LTileLayer,LControl,LMarker,LIcon,LPopup,LFeatureGroup,LPolyline,
   },
 
   data () {
@@ -80,9 +70,18 @@ export default {
         17:9,
         18:9,
       }
-       
     }
   },
+
+  computed:{
+    centerCountry(){
+      console.log('centerCountry 1',Object.keys(this.tripDetails.countries).length);
+      console.log('centerCountry 2',Object.keys(this.tripDetails.countries).length/2);
+      console.log('centerCountry 3',Math.floor(Object.keys(this.tripDetails.countries).length/2));
+      console.log('centerCountry 3',this.tripDetails.countries);
+      return this.tripDetails.countries[Math.floor(Object.keys(this.tripDetails.countries).length/2)]
+    }
+  }
 }
 
 

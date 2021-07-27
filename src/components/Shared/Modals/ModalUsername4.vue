@@ -2,8 +2,8 @@
 <div clickable class="cursor-pointer row ">
   <q-chip class="justify-center" size="md" >
     <q-avatar @click="clickedcountry">
-      <img :src="('countryflags/Flag_of_'+countryId+'.svg.png').split(' ').join('_')"  >
-      <q-tooltip content-class="">{{allCountries[countryId].name}}</q-tooltip>
+      <img :src="('countryflags/Flag_of_'+countryKey+'.svg.png').split(' ').join('_')"  >
+      <q-tooltip content-class="">{{countryKey}}</q-tooltip>
     </q-avatar>
      <q-avatar @click="clickuser">
       <img :src="users[userIdChecked].imageurl"  >
@@ -16,12 +16,17 @@
 
 <script>
 import { mapState, mapActions, mapGetters  } from 'vuex'
+import { countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
 
 export default {
-    props:['userId','countryId'],
+    props:['userId','countryKey'],
+    data(){
+      return{
+        countryCodes_rev:countryCodes_rev
+      }
+    },
     computed: {
 		...mapGetters('auth', ['users']),
-		...mapGetters('countries', ['allCountries']),
      userIdChecked(){
       if(this.users[this.userId]){
         return this.userId
@@ -36,7 +41,7 @@ export default {
         this.$router.push('/user/'+this.userId)
       },
       clickedcountry(){
-        this.$router.push('/country/'+this.countryId)
+        this.$router.push('/country/'+this.countryKey)
       },
     }
 

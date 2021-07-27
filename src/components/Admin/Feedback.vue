@@ -12,7 +12,9 @@
                 <q-item-section>
                   <q-item-label>{{item.issue}}</q-item-label>
                   <q-item-label caption>{{item.user?users[item.user].fullname:'no user id'}}</q-item-label>
-                  
+                  <q-item-label v-if="item.platformdata">
+                    <div v-for="(value, key) in item.platformdata" :key="key"><b>{{key}}:</b> {{value}}</div>
+                  </q-item-label>
                 </q-item-section>
                 <q-item-section side top>
                   <div class="row">
@@ -52,7 +54,7 @@ export default {
             path:'Feedback/'+payload.key,
             data:{
               status:'done', 
-              checkedBy:this.userId
+              checkedBy:this.myUserId
             }
           })
           Notify.create('Feedback marked ready')

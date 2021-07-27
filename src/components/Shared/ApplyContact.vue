@@ -12,7 +12,7 @@
           use-input
           input-debounce="0"
           label="Select country*"
-          :options="Object.keys(allCountries)"
+          :options="countryKeys"
           behavior="menu"
           filled
           lazy-rules

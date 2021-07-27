@@ -8,6 +8,7 @@ my-release-key.jks
 my-release-key.keystore
 T1.0.jks
 zipalign.exe
+.firebase
 .firebaserc
 firestore.rules
 backend/serviceAccountKey.json

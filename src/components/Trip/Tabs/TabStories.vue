@@ -17,7 +17,7 @@
             <div class="text-grey q-gutter-x-sm row flex items-center">
                 <nice-date2 :dateprop="storyId" />
                 <div class="q-mx-sm">•</div>
-                <div><modal-countrychip2 :countryId="story.country"/></div>
+                <div><modal-countrychip2 :countryKey="story.country"/></div>
             </div>
 
             <q-separator class="q-my-md"/>

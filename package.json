@@ -1,6 +1,6 @@
 {
   "name": "cpq",
-  "version": "2.0.02",
+  "version": "2.0.04",
   "description": "The Bicycle Touring Platform",
   "keywords": [
     "cycle planet",
@@ -17,7 +17,7 @@
   "author": "bas idsinga <basidsinga@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "quasar dev -m pwa",
+    "dev": "quasar dev -p 8123 -m pwa",
     "icons": "icongenie generate -i logo_icongenie.png --skip-trim --theme-color FCBA03",
     "deploy": "quasar build -m pwa && firebase deploy",
     "deploy-security-rules": "firebase deploy -P cycle-planet-292f5 --only database"
@@ -27,7 +27,7 @@
     "@quasar/extras": "^1.0.0",
     "@types/leaflet": "^1.7.0",
     "axios": "^0.21.1",
-    "chart.js": "^3.3.1",
+    "chart.js": "^2.9.4",
     "copy-webpack-plugin": "^5.1.1",
     "cordova-plugin-fcm-with-dependecy-updated": "^7.8.0",
     "core-js": "^3.6.5",

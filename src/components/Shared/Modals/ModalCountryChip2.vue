@@ -1,18 +1,24 @@
 <template>
   <div >
     <q-chip :size="screenwidthbig?'10px':'8px'"  clickable  class="text-subtitle1 no-padding" >
-      <q-avatar  style="width:auto;" clickable @click="clickedcountry(countryId)">
-        <img style="margin-left:-1px" :src="('countryflags/Flag_of_'+countryId+'.svg.png').split(' ').join('_')" >
+      <q-avatar  style="width:auto;" clickable @click="clickedcountry(countryKey)">
+        <img style="margin-left:-1px" :src="('countryflags/Flag_of_'+countryKey+'.svg.png').split(' ').join('_')" >
       </q-avatar>
-      <div clickable @click="clickedcountry(countryId)">{{countryId}}</div>
+      <div clickable @click="clickedcountry(countryKey)">{{countryKey}}</div>
     </q-chip>
   </div>
 </template>
 
 <script>
+import { countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
 
 export default {
-    props:['countryId'],
+    props:['countryKey'],
+    data(){
+      return{
+        countryCodes_rev:countryCodes_rev
+      }
+    },
     computed: {
     screenwidthbig(){
 			let screenWidth = screen.width
@@ -23,8 +29,8 @@ export default {
     },
     methods:{
 
-    clickedcountry(countryId){
-			this.$router.push('/country/'+countryId)
+    clickedcountry(countryKey){
+			this.$router.push('/country/'+countryKey)
 		},
     }
 

@@ -20,7 +20,7 @@
         <p class="text-subtitle1">Border crossing from <b> {{singleItemData.country1.country}} ({{singleItemData.country1.city}}) </b>to<b> {{singleItemData.country2.country}} ({{singleItemData.country2.city}})</b> </p>
     </div>
     <p class="text-subtitle1" v-if="refKey!=='Border_item'&&refKey!=='Embassy'"><b>Title:</b> {{singleItemData.title}}</p>
-    <p class="text-subtitle1 row flex items-center" v-if="refKey!=='Border_item'&&refKey!=='Embassy'"><b>Country:</b> <modal-countrychip :countryId="singleItemData.countryKey"/></p>
+    <p class="text-subtitle1 row flex items-center" v-if="refKey!=='Border_item'&&refKey!=='Embassy'"><b>Country:</b> <modal-countrychip :countryKey="singleItemData.countryKey"/></p>
     <div class="row text-subtitle1" v-if="!singleItemData.onlineVisa">
         <p class="q-mr-md"><b>Latitude:</b> {{singleItemData.coordinates.lat}}</p>
         <p ><b>Longitude:</b> {{singleItemData.coordinates.lng}}</p>

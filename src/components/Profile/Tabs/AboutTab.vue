@@ -30,7 +30,7 @@
 			<p class="text-h6">Countries cycled</p>		
 			<div class="row no-margin">
 				<div v-for="(country, countryKey) in userData.countries_cycled_new" class="no-margin" :key="countryKey">
-					<modal-countrychip :countryId="country" class="no-margin"/>
+					<modal-countrychip :countryKey="country" class="no-margin"/>
 				</div>
 			</div>
 			<q-separator class="q-my-lg"/>

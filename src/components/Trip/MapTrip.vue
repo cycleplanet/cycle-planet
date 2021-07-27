@@ -1,17 +1,17 @@
 <template>
-  <div style="height:100%" v-if="users && tripDetails &&allCountries">
+  <div style="height:100%" v-if="users && tripDetails &&allCountryData">
     <div style="height:100%">  
-        <l-map ref="mapinformation" style="height:100%" v-if="mapsettings" :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}"  :zoom.sync="zoom" :center="allCountries[tripDetails.countries[Math.floor(Object.keys(tripDetails.countries).length/2)]].location"   :max-bounds="mapsettings.bounds">
+        <l-map ref="mapinformation" style="height:100%" v-if="mapsettings" :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}"  :zoom.sync="zoom" :center="allCountryData[tripDetails.countries[Math.floor(Object.keys(tripDetails.countries).length/2)]].location"   :max-bounds="mapsettings.bounds">
           <l-tile-layer :url="mapsettings.url" ></l-tile-layer>  
           
           <div v-if="!tripFinished">
           <div v-for="(country, countryKey) in tripDetails.countries" :key="countryKey">
-            <l-marker v-if="showParts" :lat-lng="[allCountries[country].location.lat,allCountries[country].location.lng]" >
+            <l-marker v-if="showParts" :lat-lng="[allCountryData[country].location.lat,allCountryData[country].location.lng]" >
               <l-icon :class-name="'markerStyleCountry markerStyle-z'+zoomStyle[zoom]">
                 <div class="absolute-center">{{countryKey+1}}</div>
               </l-icon>
             </l-marker>
-            <l-polyline v-if="countryKey>0" color="DeepSkyBlue" dashOffset="3" :lat-lngs="[allCountries[tripDetails.countries[countryKey-1]].location,allCountries[tripDetails.countries[countryKey]].location]"></l-polyline>
+            <l-polyline v-if="countryKey>0" color="DeepSkyBlue" dashOffset="3" :lat-lngs="[allCountryData[tripDetails.countries[countryKey-1]].location,allCountryData[tripDetails.countries[countryKey]].location]"></l-polyline>
           </div>
           </div>
 
@@ -161,7 +161,7 @@ methods:{
 
 },
   created(){
-    if(!this.allCountries){
+    if(!this.allCountryData){
       this.firebasegetCountries()
     }
     let checkload = LocalStorage.getItem('loadedBaseData')

@@ -5,7 +5,7 @@ import { openURL } from 'quasar'
 import { version } from '../../package.json'
 import { Platform } from 'quasar'
 import { LocalStorage } from 'quasar'
-import { countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
+import { countryCodes, countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
 
 import Embed from 'v-video-embed'
 Vue.use(Embed); 
@@ -14,8 +14,8 @@ export default {
 	data() {
 		return {
 			version:version,
+			countryCodes: countryCodes,
 			countryCodes_rev: countryCodes_rev
-
 		}
 	},
 	
@@ -26,12 +26,17 @@ export default {
 		...mapState('country', ['refsextra']),
 		...mapState('admin', ['adminData']),
 		...mapState('post', ['postData']),    
+		...mapState('countries', ['allCountryData']),    
 
 		...mapGetters('auth', ['users','usersWithMapLocation']),
-		...mapGetters('countries', ['allCountries','countriesFiltered']),
+		...mapGetters('countries', ['countriesFiltered']),
 		...mapGetters('chat', ['unreadchatlistnew','userMessagesSortedByDate']),
 		...mapGetters('post', ['blogPostsSorted','blogPostsSortedByDate','videoPostsSorted','videoPostsSortedByDate','routePostsSorted']),
-
+		
+		countryKeys(){
+			return Object.keys(this.countryCodes_rev)
+		},
+		
 		isLoggedIn(){
 			if(LocalStorage.getItem('loggedIn')){
 				return true
@@ -39,6 +44,7 @@ export default {
 				return false
 			}
 		},
+		
 		loadedPosts(){
 			if(Object.keys(this.blogPostsSorted).length){
 				return true
@@ -118,6 +124,11 @@ export default {
 			let formattedString = date.formatDate(timeStamp, 'YYYY-MM-DDTHH:mm:ss')
 			return formattedString
 		},
+		statisticsTimeStamp (){
+			let timeStamp = Date.now()
+			let formattedString = date.formatDate(timeStamp, 'YYYY-MM-DD')
+			return formattedString
+		},
 		niceTimeStamp (){
 			let timeStamp = Date.now()
 			let formattedString = date.formatDate(timeStamp, 'DD-MM-YYYY')
@@ -185,6 +196,17 @@ export default {
 		...mapActions('markers',['updateMarkerAction']),
     	...mapActions('post', ['getPosts']),
 
+		countryCoordinatesWithKey(countryKey){
+			return this.markerCounts[this.countryCodes_rev[countryKey]].location
+		},
+		countryCoordinatesWithCode(countrycode){
+			return this.markerCounts[countrycode].location
+		},
+
+		flagUrlFor(countryKey){
+			return ('countryflags/Flag_of_'+countryKey+'.svg.png').split(' ').join('_')
+		},
+
 
 		updateAppVersion(){
 			if(this.users[this.myUserId]){
@@ -203,8 +225,8 @@ export default {
 		clickuser(userId){
 			this.$router.push('/user/'+userId)
 		},
-		clickedcountry(countryId){
-			this.$router.push('/country/'+countryId)
+		clickedcountry(countryKey){
+			this.$router.push('/country/'+countryKey)
 		},
 		clickedcontinent(continentId){
 			this.$router.push('/continent/'+continentId)
@@ -354,7 +376,6 @@ export default {
 		'modal-username2': 		require('components/Shared/Modals/ModalUsername2.vue').default,
 		'modal-username3': 		require('components/Shared/Modals/ModalUsername3.vue').default,
 		'modal-username4': 		require('components/Shared/Modals/ModalUsername4.vue').default,
-		'modal-countryselect': 	require('components/Shared/Modals/ModalCountry.vue').default,
 		'modal-title': 			require('components/Shared/Modals/ModalTitle.vue').default,
 		'modal-description': 	require('components/Map/Modals/Shared/ModalDescription.vue').default,
 		'modal-banner': 	require('components/Map/Modals/Shared/ModalBanner.vue').default,
@@ -369,5 +390,8 @@ export default {
 		'modal-header': 		require('src/components/Shared/Modals/ModalHeader.vue').default,
 		'modal-buttons': 		require('src/components/Shared/Modals/ModalButtons.vue').default,
 		'modal-task-country': 	require('src/components/Shared/Modals/ModalTaskName.vue').default,
+		
+		'chart-line': 	require('src/components/Stats/ChartLine.vue').default,
+		// 'chart-bar': 	require('src/components/Stats/ChartBar.vue').default,
 	}
 }

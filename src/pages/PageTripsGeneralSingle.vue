@@ -1,6 +1,7 @@
 <template>
   <div style="height:400px;" >
     <div>
+      
       <div :style="screenwidthbig?'height:500px':'height:300px'">
         <map-trip-general :tripDetails="tripDetails" :showParts="true"/>
       </div>
@@ -19,7 +20,7 @@
 
           <div class="row" >
             <div v-for="(country, countryKey) in tripDetails.countries" :key="countryKey" >
-              <modal-countrychip3 :countryId="country" :index="countryKey" :last="false" :myProfile="false"/>
+              <modal-countrychip3 :countryKey="country" :index="countryKey" :last="false" :myProfile="false"/>
             </div>
           </div>
         </div>

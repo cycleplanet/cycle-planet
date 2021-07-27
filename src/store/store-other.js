@@ -7,6 +7,7 @@ const state = {
 	gear:{},
 	gearUser:{},
 	pages:{},
+	statistics:{}
 	  
 }
 
@@ -14,6 +15,9 @@ const mutations = {
 	
 	addPage(state, payload) {
 		Vue.set(state.pages, payload.itemId, payload.itemDetails)
+	},
+	addStatistics(state, payload) {
+		Vue.set(state.statistics, payload.itemId, payload.itemDetails)
 	},
 	addGear(state, payload) {
 		Vue.set(state.gear, payload.itemId, payload.itemDetails)
@@ -27,6 +31,7 @@ const mutations = {
 	updateGearUser(state, payload) {
 		Object.assign(state.gearUser[payload.itemId], payload.itemDetails)
 	},
+	
 }
 
 const actions = {
@@ -57,6 +62,19 @@ const actions = {
 	deleteItemActionFs({},payload){
 		firebase.fs.collection(payload.collection).doc(payload.doc).delete().catch((error) => {
 		});
+	},
+	getStatistics({commit}, ){
+		firebase.db.ref('Statistics').on('child_added', snapshot => {
+			let itemDetails = snapshot.val()
+			let itemId = snapshot.key
+			commit('addStatistics', {itemId,itemDetails})
+		})
+		firebase.db.ref('Statistics').on('child_changed', snapshot => {
+			let itemDetails = snapshot.val()
+			let itemId = snapshot.key
+			commit('addStatistics', {itemId,itemDetails})
+		})
+		
 	},
 
 	getPages({commit}, ){

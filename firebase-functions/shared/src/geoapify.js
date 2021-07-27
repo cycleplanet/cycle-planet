@@ -15,12 +15,16 @@ class Geoapify {
     }
 
     async reverseGeocode(lat, lng) {
-        const apiUrl1 = `/reverse?lat=${lat}&lon=${lng}&apiKey=${this.apiKey}`
-        const result = await this.httpClient.get(apiUrl1);
-        if (result.data) {
-            return result.data.features[0].properties;
-        } else {
-            return null;
+        try {
+            const apiUrl1 = `/reverse?lat=${lat}&lon=${lng}&apiKey=${this.apiKey}`
+            const result = await this.httpClient.get(apiUrl1);
+            if (result.data) {
+                return result.data.features[0].properties;
+            } else {
+                return null;
+            }
+        } catch (err) {
+            console.error(`Error reverse geocoding (${lat}, ${lng}`, err);
         }
     }
 
