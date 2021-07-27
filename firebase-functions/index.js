@@ -101,7 +101,7 @@ exports.scheduledFirestoreExport = functions.pubsub
   });
 });
 
-exports.computeCountryMarkerCounts = functions.pubsub.schedule('* */12 * * *').onRun(async (context) => {
+exports.computeCountryMarkerCounts = functions.pubsub.schedule('0 */12 * * *').onRun(async (context) => {
 
   console.log('Running marker count aggregation per country');
   const fs = admin.firestore()
@@ -167,7 +167,7 @@ exports.computeCountryMarkerCounts = functions.pubsub.schedule('* */12 * * *').o
 });
 
 
-exports.updateUserStats = functions.pubsub.schedule('* */12 * * *').onRun((context) => {
+exports.updateUserStats = functions.pubsub.schedule('0 */12 * * *').onRun((context) => {
   console.log('basTestFunction started');
   let d = new Date().toISOString();
   let d1 = d.split('T')
@@ -205,7 +205,7 @@ exports.updateUserStats = functions.pubsub.schedule('* */12 * * *').onRun((conte
   })
 })
 
-exports.updateMarkerStats = functions.pubsub.schedule('* */12 * * *').onRun((context) => {
+exports.updateMarkerStats = functions.pubsub.schedule('0 */12 * * *').onRun((context) => {
   console.log('basTestFunction started');
   let d = new Date().toISOString();
   let d1 = d.split('T')
