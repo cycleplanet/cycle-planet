@@ -130,7 +130,7 @@ import { mapState, mapGetters } from 'vuex'
 import mixinGeneral from 'src/mixins/mixin-general.js'
 import { LMap, LTileLayer, LControl, LMarker, LIcon, LPopup } from 'vue2-leaflet'
 import Vue2LeafletMarkercluster from 'src/clustermarkers/Vue2LeafletMarkercluster'
-import { Geoapify } from 'src/functions/geoapify';
+import { Geoapify } from 'app/firebase-functions/shared/src/geoapify'
 
 export default {
     mixins: [mixinGeneral, ],
