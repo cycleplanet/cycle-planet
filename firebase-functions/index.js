@@ -129,41 +129,54 @@ exports.computeCountryMarkerCounts = functions.pubsub.schedule('0 */12 * * *').o
     countryMarkerCounts[cc][countedField]++;
   }
 
-  return fs.collection("Markers").get().then((markers) => {
-      markers.forEach((doc) => {
-        const itemDetails = doc.data();
-        if (itemDetails.refKey === 'Border_item') {
-          countMarker('poi', itemDetails.country1.country);
-          countMarker('poi', itemDetails.country2.country);
-        } else {
-          countMarker('poi', itemDetails.countryKey);
-        }
-      });
-
-    }).then(_ => {
-      return db.ref("Users").get().then(users => {
-      users.forEach((user) => {
-        if (!user.hosting || !user.hosting.status === 'Available for hosting') return;
-        if (!(user.coordinates && user.coordinates.lat && user.coordinates.lng)) return;
-
-        const hostCountryCode = geocoder.reverseGeocodeToCountryCode(user.coordinates.lat, user.coordinates.lng);
-
-        if (hostCountryCode) countMarker('hosts', countryConstants.countryCodes[hostCountryCode]);
-        if (hostCountryCode) console.log('hostCountryCode ', hostCountryCode);;
-      });
-
-      Object.keys(countryMarkerCounts).forEach(cc => {
-        db.ref(`CountryMarkerCounts/${cc}/hosts`)
-                .set(countryMarkerCounts[cc].hosts)
-                .catch((err) => console.error('Could not write host count for country', err));
-        db.ref(`CountryMarkerCounts/${cc}/poi`)
-                .set(countryMarkerCounts[cc].poi)
-                .catch((err) => console.error('Could not write POI count for country', err));
-      });
-
-      console.log('Wrote counts');
-    });
+  markers = await fs.collection("Markers").get();
+  markers.forEach((doc) => {
+    const itemDetails = doc.data();
+    if (itemDetails.refKey === 'Border_item') {
+      countMarker('poi', itemDetails.country1.country);
+      countMarker('poi', itemDetails.country2.country);
+    } else {
+      countMarker('poi', itemDetails.countryKey);
+    }
   });
+
+  usersSnapshot = await db.ref("Users").once('value');
+  if (!usersSnapshot || !usersSnapshot['val'] || !usersSnapshot.val()) {
+    users = [];
+  } else {
+    users = Object.values(usersSnapshot.val())
+  }
+
+  await Promise.all(users.map(async user => {
+    if (!user.hosting || !user.hosting.status === 'Available for hosting') {
+      console.log(`Skipping user ${user.id} because not a host`);
+      return;
+    }
+    if (!(user.coordinates && user.coordinates.lat && user.coordinates.lng)) {
+      console.log(`Skipping user ${user.id} because no coords`);
+      return;
+    }
+
+    const hostCountryCode = await geocoder.reverseGeocodeToCountryCode(user.coordinates.lat, user.coordinates.lng);
+
+    if (hostCountryCode) {
+      countMarker('hosts', countryConstants.countryCodes[hostCountryCode])
+      console.log(`Reverse geocoded user to ${countryConstants.countryCodes[hostCountryCode]}`);
+    } else {
+      console.log(`Skipping user ${user.id} because no country code for coords`)
+    }
+  }));
+
+  Object.keys(countryMarkerCounts).forEach(cc => {
+    db.ref(`CountryMarkerCounts/${cc}/hosts`)
+            .set(countryMarkerCounts[cc].hosts)
+            .catch((err) => console.error('Could not write host count for country', err));
+    db.ref(`CountryMarkerCounts/${cc}/poi`)
+            .set(countryMarkerCounts[cc].poi)
+            .catch((err) => console.error('Could not write POI count for country', err));
+  });
+
+  console.log('Wrote counts');
 });
 
 
