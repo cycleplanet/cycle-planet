@@ -65,12 +65,7 @@
       <q-input outlined type="textarea"  v-model="userData.interests" label="Interests" />
     </div>
     <div class="col-xs-12 col-sm-12 col-md-4  q-pa-xs">
-<<<<<<< HEAD
-      <q-select outlined  type="textarea" v-model="userData.countries_cycled_new" multiple :options="Object.keys(countryCodes_rev)" use-chips stack-label label="Countries cycled" behavior="menu"/>
-=======
-      <q-select outlined  type="textarea" v-model="userData.countries_cycled_new" multiple :options="Object.values(countries)" use-chips stack-label label="Countries cycled" behavior="menu"/>
->>>>>>> 5d04262 (make Geoapify available in firebase-functions)
-
+      <q-select outlined  type="textarea" v-model="userData.countries_cycled_new" multiple :options="countries" use-chips stack-label label="Countries cycled" behavior="menu"/>
     </div>
   </div>
 </div>
@@ -136,7 +131,8 @@ export default {
       cityCountry:'',
       options: [
           'Available for hosting', 'Not available for hosting', 'Touring'
-      ]
+      ],
+      countries: Object.values(countryConstants.countryCodes)
 	  }
   },
 
@@ -149,10 +145,6 @@ export default {
   },
   methods:{
       ...mapActions('other', ['getAllGearUser','addGearUser','selectGearUser','deleteGearUser']),
-
-      countries() {
-        return countryConstants.countryCodes
-      },
 
       clickCoordinates(event) {
 				this.userData.coordinates=event.latlng
