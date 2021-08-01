@@ -168,7 +168,7 @@
 import mixinGeneral from 'src/mixins/mixin-general.js'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import { firebase } from 'boot/config'
-import { Geoapify } from 'src/functions/geoapify';
+import { Geoapify } from 'app/firebase-functions/shared/src/geoapify';
 import { date, uid, Notify } from 'quasar'
 
 export default {

@@ -63,6 +63,7 @@ import { countryCodes } from 'app/firebase-functions/shared/src/country-constant
 		},
 		data() {
 			return {
+				geocoder: new Geoapify(geoapify.apiKey),
 				zoom:1,
 				warningDescription:false,
 				payload:{
@@ -91,7 +92,7 @@ import { countryCodes } from 'app/firebase-functions/shared/src/country-constant
 			currentLocation(){
 				console.log('currentLocation 1', this.payload);
 				if(this.payload.coordinates.lat){
-					new Geoapify(geoapify.apiKey).reverseGeocodeToCountryCode(this.payload.coordinates.lat, this.payload.coordinates.lng).then(cc => {
+					this.geocoder.reverseGeocodeToCountryCode(this.payload.coordinates.lat, this.payload.coordinates.lng).then(cc => {
 						this.payload.country=countryCodes[cc];
 					}).catch(err => {
 						console.log('currentLocation 3',err);
