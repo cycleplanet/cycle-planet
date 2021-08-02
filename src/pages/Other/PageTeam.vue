@@ -1,5 +1,5 @@
 <template>
- <q-page   >
+ <div   >
     <div class="q-pa-md">
         <div class="q-pa-md">
           <p class="text-h4">Team</p>
@@ -60,7 +60,7 @@
 			<apply-editor @close="applyEditor = false" />
 		</q-dialog>
 
-  </q-page>
+  </div>
 </template>
 
 <script>

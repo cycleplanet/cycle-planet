@@ -1,5 +1,5 @@
 <template>
-   <q-page   >
+   <div   >
     <div class="q-pa-md">
         <div class="q-pa-md">
         <p class="text-h4">Resources</p>
@@ -89,7 +89,7 @@
       </div>
 
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script>

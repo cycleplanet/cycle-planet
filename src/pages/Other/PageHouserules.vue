@@ -1,5 +1,5 @@
 <template>
- <q-page   >
+ <div   >
     <div class="q-pa-sm">
           <q-item-label header class="text-black cp-h2 q-mr-md">
             <div class="q-mr-md">{{title}}</div> 
@@ -17,7 +17,7 @@
     <q-dialog v-model="editPage" :maximized="maximizedToggle">
       <edit-page :title="title" :data="getPages[title]" @close="editPage = false" />
     </q-dialog>
-  </q-page>
+  </div>
 </template>
 
 

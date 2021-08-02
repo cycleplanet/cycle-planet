@@ -174,7 +174,6 @@ const actions = {
 
     firebase.db.ref('Chats/' + userId + '/' + payload.otherUserId + '/' + timeStamp).set(payload.message)
     const axios = require('axios');
-    // let apiUrl = "https://us-central1-cycle-planet-292f5.cloudfunctions.net/sendNotification?from=" + payload.message.from + "&text=" + payload.message.text + "&otheruserid=" + payload.otherUserId
     let apiUrl = "https://us-central1-cycle-planet-292f5.cloudfunctions.net/sendNotification?from=" + payload.senderName + "&text=" + payload.message.text + "&otheruserid=" + payload.otherUserId
     axios.get(apiUrl).then(result => {
     }).catch(err => {
@@ -198,32 +197,8 @@ const actions = {
 	payload.message.from = 'them'
 	firebase.db.ref('Users/' + payload.message.receiver + '/hosting/requests/' + payload.message.timestamp).set(payload.message)
 	firebase.db.ref('Chats/' + payload.message.receiver + '/' + payload.message.sender + '/' + payload.message.timestamp).set(payload.message)
-	// payload.message.from = 'me'
-	// dispatch('firebaseSendMessage',payload)
   },
-//   firebaseSendHostRequest({dispatch }, payload) {
-//     let userId = firebaseAuth.currentUser.uid;
-// 	payload.message.sender=userId
-//     firebaseDb.ref('Host_requests/' + userId + '/' + payload.message.timestamp).set(payload.message)
-// 	payload.message.from = 'them'
-// 	firebaseDb.ref('Host_requests/' + payload.otherUserId + '/' + payload.message.timestamp).set(payload.message)
-// 	payload.message.from = 'me'
-// 	dispatch('firebaseSendMessage',payload)
-//   },
-// firebaseAcceptRequest({},payload){
-// 	let userId = firebase.auth.currentUser.uid;
-// 	let answer='accepted'
-// 	firebase.db.ref('Users/' + userId + '/hosting/requests/'+ payload.timestamp).update({status:answer,response:payload.response})
-// 	firebase.db.ref('Users/' + payload.sender + '/hosting/requests/' + payload.timestamp).update({status:answer,response:payload.response})
-// },
-// firebaseRefuseRequest({},payload){
-//   let userId = firebase.auth.currentUser.uid;
-//   let answer='refused'
-//   firebase.db.ref('Users/' + userId + '/hosting/requests/'+ payload.timestamp).update({status:answer,response:payload.response})
-//   firebase.db.ref('Users/' + payload.sender + '/hosting/requests/' + payload.timestamp).update({status:answer,response:payload.response})
-//   firebase.db.ref('Chats/' + payload.sender + '/' + userId + '/' + payload.timestamp+ '/status/').update(answer)
-//   firebase.db.ref('Chats/' + userId + '/' + payload.sender + '/' + payload.timestamp+ '/status/').update(answer)
-// },
+
 firebaseAnswerRequest({},payload){
 	firebase.db.ref('Users/' + payload.receiver + '/hosting/requests/'+ payload.timestamp).update({status:payload.status,response:payload.response})
 	firebase.db.ref('Users/' + payload.sender + '/hosting/requests/' + payload.timestamp).update({status:payload.status,response:payload.response})

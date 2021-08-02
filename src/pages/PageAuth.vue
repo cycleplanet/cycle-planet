@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-sm">
+  <div class="q-pa-sm">
     <q-card class="auth-tabs">
       <q-tabs  v-model="tab" dense class="text-accent"   narrow-indicator align="justify" active-color="secondary" indicator-color="secondary">
         <q-tab name="login" label="Login" />
@@ -158,7 +158,7 @@
     </q-dialog>
 
 
-  </q-page>
+  </div>
 </template>
 
 <script>

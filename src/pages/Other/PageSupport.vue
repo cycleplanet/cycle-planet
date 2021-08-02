@@ -1,5 +1,4 @@
 <template>
-  <q-page   >
     <div class="q-pa-md">
       <div class="q-pa-md">
         <p class="text-h4">Support</p>
@@ -10,7 +9,6 @@
 
       </div>
     </div>
-  </q-page>
 </template>
 
 <script>

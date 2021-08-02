@@ -29,7 +29,7 @@ export default {
     this.parentContainer = findRealParent(this.$parent);
     this.parentContainer.addLayer(this);
     this.$nextTick(() => {
-      this.$emit('ready', this.mapObject);
+      // this.$emit('loaded', this.mapObject);
     });
   },
   beforeDestroy() {

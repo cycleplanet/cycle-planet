@@ -3,6 +3,7 @@ const routes = [
     path: '/',    component: () => import('layouts/Layout.vue'),
     children: [
       { path: '/map', component: () => import('pages/PageHome.vue') },
+      { path: '/maptest', component: () => import('components/Map/MapTest.vue') },
       { path: '/', component: () => import('pages/Other/PageWelcome.vue') },
       { path: '/admin', component: () => import('pages/PageAdminPanel.vue') },
       { path: '/chat', component: () => import('pages/PageChatlist.vue') },
