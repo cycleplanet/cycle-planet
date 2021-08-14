@@ -11,13 +11,11 @@
 
 <script>
 // import { mapState, mapActions, mapGetters  } from 'vuex'
-import { countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
 
 export default {
     props:['countryKey'],
     data(){
       return{
-        countryCodes_rev:countryCodes_rev
       }
     },
     computed: {

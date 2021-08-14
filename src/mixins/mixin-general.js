@@ -5,7 +5,7 @@ import { openURL } from 'quasar'
 import { version } from '../../package.json'
 import { Platform } from 'quasar'
 import { LocalStorage } from 'quasar'
-import { countryCodes, countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
+import { countryConstants, getCountryDataByName, reverseCountryCodes } from 'app/firebase-functions/shared/src/country-constants.js'
 
 import Embed from 'v-video-embed'
 Vue.use(Embed); 
@@ -14,10 +14,13 @@ export default {
 	data() {
 		return {
 			version:version,
-			countryCodes: countryCodes,
-			countryCodes_rev: countryCodes_rev
+			countryConstants:countryConstants,
+			getCountryDataByName:getCountryDataByName,
+			reverseCountryCodes:reverseCountryCodes,
 		}
 	},
+
+	
 	
 	computed: { 
 		...mapState('auth', ['myUserIdState','followData','loggedIn']),
@@ -32,9 +35,9 @@ export default {
 		...mapGetters('countries', ['countriesFiltered']),
 		...mapGetters('chat', ['unreadchatlistnew','userMessagesSortedByDate']),
 		...mapGetters('post', ['blogPostsSorted','blogPostsSortedByDate','videoPostsSorted','videoPostsSortedByDate','routePostsSorted']),
-		
+
 		countryKeys(){
-			return Object.keys(this.countryCodes_rev)
+			return Object.keys(this.reverseCountryCodes)
 		},
 		
 		isLoggedIn(){
@@ -94,11 +97,6 @@ export default {
 				}
 			}
 		},
-
-		
-		
-		
-		
 		screenwidthbig(){
 			let screenWidth = screen.width
 			if(screenWidth < 768){
@@ -196,15 +194,16 @@ export default {
 		...mapActions('markers',['updateMarkerAction']),
     	...mapActions('post', ['getPosts']),
 
-		countryCoordinatesWithKey(countryKey){
-			return this.markerCounts[this.countryCodes_rev[countryKey]].location
+		countryCoordinatesWithKey(country){
+			return this.markerCounts[this.reverseCountryCodes[country].iso2].location
 		},
 		countryCoordinatesWithCode(countrycode){
 			return this.markerCounts[countrycode].location
 		},
 
-		flagUrlFor(countryKey){
-			return ('countryflags/Flag_of_'+countryKey+'.svg.png').split(' ').join('_')
+		flagUrlFor(cc){
+			// return ('countryflags/Flag_of_'+country+'.svg.png').split(' ').join('_')
+			return ('countryflagsnew/'+cc+'.svg')
 		},
 
 

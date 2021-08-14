@@ -113,7 +113,7 @@ exports.computeCountryMarkerCounts = functions.pubsub.schedule('0 */12 * * *').o
   console.log('Geoapify inited');
 
   const countryMarkerCounts = {};
-  Object.values(countryConstants.countryCodes_rev).forEach(cc => {
+  Object.keys(countryConstants).forEach(cc => {
     countryMarkerCounts[cc] = {
       poi: 0,
       hosts: 0
@@ -123,10 +123,10 @@ exports.computeCountryMarkerCounts = functions.pubsub.schedule('0 */12 * * *').o
   function countMarker(countedField, countryName) {
     if (!countryName) return;
 
-    const cc = countryConstants.countryCodes_rev[countryName];
+    const cc = getCountryDataByName(countryName).iso2;
     if (!cc) return;
 
-    countryMarkerCounts[cc][countedField]++;
+    countryMarkerCounts[countryData.iso2][countedField]++;
   }
 
   markers = await fs.collection("Markers").get();
@@ -160,8 +160,9 @@ exports.computeCountryMarkerCounts = functions.pubsub.schedule('0 */12 * * *').o
     const hostCountryCode = await geocoder.reverseGeocodeToCountryCode(user.coordinates.lat, user.coordinates.lng);
 
     if (hostCountryCode) {
-      countMarker('hosts', countryConstants.countryCodes[hostCountryCode])
-      console.log(`Reverse geocoded user to ${countryConstants.countryCodes[hostCountryCode]}`);
+      const countryName = countryConstants.getCountryData(hostCountryCode).fullName
+      countMarker('hosts', countryName)
+      console.log(`Reverse geocoded user to ${countryName}`);
     } else {
       console.log(`Skipping user ${user.id} because no country code for coords`)
     }
@@ -230,7 +231,7 @@ exports.updateMarkerStats = functions.pubsub.schedule('0 */12 * * *').onRun((con
   let type_of_markers={}
   let markers_in_country={}
   
-  Object.values(countryConstants.countryCodes_rev).forEach(cc => {
+  Object.keys(countryConstants.countryConstants).forEach(cc => {
     markers_in_country[cc] = 0
   });
 
@@ -247,10 +248,10 @@ exports.updateMarkerStats = functions.pubsub.schedule('0 */12 * * *').onRun((con
   function countMarker(countryName) {
     if (!countryName) return;
 
-    const cc = countryConstants.countryCodes_rev[countryName];
-    if (!cc) return;
+    const countryData = countryConstants.getCountryDataByName(countryName);
+    if (!countryData) return;
 
-    markers_in_country[cc]++;
+    markers_in_country[countryData.iso2]++;
   }
 
   return fs.collection("Markers").get().then((markers) => {

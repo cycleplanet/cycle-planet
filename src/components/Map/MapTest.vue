@@ -1,16 +1,20 @@
 <template>
     <div>
       {{zoomlevel}}{{checkmapdata}}
+      <!-- {{countriesFiltered}} -->
+      <!-- <div v-for="(country, cc) in countriesFiltered" :key="cc">
+        <div>{{cc}}: {{markerCounts[cc].location}}</div>
+      </div> -->
         <template >
           <v-map ref="mymap" @ready="doSomethingOnReady()" @move="movemapfunction()" :options="mapOptions"  :zoom="zoom" :min-zoom="mapsettings.minZoom" :center="mapsettings.center" :max-bounds="mapsettings.bounds" style="height:100vh">
             <v-tilelayer :url="mapsettings.url" :attribution="mapsettings.attribution"></v-tilelayer>
+
             <div v-for="(marker, markerKey) in markerCounts" :key="markerKey" v-if="zoom<clusterbreak">
               <div v-if="mapMarkersNew==='markers'">
                 <v-marker v-if="marker.location&&marker.poi" :lat-lng="[marker.location.lat,marker.location.lng]" @click="clickmarkercounter(markerKey)">
                   <l-icon v-if="marker.poi" style="margin:1px">
                     <q-btn size="sm" rounded transparent outline style="font-size: 15px;" color="black" class="bg-amber" :label="marker.poi+' '"/>
                   </l-icon>
-                   
                 </v-marker>
               </div>
               <div v-if="mapMarkersNew==='users'">
@@ -18,7 +22,6 @@
                   <l-icon v-if="marker.users" style="margin:1px">
                     <q-btn size="sm" rounded transparent outline style="font-size: 15px;" color="white" class="bg-teal " :label="marker.users+' '"/>
                   </l-icon>
-                   
                 </v-marker>
               </div>
             </div>
@@ -49,21 +52,20 @@
               </div>
             </v-marker-cluster>
 
-            <div v-for="(countryKey) in countriesFiltered" :key="countryKey">
-              <v-marker v-if="countryKey&&countryCodes_rev" :lat-lng="mapMarkersNew==='countries'?[markerCounts[countryCodes_rev[countryKey]].location.lat,markerCounts[countryCodes_rev[countryKey]].location.lng]:[markerCounts[countryCodes_rev[countryKey]].location.lat,markerCounts[countryCodes_rev[countryKey]].location.lng+720]">
+            <div v-for="(country, cc, index) in countriesFiltered" :key="index">
+              <v-marker v-if="country" :lat-lng="mapMarkersNew==='countries'?[markerCounts[cc].location.lat,markerCounts[cc].location.lng]:[markerCounts[cc].location.lat,markerCounts[cc].location.lng+720]">
                 <l-icon>
                     <q-chip  style="margin-left:-10px;margin-top:-10px" size="md"  clickable outline class="text-subtitle1 " >
-                    <q-avatar rounded style="width:auto;" class="" clickable @click="clickedcountry(countryKey)">
-
-                      <img style="border:1px solid black; margin-left:-1px" :src="flagUrlFor(countryKey)" >
+                    <q-avatar rounded style="width:auto;" class="" clickable @click="clickedcountry(country.fullName)">
+                      <img style="border:1px solid black; margin-left:-1px" :src="flagUrlFor(cc)" >
                     </q-avatar>
                     </q-chip>
                 </l-icon>
                 <v-popup style="min-width:150px">
-                  <div class="no-padding" dense :to="'/country/'+countryKey">
+                  <div class="no-padding" dense :to="'/country/'+country.fullName">
                     <div class="text-bold">
-                      <div class="text-h6">{{countryKey}}</div>
-                      <div class="underline-hover cursor-pointer" @click="$router.push('/country/'+countryKey)">View more</div>
+                      <div class="text-h6">{{country.fullName}}</div>
+                      <div class="underline-hover cursor-pointer" @click="$router.push('/country/'+country.fullName)">View more</div>
                     </div>
                   </div>
                 </v-popup>
@@ -109,6 +111,7 @@
 
               </l-control>
             </div>
+            -->
           </v-map>
         </template>
 
@@ -135,6 +138,7 @@ import { mapState, mapGetters } from 'vuex'
 import mixinGeneral from 'src/mixins/mixin-general.js'
 import { LMap, LTileLayer, LControl, LMarker, LIcon, LPopup, LCircle } from 'vue2-leaflet'
 import Vue2LeafletMarkercluster from 'src/clustermarkers/Vue2LeafletMarkercluster'
+import { getCountryData } from 'app/firebase-functions/shared/src/country-constants.js'
 
 export default {
     mixins: [mixinGeneral, ],
@@ -247,9 +251,8 @@ export default {
           this.map = this.$refs.mymap.mapObject 
         },
         clickmarkercounter(cc){
-          this.zoom++
-          this.localcenter.lat=this.markerCounts[cc].location.lat
-          this.localcenter.lng=this.markerCounts[cc].location.lng
+          // this.getcountrymarkers(this.countryConstants[cc].fullName)
+          this.map.fitBounds(getCountryData(cc).boundingBox);
         },
         movemapfunction(){
         //   console.log('movemapfunction 1',this.map);
@@ -265,6 +268,8 @@ export default {
       })
       this.randomLat=(Math.random()*0.02)-0.01
       this.randomLng=(Math.random()*0.02)-0.01
+
+      console.log('Marker counts', this.markerCounts);
     }
 }
 </script>
