@@ -94,10 +94,8 @@ const getters = {
 
 		const searchString=state.search.toLowerCase()
 
-		return Object.fromEntries(
-			Object.entries()
-			.filter(([_, v]) => v.fullName.toLowerCase().includes(searchString))
-		);		
+        const matchingCountries = Object.entries(countryConstants).filter(([_, v]) => v.fullName.toLowerCase().includes(searchString));
+        return Object.fromEntries(matchingCountries);
 	},
 	countriesAll: (state, getters) => {
 		
