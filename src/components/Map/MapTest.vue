@@ -138,6 +138,7 @@ import { mapState, mapGetters } from 'vuex'
 import mixinGeneral from 'src/mixins/mixin-general.js'
 import { LMap, LTileLayer, LControl, LMarker, LIcon, LPopup, LCircle } from 'vue2-leaflet'
 import Vue2LeafletMarkercluster from 'src/clustermarkers/Vue2LeafletMarkercluster'
+import { getCountryData } from 'app/firebase-functions/shared/src/country-constants.js'
 
 export default {
     mixins: [mixinGeneral, ],
@@ -250,10 +251,8 @@ export default {
           this.map = this.$refs.mymap.mapObject 
         },
         clickmarkercounter(cc){
-          console.log('clickmarkercounter ',cc);
-          this.zoom++
-          this.localcenter.lat=this.markerCounts[cc].location.lat
-          this.localcenter.lng=this.markerCounts[cc].location.lng
+          // this.getcountrymarkers(this.countryConstants[cc].fullName)
+          this.map.fitBounds(getCountryData(cc).boundingBox);
         },
         movemapfunction(){
         //   console.log('movemapfunction 1',this.map);
