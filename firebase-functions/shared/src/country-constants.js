@@ -2384,11 +2384,11 @@ const countryConstants = {
 const countryNamesToCountryCodes = reverseCountryCodes();
 
 function getCountryData(iso2Code) {
-	return countryConstants[iso2Code];
+  return countryConstants[iso2Code];
 }
 
 function getCountryDataByName(countryName) {
-	return countryConstants[countryNamesToCountryCodes[countryName]]
+  return countryConstants[countryNamesToCountryCodes[countryName]];
 }
 
 function reverseCountryCodes() {
@@ -2399,5 +2399,4 @@ function reverseCountryCodes() {
 
 exports.getCountryData = getCountryData;
 exports.getCountryDataByName = getCountryDataByName;
-exports.countryConstants = countryConstants
-exports.reverseCountryCodes = reverseCountryCodes
+exports.countryConstants = countryConstants;

@@ -1,15 +1,14 @@
 <template>
   <div>
-    <!-- {{countryCodes_rev}} -->
- <q-expansion-item
+  <q-expansion-item
       expand-separator
       class="bg-white"
-      :label="'Countries ('+Object.keys(countryCodes_rev).length+')'"
+      :label="'Countries ('+Object.keys(countryConstants).length+')'"
     >
     <q-card  class="q-my-md q-pa-md">
-          <div v-for="(country, countryKey) in countryCodes_rev" :key="countryKey" >
-            <div :class="countryCodes_rev[countryKey]?'bg-green-2':'bg-red-2'">
-              {{countryKey}} - {{countryCodes_rev[countryKey]}}
+          <div v-for="countryCode in countryConstants" :key="countryKey" >
+            <div :class="getCountryData(countryCode).fullName?'bg-green-2':'bg-red-2'">
+              {{countryCode}} - {{getCountryData(countryCode).fullName}}
             </div>
           </div>
     </q-card>
@@ -19,13 +18,14 @@
 
 <script>
 import mixinGeneral from 'src/mixins/mixin-general.js'
-import { countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
+import { countryConstants, getCountryData } from 'app/firebase-functions/shared/src/country-constants.js'
 
 export default {
     mixins:[mixinGeneral],
     data(){
         return{
-          countryCodes_rev: countryCodes_rev
+          countryConstants: countryConstants,
+          getCountryData: getCountryData
         }
     },
     computed:{
