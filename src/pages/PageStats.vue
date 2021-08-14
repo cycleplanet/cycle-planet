@@ -29,7 +29,7 @@
             <div v-for="(number,countrycode,index) in usersSorted" :key="index">
                 <q-chip v-if="index<16">
                      <q-avatar>
-                        <img :src="flagUrlFor(countryConstants[countrycode].fullname)">
+                        <img :src="flagUrlFor(countryConstants[countrycode].fullName)">
                     </q-avatar>
                     <div>{{number}} users</div>
                 </q-chip>
@@ -74,7 +74,7 @@
         <div v-for="(number,countrycode, index) in landMarkersSorted" :key="index" >
             <q-chip v-if="index<16">
                 <q-avatar>
-                    <img :src="flagUrlFor(countryConstants[countrycode].fullname)">
+                    <img :src="flagUrlFor(countryConstants[countrycode].fullName)">
                 </q-avatar>
                 <div>{{number}} markers</div>
             </q-chip>

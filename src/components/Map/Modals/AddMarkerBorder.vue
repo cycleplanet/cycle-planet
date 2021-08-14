@@ -98,7 +98,7 @@ import { countryConstants } from 'app/firebase-functions/shared/src/country-cons
 				if(this.payload.coordinates.lat){
 					new Geoapify(geoapify.apiKey).reverseGeocodeToCountryCode(this.payload.coordinates.lat, this.payload.coordinates.lng).then(cc => {
 						if (cc) {
-							this.payload.country1.country=countryConstants[cc].fullname
+							this.payload.country1.country=countryConstants[cc].fullName
 						}
 					}).catch(err => {
 

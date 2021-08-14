@@ -155,7 +155,7 @@ import { geoapify } from '../../../boot/config.js'
 				console.log('currentLocation 1', this.payload);
 				if(this.payload.coordinates.lat){
 					this.geocoder.reverseGeocodeToCountryCode(this.payload.coordinates.lat, this.payload.coordinates.lng).then(cc => {
-						this.payload.country=countryConstants[cc].fullname
+						this.payload.country=countryConstants[cc].fullName
 					}).catch(err => {
 						console.log('currentLocation 3',err);
 					})

@@ -250,6 +250,7 @@ export default {
           this.map = this.$refs.mymap.mapObject 
         },
         clickmarkercounter(cc){
+          console.log('clickmarkercounter ',cc);
           this.zoom++
           this.localcenter.lat=this.markerCounts[cc].location.lat
           this.localcenter.lng=this.markerCounts[cc].location.lng
