@@ -55,22 +55,20 @@ export default {
                 }else{return false}
             }
         },
-        notifyRequest(){
-            if(this.myUserDetails){
-                if(this.myUserDetails.hosting.requests){
-                    let requestKeys={}
-                    
-                    Object.keys(this.requestsReceived).forEach(element => {
-                        if(this.myUserDetails.hosting.requests[element].status==='unanswered'){
-                            requestKeys[element]=true
-                        }
-                    })
-                    Object.keys(this.requestsNeedFeedback).forEach(element => {
-                        requestKeys[element]=true
-                    })
-                    return requestKeys
-                }else{return false}
-            }else{return false}
+        notifyRequest() {
+            if (this.myUserDetails && this.myUserDetails.hosting && this.myUserDetails.hosting.requests) {
+                let requestKeys = {}
+
+                Object.keys(this.requestsReceived).forEach(element => {
+                    if (this.myUserDetails.hosting.requests[element].status === 'unanswered') {
+                        requestKeys[element] = true
+                    }
+                })
+                Object.keys(this.requestsNeedFeedback).forEach(element => {
+                    requestKeys[element] = true
+                })
+                return requestKeys
+            } else { return false }
         }
     },
 }

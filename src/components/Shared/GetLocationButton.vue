@@ -7,7 +7,8 @@
 
 <script>
 import mixinGeneral from 'src/mixins/mixin-general.js'
-import { Geoapify } from 'src/functions/geoapify'
+import { Geoapify } from 'app/firebase-functions/shared/src/geoapify'
+import { geoapify } from '../../boot/config.js'
 
 export default {
     mixins: [mixinGeneral],
@@ -27,7 +28,7 @@ export default {
             }, { timeout: 7000 })
         },
         getCityAndCountry(position) {
-            Geoapify.reverseGeocode(position.coords.latitude, position.coords.longitude).then(address => {
+            new Geoapify(geoapify.apiKey).reverseGeocode(position.coords.latitude, position.coords.longitude).then(address => {
                 this.locationSuccess(address, position)
             }).catch(err => {
                 this.locationError(err)

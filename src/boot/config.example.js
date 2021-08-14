@@ -40,6 +40,11 @@ const firebase = {
   storage: firebaseApp.storage()
 };
 
+if (location.hostname === 'localhost') {
+  firebase.db.useEmulator('localhost', 9000);
+  firebase.fs.useEmulator('localhost', 8080);
+}
+
 export {
   firebase,
   geoapify,

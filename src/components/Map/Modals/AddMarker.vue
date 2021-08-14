@@ -52,7 +52,9 @@
 import mixinGeneral from 'src/mixins/mixin-general.js'
 import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup } from 'vue2-leaflet'
 import { uid, Notify } from 'quasar'
-import { Geoapify } from 'src/functions/geoapify';
+import { Geoapify } from 'app/firebase-functions/shared/src/geoapify'
+import { geoapify } from '../../../boot/config.js'
+import { countryCodes } from 'app/firebase-functions/shared/src/country-constants.js'
 	export default {
 		props:['refKey','countryKey'],
 		mixins: [mixinGeneral],
@@ -61,6 +63,7 @@ import { Geoapify } from 'src/functions/geoapify';
 		},
 		data() {
 			return {
+				geocoder: new Geoapify(geoapify.apiKey),
 				zoom:1,
 				warningDescription:false,
 				payload:{
@@ -89,7 +92,7 @@ import { Geoapify } from 'src/functions/geoapify';
 			currentLocation(){
 				console.log('currentLocation 1', this.payload);
 				if(this.payload.coordinates.lat){
-					Geoapify.reverseGeocodeToCountryCode(this.payload.coordinates.lat, this.payload.coordinates.lng).then(cc => {
+					this.geocoder.reverseGeocodeToCountryCode(this.payload.coordinates.lat, this.payload.coordinates.lng).then(cc => {
 						this.payload.country=countryCodes[cc];
 					}).catch(err => {
 						console.log('currentLocation 3',err);

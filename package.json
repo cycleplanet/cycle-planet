@@ -17,6 +17,7 @@
   "author": "bas idsinga <basidsinga@gmail.com>",
   "private": true,
   "scripts": {
+    "start-emulators": "firebase emulators:start --import emulators-test-data",
     "dev": "quasar dev -p 8123 -m pwa",
     "icons": "icongenie generate -i logo_icongenie.png --skip-trim --theme-color FCBA03",
     "deploy": "quasar build -m pwa && firebase deploy",

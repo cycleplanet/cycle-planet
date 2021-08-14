@@ -28,7 +28,8 @@
 
 <script>
 const axios = require('axios');
-import {Geoapify} from 'src/functions/geoapify';
+import { Geoapify } from 'app/firebase-functions/shared/src/geoapify'
+import { geoapify } from '../../../boot/config.js'
 
 	export default {
 		props: ['payload'],
@@ -58,7 +59,7 @@ import {Geoapify} from 'src/functions/geoapify';
                 )
 			},
 			getCountry(position){
-				Geoapify.reverseGeocode(position.coords.latitude, position.coords.longitude).then(address => {
+				new Geoapify(geoapify.apiKey).reverseGeocode(position.coords.latitude, position.coords.longitude).then(address => {
 					this.locationSuccess(address)
 				}).catch(err=>{
 				})

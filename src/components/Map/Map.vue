@@ -105,6 +105,7 @@ import { mapState, mapGetters } from 'vuex'
 import mixinGeneral from 'src/mixins/mixin-general.js'
 import { LMap, LTileLayer, LControl, LMarker, LIcon, LPopup, LCircle } from 'vue2-leaflet'
 import Vue2LeafletMarkercluster from 'src/clustermarkers/Vue2LeafletMarkercluster'
+import { countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
 
 export default {
     mixins: [mixinGeneral, ],
