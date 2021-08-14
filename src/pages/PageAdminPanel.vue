@@ -1,5 +1,5 @@
 <template>
-  <q-page v-if="loggedIn && teamMember" class="q-pa-sm q-gutter-y-sm">
+  <div v-if="loggedIn && teamMember" class="q-pa-sm q-gutter-y-sm">
     <p class="q-mx-md text-h4">Admin panel</p>
 
     <update-cycleplanet/>
@@ -14,7 +14,7 @@
     <countries-list/>
     <markers-list/>
 
-  </q-page>
+  </div>
 </template>
 
 <script>

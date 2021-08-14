@@ -52,7 +52,7 @@ import { emailjskey } from 'src/boot/config.js'
 export default {
   	mixins: [mixinGeneral, ],
 
-    props:[],
+    props:['otherUserId'],
 
     data() {
 	  	return {
@@ -79,16 +79,16 @@ export default {
         return 'http://cycleplanet.org/user/'+this.myUserId
       },
       otherProfile: function () {
-        return 'http://cycleplanet.org/user/'+this.$route.params.otherUserId
+        return 'http://cycleplanet.org/user/'+this.otherUserId
       },
       otherEmail: function () {
-        return this.users[this.$route.params.otherUserId].email
+        return this.users[this.otherUserId].email
       },
       otherName: function () {
-        return this.users[this.$route.params.otherUserId].fullname
+        return this.users[this.otherUserId].fullname
       },
       otherStatus: function () {
-        let status=this.users[this.$route.params.otherUserId].hosting.status
+        let status=this.users[this.otherUserId].hosting.status
         if(status==='Touring'){
           return 'This user is touring and is not able to host'
         }else if(status==='Not available for hosting'){
@@ -97,9 +97,6 @@ export default {
           return false
         }
       },
-      otherUserId(){
-        return this.$route.params.otherUserId
-      }
        
     },
 
@@ -120,9 +117,9 @@ export default {
                 status:'unanswered',
                 response:'',
                 sender:this.myUserId,
-                receiver:this.$route.params.otherUserId
+                receiver:this.otherUserId
               },
-              otherUserId:this.$route.params.otherUserId,
+              otherUserId:this.otherUserId,
               senderName:this.myUserDetails.fullname,
           })
          this.newMessage=''

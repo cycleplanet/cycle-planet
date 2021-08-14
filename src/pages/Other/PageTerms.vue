@@ -1,5 +1,5 @@
 <template>
-<q-page   >
+<div   >
   <div class="q-pa-sm">
     <div class="row">
       <div class="q-mr-md text-black cp-h2">Terms of use</div>
@@ -12,7 +12,7 @@
     <q-dialog v-model="editPage" :maximized="maximizedToggle">
       <edit-page :title="title" :data="getPages[title]" @close="editPage = false" />
     </q-dialog>
-  </q-page>
+  </div>
 </template>
 
 

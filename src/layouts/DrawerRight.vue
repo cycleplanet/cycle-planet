@@ -132,7 +132,7 @@ export default {
                     {title: 'Instagram', icon: '',img:'social_icons/icon_instagram.png', url:'https://www.instagram.com/cycle.planet' },
                 ]},
                  {name : 'General', list:true,items : [
-                  {title: 'Settings', icon: 'settings', to:'/settings', login:true },
+                  // {title: 'Settings', icon: 'settings', to:'/settings', login:true },
                   {title: 'Contact', icon: 'mail', to:'/contact' },
                   {title: 'FAQ', icon: 'help', to:'/faq' },
 

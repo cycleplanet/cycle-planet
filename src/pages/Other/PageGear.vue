@@ -1,5 +1,5 @@
 <template>
-  <q-page   >
+<div>
     <div v-for="(gearGroup, id) in gearGroups" :key="id">
       <p class="text-h4 q-ml-md q-mt-md">{{id}}</p>
         <q-separator class="q-mb-sm" />
@@ -54,8 +54,7 @@
       </div>
     </div>
     </div>
-    <!-- </div> -->
-  </q-page>
+    </div>
 </template>
 
 <script>

@@ -57,7 +57,7 @@
 
 
 	<q-dialog v-model="hostRequestDialog" :maximized="!isWebApp">
-		<host-request
+		<host-request :otherUserId="userId"
 		@close="hostRequestDialog = false"
 		/>
     </q-dialog>

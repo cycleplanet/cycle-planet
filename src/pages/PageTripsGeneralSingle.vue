@@ -1,5 +1,5 @@
 <template>
-  <div style="height:400px;" >
+  <div >
     <div>
       
       <div :style="screenwidthbig?'height:500px':'height:300px'">

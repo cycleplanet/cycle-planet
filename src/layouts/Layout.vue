@@ -82,11 +82,14 @@
     </q-drawer>
 
 
-    <q-page-container :class="($route.fullPath==='/'||$route.fullPath==='/map')?'':'constrain'" class="bg-white">
+    <q-page-container :class="($route.fullPath==='/'||$route.fullPath==='/map')?'':'constrain'" class="bg-white" style="min-height:48vh">
        <router-view />
     </q-page-container>
 
-    <Footer />
+    <cp-footer />
+
+
+
 
     <q-dialog :maximized="true" v-model="myMarkersDialog" v-if="myUserDetails">
       <markerlist-dialog :markersArray="myUserDetails.points.markers_added?Object.values(myUserDetails.points.markers_added):0" :title="'Added markers'"/>
@@ -108,8 +111,8 @@
       <trips-dialog />
     </q-dialog>
 
-
   </q-layout>
+
 </template>
 
 <script>
@@ -140,7 +143,7 @@ export default {
     }
   },
   components: {
-    'Footer' : require('layouts/Footer.vue').default,
+    'cp-footer' : require('layouts/Footer.vue').default,
 		'feedback-dialog' : require('components/Shared/FeedbackDialog.vue').default,
     'drawer-right': require('src/layouts/DrawerRight.vue').default,
 		// 'my-markers' : require('components/Marker/MyMarkers.vue').default,

@@ -1,5 +1,5 @@
 <template>
- <q-page   >
+ <div   >
     <div class="q-pa-sm">
           <q-item-label header class="text-black cp-h2">Settings</q-item-label>
             <q-separator class="q-mb-sm" />
@@ -15,7 +15,7 @@
         
 
     </div>
-  </q-page>
+  </div>
 </template>
 
 <script>

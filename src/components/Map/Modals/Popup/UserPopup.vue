@@ -1,16 +1,7 @@
 <template>
   <div>
-    <!-- <q-intersection transition="scale"> -->
     <q-item class="q-pa-none" clickable v-ripple @click="$emit('viewUserProfile')">
-      <q-item-section avatar>
-        <q-avatar >
-          <!-- user avatar lazy loading by Bogdan -->
-    <!-- <q-intersection transition="scale"> -->
-            <img :src="data.imageurl" />
-    <!-- </q-intersection> -->
-        </q-avatar>
-      </q-item-section>
-      <q-item-section class="text-bold" >
+      <q-item-section class="text-bold text-h6" >
         <q-item-label>{{data.fullname}}</q-item-label>
         <q-item-label v-if="loggedIn" caption :class="data.hosting.status==='Not available for hosting'?'text-red':'text-green'">{{data.hosting.status}}</q-item-label>
         <q-item-label  caption class="row" v-if="data.hosting.status==='Touring'">Last updated: <nice-date class="q-ml-xs" :dateprop="data.coordinates_updated"/></q-item-label>
@@ -33,7 +24,6 @@
         </q-item-label>
      
         <q-item-label v-if="myUserId!==data.userId && loggedIn">
-          <q-btn size="sm" :to="'/chat/'+data.userId" :style="buttonStyle">contact</q-btn>
           <q-btn class="q-ml-sm" size="sm" @click="$emit('viewUserProfile')" :style="buttonStyle">View profile</q-btn>
         </q-item-label>
       </q-item-section>

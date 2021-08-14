@@ -3,28 +3,21 @@
 
         <div class=" q-pa-md text-center no-padding">
             <q-img :src="userData.backgroundimageurl" :ratio="16/9"></q-img>
-            <div>
-                <q-avatar style="margin-top:-70px" size="140px" class="">
-                    <img :src="userData.imageurl" style="border:2px solid white" />
-                </q-avatar>
-            </div>
+            <q-avatar style="margin-top:-70px" size="140px" class="">
+                <img :src="userData.imageurl" style="border:2px solid white" />
+            </q-avatar>
 
             <div class="justify-center">
                 
-                <div class="justify-center">
-                    <div class="cp-h2 no-margin">{{userData.fullname}}</div>
+                <div class="cp-h2 no-margin">{{userData.fullname}}</div>
 
-                    <q-chip outline :color="userData.hosting.status==='Touring'?'primary':(userData.hosting.status==='Available for hosting'?'red':'grey')">
-                        <q-avatar>
-                            <img :src="markerlist[userData.hosting.status].iconurl">
-                        </q-avatar>
-                    {{userData.hosting.status}}
-                    </q-chip>
-                </div>
+                <q-chip outline :color="userData.hosting.status==='Touring'?'primary':(userData.hosting.status==='Available for hosting'?'red':'grey')">
+                    <q-avatar>
+                        <img :src="markerlist[userData.hosting.status].iconurl">
+                    </q-avatar>
+                {{userData.hosting.status}}
+                </q-chip>
 
-                <!-- <hosting-stats class="q-my-lg" :data="userData"/> -->
-
-                
                 <div class="row justify-center">
                     <div><b class="cursor-pointer" @click="loggedIn?clickFollowDialog('followers'):showLoginDialog()" clickable>{{otherFollowData?(otherFollowData.followers ? Object.keys(otherFollowData.followers).length :0):0}}</b> followers</div>
                     <div class="q-mx-sm">•</div>
@@ -50,46 +43,21 @@
                 </div>
             </div>
 
-            <div class="row justify-center">
-                <div v-if="userData.website">
-                    <q-btn round flat @click="openUrl(userData.website)">
-                        <q-avatar rounded class="q-ma-sm" size="34px">
-                            <img src="social_icons/icon_wordpress.png">
-                        </q-avatar>
-                    </q-btn>
-                </div>
+            
 
-                <div v-if="userData.facebook">
-                    <q-btn round flat @click="openUrl(userData.facebook)">
-                        <q-avatar rounded class="q-ma-sm" size="34px">
-                            <q-img src="social_icons/icon_facebook.png" />
-                        </q-avatar>
-                    </q-btn>
-                </div>
-
-                <div v-if="userData.instagram">
-                    <q-btn round flat @click="openIGUrl(userData.instagram)">
-                        <q-avatar rounded class="q-ma-sm" size="34px">
-                            <q-img src="social_icons/icon_instagram.png" />
-                        </q-avatar>
-                    </q-btn>
-                </div>
-
-                <div v-if="userData.youtube">
-                    <q-btn round flat @click="openUrl(userData.youtube)">
-                        <q-avatar rounded class="q-ma-sm" size="34px">
-                            <q-img src="social_icons/icon_youtube.png" />
-                        </q-avatar>
-                    </q-btn>
-                </div>
+            <div class="row justify-center q-gutter-x-md">
+                <a v-if="userData.website" @click="openUrl(userData.website)" ><img src="social_icons/icon_wordpress.png" style="width:34px"></a>
+                <a v-if="userData.facebook" @click="openUrl(userData.facebook)" ><img src="social_icons/icon_facebook.png" style="width:34px"></a>
+                <a v-if="userData.instagram" @click="openIGUrl(userData.instagram)" ><img src="social_icons/icon_instagram.png" style="width:34px"></a>
+                <a v-if="userData.youtube" @click="openUrl(userData.youtube)" ><img src="social_icons/icon_youtube.png" style="width:34px"></a>
             </div>
+            
         </div>
 
 
         <div class="q-mt-xs" v-if="loggedIn">
             <q-tabs v-model="tab" dense class="text-black" align="justify">
                 <q-tab name="about" label="About" />
-                <!-- <q-tab name="trips" label="Trips (beta)" /> -->
                 <q-tab name="hosting" label="Hosting" />
             </q-tabs>
 
@@ -99,10 +67,6 @@
                 <q-tab-panel name="about">
                     <about-tab :userId="userId" :userData="userData" />
                 </q-tab-panel>
-
-                <!-- <q-tab-panel name="trips">
-                    <trips-tab :userId="userId" :userData="userData" />
-                </q-tab-panel> -->
 
                 <q-tab-panel name="hosting">
                     <hosting-tab :userId="userId" :userData="userData" />
@@ -151,8 +115,8 @@
         </q-dialog>
 
         <q-dialog :maximized="!isWebApp" v-model="editProfileForm">
-            <edit-profile v-if="!isWebApp" :userData="userDataComputed" @close="editProfileForm = false" />
-            <edit-profile-web v-if="isWebApp" :userData="userDataComputed" @close="editProfileForm = false" />
+            <edit-profile v-if="!isWebApp" :userData="userData" @close="editProfileForm = false" />
+            <edit-profile-web v-if="isWebApp" :userData="userData" @close="editProfileForm = false" />
         </q-dialog>
 
         <q-dialog :maximized="true" v-model="markerAddedDialog" class="bg-white">
@@ -168,7 +132,7 @@
         </q-dialog>
 
         <q-dialog v-model="hostRequestDialog" :maximized="!isWebApp">
-            <host-request
+            <host-request :otherUserId="userId"
             @close="hostRequestDialog = false"
             />
         </q-dialog>
@@ -210,54 +174,35 @@ export default {
         'hosting-stats' : require('components/Shared/Modals/HostingStats.vue').default,
         'markerlist-dialog' : require('components/Marker/MarkerListDialog.vue').default,
 		'host-request' : require('components/Chat/HostRequestDialog.vue').default,
-
-
-
     },
 
     computed: {
-        ...mapState('auth', ['users', 'loggedInUserFollow']),
-        ...mapState('profile', ['userDataState']),
 
         userId() {
             return this.$route.params.otherUserId
         },
         myProfile() {
-            if (this.userId === this.myUserId) {
-                return true
-            } else {
-                return false
-            }
+            if (this.userId === this.myUserId) return true
+            else return false
         },
 
         otherFollowData() {
             return this.followData[this.userId]
         },
-        userDataComputed() {
-            return this.userData
-        }
+       
     },
 
     methods: {
         ...mapActions('auth', ['setFollow', 'setUnfollow', 'firebaseGetFollowers']),
         ...mapActions('country', ['destroyData']),
         ...mapActions('profile', ['getUserDetails']),
-		...mapActions('markers',['getMainMarkersData']),
 
         clickFollowDialog(type) {
             this.followType = type
             this.followDialog = true
         },
-        addFeedback() {
-            this.addFeedbackDialog = true
-        },
-        clickFollow(key) {
-            this.setFollow(key)
-        },
-        clickUnfollow(key) {
-            this.setUnfollow(key)
-        },
-
+        
+       
         markerDialogAdded(){
             this.markerAddedDialog=true
         },
@@ -270,23 +215,10 @@ export default {
         
     },
     created() {
-        if (this.users) {
-            if (this.users[this.userId]) {
-
-            } else {
-                this.getUserDetails(this.userId)
-
-            }
-        }
-        if (!this.loadedPosts) {
-            this.getPosts()
-        }
-
-    },
-    mounted() {
+        this.getPosts()
         this.firebaseGetFollowers()
-    },
 
+    },
 
     destroyed() { //call a method when page is left
         this.destroyData()

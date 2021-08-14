@@ -1,20 +1,40 @@
 <template>
   <div>
-    <div class="bg-secondary" v-if="isWebApp && !$route.fullPath.includes('/map') && !$route.fullPath.includes('/chat/')">
+    <div class="cp-footer bg-secondary" v-if="isWebApp && !$route.fullPath.includes('/map') && !$route.fullPath.includes('/chat/')" style="padding-top:30px">
+      <div class="text-center text-h6">More Cycle Planet? Check out these channels</div>
       <div class="text-center constrain q-gutter-x-lg" style="padding-top:30px;padding-bottom:30px">
-        <q-icon name="fab fa-github" size="lg" @click="openUrl('https://github.com/cycleplanet/cycle-planet')" class="cursor-pointer"/>
-        <q-icon name="fab fa-slack" size="lg" @click="openUrl('https://join.slack.com/t/cycle-planet/shared_invite/zt-shfov7n9-c608GlSNiGPCbRTb8D5nQA')" class="cursor-pointer"/>
-        <q-icon name="fab fa-instagram" size="lg" @click="openUrl('https://www.instagram.com/cycle.planet')" class="cursor-pointer"/>
-        <q-icon name="fab fa-facebook" size="lg" @click="openUrl('https://www.facebook.com/Cycle-Planet-100672311813208')" class="cursor-pointer"/>
-        <q-img src="social_icons/opencollective.svg" style="width:30px" @click="openUrl('https://opencollective.com/cycle-planet')" class="cursor-pointer"/>
+        <a href="https://github.com/cycleplanet/cycle-planet" target="_blank" class="iconlink">
+          <q-icon name="fab fa-github" size="lg" />
+        </a>
+        <a href="https://join.slack.com/t/cycle-planet/shared_invite/zt-shfov7n9-c608GlSNiGPCbRTb8D5nQA" target="_blank" class="iconlink">
+          <q-icon name="fab fa-slack" size="lg" />
+        </a>
+        <a href="https://www.instagram.com/cycle.planet" target="_blank" class="iconlink">
+          <q-icon name="fab fa-instagram" size="lg" />
+        </a>
+        <a href="https://www.facebook.com/Cycle-Planet-100672311813208" target="_blank" class="iconlink">
+          <q-icon name="fab fa-facebook" size="lg" />
+        </a>
+         <a href="https://opencollective.com/cycle-planet" target="_blank" class="iconlink">
+          <q-img src="social_icons/opencollective.svg" style="width:30px" />
+
+        </a>
+      </div>
+
+      <div class="text-center">
+        <div class="text-h6">Proudly sponsored by</div>
+        <a href="https://www.ortlieb.com/en_us/" target="_blank">
+         <q-img src="sponsors/ortlieb.png" style="width:150px"></q-img>
+        </a>
+       
       </div>
      
-     
+     <q-separator color="black" class="q-my-sm"/>
       <div class="constrain justify-center row" style="padding-bottom: 40px;">
         <q-list v-for="(section,sectionKey) in sections" :key="sectionKey" style="width: 25%">
-          <div class="text-bold text-h6 q-mt-md">{{section.name}}</div>
-          <router-link v-for="item in section.items" class="quicklink" :to="item.to" :key="item">
-            {{item.title}}
+          <div class="text-bold text-h6 q-mt-md">{{sectionKey}}</div>
+          <router-link v-for="(item, title) in section" class="quicklink" :to="item.to" :key="title">
+            {{title}}
           </router-link>
         </q-list>
       </div>
@@ -23,7 +43,6 @@
           <div class="q-pa-md ">Cycle Planet is a non-profit organization. This website is made by volunteers with love for the bicycle touring community.</div>
           <div class="row q-gutter-x-sm justify-center">
             <q-btn v-if="isWebApp" :style="buttonStyle" label="donate" to="/donate"/>
-            <q-btn :style="buttonStyle" label="join us" to="/team"/>
             <q-btn :style="buttonStyle" label="feedback" @click="feedbackDialog=true"/>
           </div>
         </div>
@@ -42,6 +61,11 @@
         </q-tab>
       </q-tabs>
     </q-footer>
+
+  <q-dialog v-model="feedbackDialog">
+    <feedback-dialog @close="feedbackDialog=false"/>
+  </q-dialog>
+
   </div>
 </template>
 
@@ -56,32 +80,42 @@ export default {
   mixins: [mixinGeneral, mixinHosting],
   data () {
     return {
-      sections : [
-        {name : 'Main', list:true,items : [
-            {title: 'Home', to:'/'},
-            {title: 'Trips', icon: 'alt_route', to:'/trips'},
-            {title: 'Countries', icon: 'public', to:'/countries'},
-          ]},
-        {name : 'Useful', list:true,mobile:true,items : [
-            {title: 'Get inspired', icon: 'far fa-lightbulb', to:'/get-inspired'},
-            {title: 'Resources', icon: 'fas fa-rocket', to:'/resources'},
-            {title: 'Gear', icon: 'fas fa-bicycle', to:'/gear'},
-          ]},
-        {name:'About', list:true,items:[
-            {title: 'House Rules', icon: 'speaker_notes', to:'/houserules' },
-            {title: 'Team', icon: 'groups', to:'/team' },
-            {title: 'Our story', icon: 'fas fa-book', to:'/our-story' },
-            {title: 'FAQ', icon: 'help', to:'/faq' },
-          ]},
-        {name:'Legal', list:true,items:[
-            {title: 'Privacy Policy', icon: 'security', to:'/privacy-policy' },
-            {title: 'Terms of use', icon: 'security', to:'/terms-of-use' },
-            {title: 'Cookie policy', icon: 'fas fa-cookie-bite', to:'/cookie-policy' },
-            {title: 'Contact', icon: 'mail', to:'/contact' },
-          ]},
-      ]
+      feedbackDialog:false,
+      sections:{
+        "Main":{
+          "Home":{to:'/'},
+          "Trips":{ to:'/trips'},
+          "Countries":{  to:'/countries'},
+        },
+        "Useful":{
+          "Get inspired":{ to:'/get-inspired'},
+          "Resources":{to:'/resources'},
+          "gear":{to:'/gear'},
+        },
+        "About":{
+          "House Rules":{to:'/houserules'},
+          "Team":{to:'/team'},
+          "Our story":{to:'/our-story'},
+          "FAQ":{to:'/faq'},
+        },
+        "Legal":{
+          "Privacy Policy":{to:'/privacy-policy'},
+          "Terms of use":{to:'/terms-of-use'},
+          "Cookie policy":{to:'/cookie-policy'},
+          "Contact":{to:'/contact'},
+        }
+      },
     }
   },
+  components:{
+		'feedback-dialog' : require('components/Shared/FeedbackDialog.vue').default,
+
+  },
+
+  computed:{
+    ...mapState('admin', ['userFeedback','userReports']),
+
+  }
 }
 </script>
 
@@ -96,6 +130,10 @@ export default {
   .q-footer.layout{
     display: none;
   }
+}
+.iconlink{
+  text-decoration: none;
+  color: black;
 }
 </style>
 
