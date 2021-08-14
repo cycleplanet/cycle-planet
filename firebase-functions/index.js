@@ -113,7 +113,7 @@ exports.computeCountryMarkerCounts = functions.pubsub.schedule('0 */12 * * *').o
   console.log('Geoapify inited');
 
   const countryMarkerCounts = {};
-  Object.keys(countryConstants).forEach(cc => {
+  Object.keys(countryConstants.countryConstants).forEach(cc => {
     countryMarkerCounts[cc] = {
       poi: 0,
       hosts: 0
@@ -123,8 +123,8 @@ exports.computeCountryMarkerCounts = functions.pubsub.schedule('0 */12 * * *').o
   function countMarker(countedField, countryName) {
     if (!countryName) return;
 
-    const cc = getCountryDataByName(countryName).iso2;
-    if (!cc) return;
+    const countryData = countryConstants.getCountryDataByName(countryName);
+    if (!countryData) return;
 
     countryMarkerCounts[countryData.iso2][countedField]++;
   }
