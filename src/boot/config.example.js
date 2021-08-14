@@ -1,11 +1,11 @@
-import  fb from 'firebase/app';
+import fb from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
-import 'firebase/storage';
-import 'firebase/firestore';
+import "firebase/storage";
+import "firebase/firestore";
 
 // BEGINNING OF PART TO EDIT
- 
+
 var firebaseConfig = {
   apiKey: "",
   authDomain: "",
@@ -14,18 +14,18 @@ var firebaseConfig = {
   storageBucket: "",
   messagingSenderId: "",
   appId: "",
-  measurementId: ""
+  measurementId: "",
 };
 
 const geoapify = {
-  apiKey: ''
+  apiKey: "",
 };
 
 const emailjskey = {
-  userkey: '',
-  servicekey:'',
-  templatekey_hostrequest:'',
-  templatekey_feedback:'',
+  userkey: "",
+  servicekey: "",
+  templatekey_hostrequest: "",
+  templatekey_feedback: "",
 };
 
 // END OF PART TO EDIT
@@ -37,16 +37,12 @@ const firebase = {
   auth: firebaseApp.auth(),
   db: firebaseApp.database(),
   fs: firebaseApp.firestore(),
-  storage: firebaseApp.storage()
+  storage: firebaseApp.storage(),
 };
 
-if (location.hostname === 'localhost') {
-  firebase.db.useEmulator('localhost', 9000);
-  firebase.fs.useEmulator('localhost', 8080);
+if (location.hostname === "localhost") {
+  firebase.db.useEmulator("localhost", 9000);
+  firebase.fs.useEmulator("localhost", 8080);
 }
 
-export {
-  firebase,
-  geoapify,
-  emailjskey
-};
+export { firebase, geoapify, emailjskey };

@@ -7,63 +7,62 @@
 [v-cloak] {
   display: none !important;
 }
-.underline{
+.underline {
   text-decoration: underline;
 }
-.underline-hover:hover{
+.underline-hover:hover {
   text-decoration: underline;
 }
-.constrain{
+.constrain {
   max-width: 975px;
   margin: 0 auto;
 }
-ul{
-  padding-left:15px;
+ul {
+  padding-left: 15px;
 }
-li{
-  margin:6px 0px;
+li {
+  margin: 6px 0px;
 }
-.q-card .q-item p div{
-  margin:6px 0px;
+.q-card .q-item p div {
+  margin: 6px 0px;
 }
-.mainheader{
-  background-color:$primary
+.mainheader {
+  background-color: $primary;
 }
-.mainbanner{
-  background-color:$accent
+.mainbanner {
+  background-color: $accent;
 }
-.modal-header{
-  background-color:$accent
+.modal-header {
+  background-color: $accent;
 }
-.q-btn{
-  background-color:$primaryoriginal
-  
+.q-btn {
+  background-color: $primaryoriginal;
 }
-.q-btn.q-btn--round{
-  background-color:transparent
+.q-btn.q-btn--round {
+  background-color: transparent;
 }
-.q-btn.q-btn--flat{
-  background-color:transparent
-}
-
-.buttontheme1{
-  color: black;
-  background-color:$theme
-}
-.buttontheme2{
-  color: black;
-  background-color:transparent
+.q-btn.q-btn--flat {
+  background-color: transparent;
 }
 
-.q-btn.primary{
-  background-color:$secondary
+.buttontheme1 {
+  color: black;
+  background-color: $theme;
 }
-.cp-h1{
+.buttontheme2 {
+  color: black;
+  background-color: transparent;
+}
+
+.q-btn.primary {
+  background-color: $secondary;
+}
+.cp-h1 {
   font-size: 40px;
 }
-.cp-h2{
+.cp-h2 {
   font-size: 30px;
 }
-.cp-p{
+.cp-p {
   font-size: 18px;
 }

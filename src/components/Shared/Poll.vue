@@ -1,18 +1,13 @@
 <template>
   <div>
-      
-      <div>
-          <div>Best blogs</div>
-      </div>
+    <div>
+      <div>Best blogs</div>
+    </div>
   </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
-<style>
-
-</style>
+<style></style>

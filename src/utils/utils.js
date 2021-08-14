@@ -1,9 +1,9 @@
-import { setOptions } from 'leaflet';
+import { setOptions } from "leaflet";
 
 export const debounce = (fn, time) => {
   let timeout;
 
-  const debouncedFunction = function(...args) {
+  const debouncedFunction = function (...args) {
     const context = this;
     if (timeout) {
       clearTimeout(timeout);
@@ -14,7 +14,7 @@ export const debounce = (fn, time) => {
     }, time);
   };
 
-  debouncedFunction.cancel = function() {
+  debouncedFunction.cancel = function () {
     if (timeout) {
       clearTimeout(timeout);
     }
@@ -23,8 +23,8 @@ export const debounce = (fn, time) => {
   return debouncedFunction;
 };
 
-export const capitalizeFirstLetter = string => {
-  if (!string || typeof string.charAt !== 'function') {
+export const capitalizeFirstLetter = (string) => {
+  if (!string || typeof string.charAt !== "function") {
     return string;
   }
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -32,7 +32,7 @@ export const capitalizeFirstLetter = string => {
 
 export const propsBinder = (vueElement, leafletElement, props, options) => {
   for (const key in props) {
-    const setMethodName = 'set' + capitalizeFirstLetter(key);
+    const setMethodName = "set" + capitalizeFirstLetter(key);
     const deepValue =
       props[key].type === Object ||
       props[key].type === Array ||
@@ -47,7 +47,7 @@ export const propsBinder = (vueElement, leafletElement, props, options) => {
           deep: deepValue,
         }
       );
-    } else if (setMethodName === 'setOptions') {
+    } else if (setMethodName === "setOptions") {
       vueElement.$watch(
         key,
         (newVal, oldVal) => {
@@ -71,7 +71,7 @@ export const propsBinder = (vueElement, leafletElement, props, options) => {
   }
 };
 
-export const collectionCleaner = options => {
+export const collectionCleaner = (options) => {
   const result = {};
   for (const key in options) {
     const value = options[key];
@@ -94,10 +94,10 @@ export const optionsMerger = (props, instance) => {
   for (const key in props) {
     const def = defaultProps[key]
       ? defaultProps[key].default &&
-        typeof defaultProps[key].default === 'function'
+        typeof defaultProps[key].default === "function"
         ? defaultProps[key].default.call()
         : defaultProps[key].default
-      : Symbol('unique');
+      : Symbol("unique");
     let isEqual = false;
     if (Array.isArray(def)) {
       isEqual = JSON.stringify(def) === JSON.stringify(props[key]);
@@ -116,7 +116,7 @@ export const optionsMerger = (props, instance) => {
   return result;
 };
 
-export const findRealParent = firstVueParent => {
+export const findRealParent = (firstVueParent) => {
   let found = false;
   while (firstVueParent && !found) {
     if (firstVueParent.mapObject === undefined) {

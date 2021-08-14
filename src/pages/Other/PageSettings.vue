@@ -1,65 +1,65 @@
 <template>
- <div   >
+  <div>
     <div class="q-pa-sm">
-          <q-item-label header class="text-black cp-h2">Settings</q-item-label>
-            <q-separator class="q-mb-sm" />
+      <q-item-label header class="text-black cp-h2">Settings</q-item-label>
+      <q-separator class="q-mb-sm" />
 
-          <q-item tag="label">
-            <q-item-section>
-              <q-item-label>Show my location on the map</q-item-label>
-            </q-item-section>
-            <q-item-section side >
-              <q-toggle color="blue" v-model="showLocation" val="battery" @click="editProfileSubmit" />
-            </q-item-section>
-          </q-item>
-        
-
+      <q-item tag="label">
+        <q-item-section>
+          <q-item-label>Show my location on the map</q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          <q-toggle
+            color="blue"
+            v-model="showLocation"
+            val="battery"
+            @click="editProfileSubmit"
+          />
+        </q-item-section>
+      </q-item>
     </div>
   </div>
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
-import mixinGeneral from 'src/mixins/mixin-general.js'
-export default{
-    mixins: [mixinGeneral],
-  data(){
-    return{
-    }
+import { mapGetters, mapActions } from "vuex";
+import mixinGeneral from "src/mixins/mixin-general.js";
+export default {
+  mixins: [mixinGeneral],
+  data() {
+    return {};
   },
-  computed:{
+  computed: {
     // ...mapGetters('auth', ['settings']),
-   
-    showLocation:{
-      get(){      
-      return this.myUserDetails.settings.showLocation
+
+    showLocation: {
+      get() {
+        return this.myUserDetails.settings.showLocation;
       },
-      set(value){
-        this.setShowLocation(value)
-      }
+      set(value) {
+        this.setShowLocation(value);
+      },
     },
-    sendNotifications:{
-      get(){      
-      return this.myUserDetails.settings.sendNotifications
+    sendNotifications: {
+      get() {
+        return this.myUserDetails.settings.sendNotifications;
       },
-      set(value){
-        this.setSendNotifications(value)
-      }
+      set(value) {
+        this.setSendNotifications(value);
+      },
     },
   },
-  methods:{
-    ...mapActions('settings', ['setShowLocation','setSendNotifications']),
+  methods: {
+    ...mapActions("settings", ["setShowLocation", "setSendNotifications"]),
     editProfileSubmit() {
       this.updateItemAction({
-        data:this.settings,
-        path:'Users/'+this.myUserId
-      })
-      this.$emit('close')
+        data: this.settings,
+        path: "Users/" + this.myUserId,
+      });
+      this.$emit("close");
     },
-  }
-}
-   
+  },
+};
 </script>
 
-<style>
-</style>
+<style></style>

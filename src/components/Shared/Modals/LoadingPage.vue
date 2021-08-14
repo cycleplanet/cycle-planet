@@ -1,25 +1,24 @@
 <template>
   <q-dialog v-model="loadingMarkers">
-      <img  class="loadinglogo" src="logo/logo.ico" style="width:150px"/>
+    <img class="loadinglogo" src="logo/logo.ico" style="width: 150px;" />
   </q-dialog>
 </template>
 
 <script>
 export default {
-    data(){
-        return{
-            loadingMarkers:true
-        }
-    }
-
-}
+  data() {
+    return {
+      loadingMarkers: true,
+    };
+  },
+};
 </script>
 
 <style>
-.loadinglogo{
+.loadinglogo {
   animation: roll 3s infinite;
-  opacity: .7;
-  }
+  opacity: 0.7;
+}
 @keyframes roll {
   0% {
     transform: rotate(0);

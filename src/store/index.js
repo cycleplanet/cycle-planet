@@ -1,18 +1,18 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-import settings from './store-settings'
-import auth from './store-auth'
-import countries from './store-countries'
-import country from './store-country'
-import chat from './store-chat'
-import post from './store-post'
-import profile from './store-profile'
-import other from './store-other'
-import admin from './store-admin'
-import markers from './store-markers'
+import settings from "./store-settings";
+import auth from "./store-auth";
+import countries from "./store-countries";
+import country from "./store-country";
+import chat from "./store-chat";
+import post from "./store-post";
+import profile from "./store-profile";
+import other from "./store-other";
+import admin from "./store-admin";
+import markers from "./store-markers";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 /*
  * If not building with SSR mode, you can
@@ -40,8 +40,8 @@ export default function (/* { ssrContext } */) {
 
     // enable strict mode (adds overhead!)
     // for dev mode only
-    strict: process.env.DEBUGGING
-  })
+    strict: process.env.DEBUGGING,
+  });
 
-  return Store
+  return Store;
 }

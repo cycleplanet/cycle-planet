@@ -1,40 +1,35 @@
 <template>
-<div @click="clickuser" clickable class="cursor-pointer row ">
-  <q-chip class="justify-center" size="md" @click="clickuser">
-    <q-avatar >
-      <img :src="users[userIdChecked].imageurl"  >
-    </q-avatar>
-    <div class="underline-hover">{{users[userIdChecked].fullname}}</div>
-  </q-chip>
-</div>
-  
+  <div @click="clickuser" clickable class="cursor-pointer row">
+    <q-chip class="justify-center" size="md" @click="clickuser">
+      <q-avatar>
+        <img :src="users[userIdChecked].imageurl" />
+      </q-avatar>
+      <div class="underline-hover">{{ users[userIdChecked].fullname }}</div>
+    </q-chip>
+  </div>
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters  } from 'vuex'
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
-    props:['userId'],
-    computed: {
-		...mapGetters('auth', ['users']),
-    userIdChecked(){
-      if(this.users[this.userId]){
-        return this.userId
-      }else{
-        return 'RYFRjpH3DfdWPpRfG9MIFBSPzH33'
+  props: ["userId"],
+  computed: {
+    ...mapGetters("auth", ["users"]),
+    userIdChecked() {
+      if (this.users[this.userId]) {
+        return this.userId;
+      } else {
+        return "RYFRjpH3DfdWPpRfG9MIFBSPzH33";
       }
-    }
     },
-    methods:{
-        clickuser(){
-			this.$router.push('/user/'+this.userId)
-		},
-    }
-
-}
-
+  },
+  methods: {
+    clickuser() {
+      this.$router.push("/user/" + this.userId);
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

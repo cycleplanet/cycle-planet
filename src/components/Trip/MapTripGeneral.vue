@@ -1,19 +1,56 @@
 <template>
-  <div style="height:100%">  
-    <l-map ref="mapinformation" style="height:100%" v-if="mapsettings" :options="screenwidthbig?{scrollWheelZoom:false}:{scrollWheelZoom:false, dragging:false, tap: false}"  :zoom.sync="zoom" :center="countryCoordinatesWithKey(centerCountry)"   :max-bounds="mapsettings.bounds">
-      <l-tile-layer :url="mapsettings.url" ></l-tile-layer>  
+  <div style="height: 100%;">
+    <l-map
+      ref="mapinformation"
+      style="height: 100%;"
+      v-if="mapsettings"
+      :options="
+        screenwidthbig
+          ? { scrollWheelZoom: false }
+          : { scrollWheelZoom: false, dragging: false, tap: false }
+      "
+      :zoom.sync="zoom"
+      :center="countryCoordinatesWithKey(centerCountry)"
+      :max-bounds="mapsettings.bounds"
+    >
+      <l-tile-layer :url="mapsettings.url"></l-tile-layer>
       <div v-for="(countryKey, index) in tripDetails.countries" :key="index">
-        <l-marker v-if="showParts" :lat-lng="countryCoordinatesWithKey(countryKey)" >
-          <l-icon :class-name="'markerStyleCountry markerStyle-z'+zoomStyle[zoom]">
-            <div class="absolute-center">{{index+1}}</div>
+        <l-marker
+          v-if="showParts"
+          :lat-lng="countryCoordinatesWithKey(countryKey)"
+        >
+          <l-icon
+            :class-name="'markerStyleCountry markerStyle-z' + zoomStyle[zoom]"
+          >
+            <div class="absolute-center">{{ index + 1 }}</div>
           </l-icon>
         </l-marker>
-        <l-polyline v-if="index>0" color="DeepSkyBlue" dashOffset="3" :lat-lngs="[countryCoordinatesWithKey(tripDetails.countries[index-1]),countryCoordinatesWithKey(countryKey)]"></l-polyline>
+        <l-polyline
+          v-if="index > 0"
+          color="DeepSkyBlue"
+          dashOffset="3"
+          :lat-lngs="[
+            countryCoordinatesWithKey(tripDetails.countries[index - 1]),
+            countryCoordinatesWithKey(countryKey),
+          ]"
+        ></l-polyline>
       </div>
       <div v-if="showParts">
-        <l-control position="topleft"  class="q-ma-md">
-          <q-btn icon="add" dense class="row bg-white q-pa-xs" size="sm" @click="zoom++"/>
-          <q-btn icon="remove" dense class="row bg-white q-pa-xs q-mt-sm" size="sm" @click="zoom--"/>
+        <l-control position="topleft" class="q-ma-md">
+          <q-btn
+            icon="add"
+            dense
+            class="row bg-white q-pa-xs"
+            size="sm"
+            @click="zoom++"
+          />
+          <q-btn
+            icon="remove"
+            dense
+            class="row bg-white q-pa-xs q-mt-sm"
+            size="sm"
+            @click="zoom--"
+          />
         </l-control>
       </div>
     </l-map>
@@ -21,127 +58,147 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
-import mixinGeneral from 'src/mixins/mixin-general.js'
+import { mapState, mapActions, mapGetters } from "vuex";
+import mixinGeneral from "src/mixins/mixin-general.js";
 
-import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup, LPolyline} from 'vue2-leaflet'
-import L from 'leaflet'
-import 'leaflet/dist/leaflet.css'
-import { latLng, Icon } from 'leaflet';
-const axios = require('axios');
+import {
+  LMap,
+  LTileLayer,
+  LControl,
+  LMarker,
+  LIcon,
+  LPopup,
+  LFeatureGroup,
+  LPolyline,
+} from "vue2-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import { latLng, Icon } from "leaflet";
+const axios = require("axios");
 // import  from './LGpx.vue';
 
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
-  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
-  iconUrl: require('leaflet/dist/images/marker-icon.png'),
-  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+  iconUrl: require("leaflet/dist/images/marker-icon.png"),
+  shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
-
-export default {   
+export default {
   mixins: [mixinGeneral],
-  props:['tripDetails','showParts'],
+  props: ["tripDetails", "showParts"],
 
   components: {
-    LMap,LTileLayer,LControl,LMarker,LIcon,LPopup,LFeatureGroup,LPolyline,
+    LMap,
+    LTileLayer,
+    LControl,
+    LMarker,
+    LIcon,
+    LPopup,
+    LFeatureGroup,
+    LPolyline,
   },
 
-  data () {
+  data() {
     return {
-      zoom:2,
-      zoomStyle:{
-        1:2,
-        2:2,
-        3:3,
-        4:4,
-        5:5,
-        6:6,
-        7:7,
-        8:8,
-        9:9,
-        10:9,
-        11:9,
-        12:9,
-        13:9,
-        14:9,
-        15:9,
-        16:9,
-        17:9,
-        18:9,
-      }
-    }
+      zoom: 2,
+      zoomStyle: {
+        1: 2,
+        2: 2,
+        3: 3,
+        4: 4,
+        5: 5,
+        6: 6,
+        7: 7,
+        8: 8,
+        9: 9,
+        10: 9,
+        11: 9,
+        12: 9,
+        13: 9,
+        14: 9,
+        15: 9,
+        16: 9,
+        17: 9,
+        18: 9,
+      },
+    };
   },
 
-  computed:{
-    centerCountry(){
-      console.log('centerCountry 1',Object.keys(this.tripDetails.countries).length);
-      console.log('centerCountry 2',Object.keys(this.tripDetails.countries).length/2);
-      console.log('centerCountry 3',Math.floor(Object.keys(this.tripDetails.countries).length/2));
-      console.log('centerCountry 3',this.tripDetails.countries);
-      return this.tripDetails.countries[Math.floor(Object.keys(this.tripDetails.countries).length/2)]
-    }
-  }
-}
-
-
+  computed: {
+    centerCountry() {
+      console.log(
+        "centerCountry 1",
+        Object.keys(this.tripDetails.countries).length
+      );
+      console.log(
+        "centerCountry 2",
+        Object.keys(this.tripDetails.countries).length / 2
+      );
+      console.log(
+        "centerCountry 3",
+        Math.floor(Object.keys(this.tripDetails.countries).length / 2)
+      );
+      console.log("centerCountry 3", this.tripDetails.countries);
+      return this.tripDetails.countries[
+        Math.floor(Object.keys(this.tripDetails.countries).length / 2)
+      ];
+    },
+  },
+};
 </script>
 
 <style>
-.markerStyle-z2{
+.markerStyle-z2 {
   width: 10px !important;
   height: 10px !important;
   margin-left: -5px !important;
   margin-top: -5px !important;
   font-size: 7px;
-
 }
-.markerStyle-z3{
+.markerStyle-z3 {
   width: 16px !important;
   height: 16px !important;
   margin-left: -8px !important;
   margin-top: -8px !important;
   font-size: 10px;
-
 }
-.markerStyle-z4{
+.markerStyle-z4 {
   width: 22px !important;
   height: 22px !important;
   margin-left: -11px !important;
   margin-top: -11px !important;
   font-size: 13px;
-
 }
-.markerStyle-z5{
+.markerStyle-z5 {
   width: 28px !important;
   height: 28px !important;
   margin-left: -14px !important;
   margin-top: -14px !important;
   font-size: 16px;
 }
-.markerStyle-z6{
+.markerStyle-z6 {
   width: 34px !important;
   height: 34px !important;
   margin-left: -17px !important;
   margin-top: -17px !important;
   font-size: 19px;
 }
-.markerStyle-z7{
-  width: 40px !important;
-  height: 40px !important;
-  margin-left: -20px !important;
-  margin-top: -20px !important;
-  font-size: 21px;
-  
-}
-.markerStyle-z8{
+.markerStyle-z7 {
   width: 40px !important;
   height: 40px !important;
   margin-left: -20px !important;
   margin-top: -20px !important;
   font-size: 21px;
 }
-.markerStyle-z9{
+.markerStyle-z8 {
+  width: 40px !important;
+  height: 40px !important;
+  margin-left: -20px !important;
+  margin-top: -20px !important;
+  font-size: 21px;
+}
+.markerStyle-z9 {
   width: 40px !important;
   height: 40px !important;
   margin-left: -20px !important;
@@ -155,27 +212,30 @@ export default {
   border-radius: 50%;
 }
 .markerStyleStory {
-  background-color: rgb(252,186,3);
+  background-color: rgb(252, 186, 3);
   border: 1px solid black;
   border-radius: 50%;
 }
-.border{
-    border:1px solid black;
-    margin-top:10px;
-    border-radius: 5px;
-    padding:3px;
-
+.border {
+  border: 1px solid black;
+  margin-top: 10px;
+  border-radius: 5px;
+  padding: 3px;
 }
-.alignText{
+.alignText {
   vertical-align: middle;
 }
-.map-overlay{
-  background-image:  linear-gradient(to bottom, rgba(240,255,0, 0.1),rgba(0,0,0, 0.80));
+.map-overlay {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(240, 255, 0, 0.1),
+    rgba(0, 0, 0, 0.8)
+  );
   position: absolute;
-  height:400px;
+  height: 400px;
   width: 600px;
 }
-.leaflet-control-zoom{
+.leaflet-control-zoom {
   display: none;
 }
 .overlay {
@@ -187,12 +247,12 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
   z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
   cursor: pointer; /* Add a pointer on hover */
 }
-.ownfont{
-	font-family: 'customfont';
+.ownfont {
+  font-family: "customfont";
 }
 .center {
   display: flex;
@@ -202,7 +262,7 @@ export default {
 }
 
 .circle {
-  background:#e6606b;
+  background: #e6606b;
   width: 20px;
   height: 20px;
   border-radius: 50%;

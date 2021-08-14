@@ -5,13 +5,15 @@
 </template>
 
 <script>
-import { MarkerClusterGroup } from 'leaflet.markercluster'
-import { findRealParent, propsBinder } from 'vue2-leaflet'
-import { DomEvent } from 'leaflet'
+import { MarkerClusterGroup } from "leaflet.markercluster";
+import { findRealParent, propsBinder } from "vue2-leaflet";
+import { DomEvent } from "leaflet";
 const props = {
   options: {
     type: Object,
-    default() { return {}; },
+    default() {
+      return {};
+    },
   },
 };
 export default {
@@ -45,7 +47,7 @@ export default {
       if (!alreadyRemoved) {
         this.mapObject.removeLayer(layer.mapObject);
       }
-    }
-  }
+    },
+  },
 };
 </script>

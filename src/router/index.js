@@ -1,16 +1,13 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import routes from './routes'
-import VueAnalytics from 'vue-analytics'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import routes from "./routes";
+import VueAnalytics from "vue-analytics";
 
-Vue.use(VueRouter)
-Vue.use(VueAnalytics,{
-  id:'228807717',
-  disabled:true,
-})
-
-
-
+Vue.use(VueRouter);
+Vue.use(VueAnalytics, {
+  id: "228807717",
+  disabled: true,
+});
 
 /*
  * If not building with SSR mode, you can
@@ -21,7 +18,6 @@ Vue.use(VueAnalytics,{
  * with the Router instance.
  */
 
- 
 export default function (/* { store, ssrContext } */) {
   const Router = new VueRouter({
     scrollBehavior: () => ({ x: 0, y: 0 }),
@@ -31,9 +27,9 @@ export default function (/* { store, ssrContext } */) {
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
     // mode: 'history',
-     mode: process.env.VUE_ROUTER_MODE,
-    base: process.env.VUE_APP_DEBUG_NAME
-  })
+    mode: process.env.VUE_ROUTER_MODE,
+    base: process.env.VUE_APP_DEBUG_NAME,
+  });
 
-  return Router
+  return Router;
 }
