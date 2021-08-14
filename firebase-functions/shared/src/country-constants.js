@@ -1397,8 +1397,8 @@ function getCountryDataByName(countryName) {
 
 function reverseCountryCodes() {
   revMap = {};
-  Object.keys(countryData).forEach(
-    (k) => (revMap[countryData[k].fullName] = k)
+  Object.keys(countryConstants).forEach(
+    (k) => (revMap[countryConstants[k].fullName] = k)
   );
   return revMap;
 }
