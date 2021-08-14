@@ -11,13 +11,11 @@
 </template>
 
 <script>
-import { countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
 
 export default {
     props:['countryKey','index','last','myProfile'],
     data(){
       return{
-        countryCodes_rev:countryCodes_rev
       }
     },
     computed: {

@@ -115,7 +115,7 @@
 import { mapState, mapActions, mapGetters } from 'vuex'
 import mixinGeneral from 'src/mixins/mixin-general.js'
 import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup, LCircle } from 'vue2-leaflet'
-const countryConstants = require('app/firebase-functions/shared/src/country-constants.js')
+const reverseCountryCodes = require('app/firebase-functions/shared/src/country-constants.js')
 
 export default {
     mixins: [mixinGeneral],
@@ -132,7 +132,7 @@ export default {
       options: [
           'Available for hosting', 'Not available for hosting', 'Touring'
       ],
-      countries: Object.values(countryConstants.countryCodes)
+      countries: Object.keys(reverseCountryCodes)
 	  }
   },
 

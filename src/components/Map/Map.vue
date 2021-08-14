@@ -23,7 +23,7 @@
     </v-marker-cluster>
 
             <div v-for="(countryKey) in countriesFiltered" :key="countryKey">
-              <v-marker v-if="countryKey&&markerCounts" :lat-lng="mapMarkersNew==='countries'?markerCounts[countryCodes_rev[countryKey]].location:[markerCounts[countryCodes_rev[countryKey]].location.lat,markerCounts[countryCodes_rev[countryKey]].location.lng+720]">
+              <v-marker v-if="countryKey&&markerCounts" :lat-lng="mapMarkersNew==='countries'?[markerCounts[getCountryDataByName(country)].location.lat,markerCounts[getCountryDataByName(country)].location.lng]:[markerCounts[getCountryDataByName(country)].location.lat,markerCounts[getCountryDataByName(country)].location.lng+720]">
                 <l-icon>
                     <q-chip  style="margin-left:-10px;margin-top:-10px" size="md"  clickable outline class="text-subtitle1 " >
                     <q-avatar rounded style="width:auto;" class="" clickable @click="clickedcountry(countryKey)">
@@ -105,7 +105,6 @@ import { mapState, mapGetters } from 'vuex'
 import mixinGeneral from 'src/mixins/mixin-general.js'
 import { LMap, LTileLayer, LControl, LMarker, LIcon, LPopup, LCircle } from 'vue2-leaflet'
 import Vue2LeafletMarkercluster from 'src/clustermarkers/Vue2LeafletMarkercluster'
-import { countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
 
 export default {
     mixins: [mixinGeneral, ],

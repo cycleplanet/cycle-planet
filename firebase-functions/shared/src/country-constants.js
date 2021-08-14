@@ -83,34 +83,6 @@ const countryConstants = {
 		]
 	  ]
 	},
-	"AQ": {
-	  "iso2": "AQ",
-	  "fullName": "Antarctica",
-	  "boundingBox": [
-		[
-		  -90,
-		  -180
-		],
-		[
-		  -63.2706604895,
-		  180
-		]
-	  ]
-	},
-	"TF": {
-	  "iso2": "TF",
-	  "fullName": "Fr. S. and Antarctic Lands",
-	  "boundingBox": [
-		[
-		  -49.775,
-		  68.72
-		],
-		[
-		  -48.625,
-		  70.56
-		]
-	  ]
-	},
 	"AU": {
 	  "iso2": "AU",
 	  "fullName": "Australia",
@@ -738,20 +710,6 @@ const countryConstants = {
 		[
 		  -16.0208822567,
 		  180
-		]
-	  ]
-	},
-	"FK": {
-	  "iso2": "FK",
-	  "fullName": "Falkland Is.",
-	  "boundingBox": [
-		[
-		  -52.3,
-		  -61.2
-		],
-		[
-		  -51.1,
-		  -57.75
 		]
 	  ]
 	},
@@ -2435,10 +2393,11 @@ function getCountryDataByName(countryName) {
 
 function reverseCountryCodes() {
     revMap = {};
-    Object.keys(countryData).forEach(k => revMap[countryData[k].fullName] = k);
+    Object.keys(countryConstants).forEach(k => revMap[countryConstants[k].fullName] = k);
     return revMap;
 }
 
 exports.getCountryData = getCountryData;
 exports.getCountryDataByName = getCountryDataByName;
 exports.countryConstants = countryConstants
+exports.reverseCountryCodes = reverseCountryCodes

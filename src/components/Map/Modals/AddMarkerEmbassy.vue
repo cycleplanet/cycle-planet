@@ -155,7 +155,7 @@ import { geoapify } from '../../../boot/config.js'
 				console.log('currentLocation 1', this.payload);
 				if(this.payload.coordinates.lat){
 					this.geocoder.reverseGeocodeToCountryCode(this.payload.coordinates.lat, this.payload.coordinates.lng).then(cc => {
-						this.payload.country=countryCodes[cc];
+						this.payload.country=countryConstants[cc].fullname
 					}).catch(err => {
 						console.log('currentLocation 3',err);
 					})
@@ -189,7 +189,7 @@ import { geoapify } from '../../../boot/config.js'
 					this.payload.country=this.payload.country
 				}
 				if(this.payload.onlineVisa){
-					this.payload.coordinates=this.markerCounts[this.countryCodes_rev[this.payload.country]].location
+					this.payload.coordinates=this.markerCounts[this.getCountryDataByName(this.payload.country).iso2].location
 				}
 				let markerId=uid()
 				

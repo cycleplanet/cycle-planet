@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { firebase } from 'boot/config'
 import {showErrorMessage} from 'src/functions/function-show-error-message'
-import { countryCodes_rev } from 'app/firebase-functions/shared/src/country-constants.js'
+import { countryConstants } from 'app/firebase-functions/shared/src/country-constants.js'
 
 const state = {
 	allCountryData:{},
@@ -73,9 +73,6 @@ const actions = {
 		firebase.db.ref('Country_data/').on('child_added', snapshot => {
 			let countryDetails = snapshot.val()
 			let countryKey = snapshot.key
-			// firebase.db.ref('CountryMarkerCounts/'+state.countryCodes_rev[countryKey]).update({
-			// 	location:countryDetails.location
-			// })
 			
 			commit('addCountry', {countryKey,countryDetails})
 		})
@@ -93,23 +90,14 @@ const actions = {
 const getters = {
 	
 	countriesFiltered: (state, getters) => {
-		let countriesSorted = Object.keys(countryCodes_rev),
-			countriesFiltered = {}
+		if (!state.search) return countryConstants
 
-		if (state.search) {
-			Object.keys(countriesSorted).forEach((key)=> {
-				let country = countriesSorted[key]
-				let countryName=countriesSorted[key].toLowerCase()
-				let searchstring=state.search.toLowerCase()
-				let valid = countryName.includes(searchstring)
-				if (valid) {
-				countriesFiltered[key] = country
+		const searchString=state.search.toLowerCase()
 
-				}
-			})
-			return countriesFiltered		
-		}
-		return Object.keys(countryCodes_rev)
+		return Object.fromEntries(
+			Object.entries()
+			.filter(([_, v]) => v.fullName.toLowerCase().includes(searchString))
+		);		
 	},
 	countriesAll: (state, getters) => {
 		

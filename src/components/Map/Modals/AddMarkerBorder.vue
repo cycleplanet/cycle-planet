@@ -62,7 +62,7 @@ import { LMap, LTileLayer, LControl, LMarker,LIcon, LPopup, LFeatureGroup } from
 import { uid } from 'quasar'
 import { Geoapify } from 'app/firebase-functions/shared/src/geoapify'
 import { geoapify } from '../../../boot/config.js'
-import { countryCodes } from 'app/firebase-functions/shared/src/country-constants.js'
+import { countryConstants } from 'app/firebase-functions/shared/src/country-constants.js'
 
 	export default {
 		props:['refKey','countryKey'],
@@ -98,7 +98,7 @@ import { countryCodes } from 'app/firebase-functions/shared/src/country-constant
 				if(this.payload.coordinates.lat){
 					new Geoapify(geoapify.apiKey).reverseGeocodeToCountryCode(this.payload.coordinates.lat, this.payload.coordinates.lng).then(cc => {
 						if (cc) {
-							 this.payload.country1.country=countryCodes[cc]
+							this.payload.country1.country=countryConstants[cc].fullname
 						}
 					}).catch(err => {
 
