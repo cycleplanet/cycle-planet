@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ zoomlevel }}{{ checkmapdata }}
+    {{ zoomLevel }} {{ clusterBreak }}
     <!-- {{countriesFiltered}} -->
     <!-- <div v-for="(country, cc) in countriesFiltered" :key="cc">
         <div>{{cc}}: {{markerCounts[cc].location}}</div>
@@ -8,10 +8,10 @@
     <template>
       <v-map
         ref="mymap"
-        @ready="doSomethingOnReady()"
-        @move="movemapfunction()"
+        @ready="setMapOnReady()"
+        @update:zoom="zoomLevelChanged()"
         :options="mapOptions"
-        :zoom="zoom"
+        :zoom="zoomLevel"
         :min-zoom="mapsettings.minZoom"
         :center="mapsettings.center"
         :max-bounds="mapsettings.bounds"
@@ -25,13 +25,13 @@
         <div
           v-for="(marker, markerKey) in markerCounts"
           :key="markerKey"
-          v-if="zoom < clusterbreak"
+          v-if="zoomLevel < clusterBreak"
         >
           <div v-if="mapMarkersNew === 'markers'">
             <v-marker
               v-if="marker.location && marker.poi"
               :lat-lng="[marker.location.lat, marker.location.lng]"
-              @click="clickmarkercounter(markerKey)"
+              @click="clickCountryMarkerCount(markerKey)"
             >
               <l-icon v-if="marker.poi" style="margin: 1px;">
                 <q-btn
@@ -70,7 +70,7 @@
         <div
           v-if="
             loggedIn &&
-            zoom >= clusterbreak &&
+            zoomLevel >= clusterBreak &&
             mapMarkersNew === 'users' &&
             clickedUserId2
           "
@@ -91,7 +91,7 @@
           />
         </div>
         <v-marker-cluster
-          v-if="zoom >= clusterbreak"
+          v-if="zoomLevel >= clusterBreak"
           :options="clusterOptions"
           @clusterclick="click()"
           @ready="true"
@@ -224,14 +224,14 @@
               dense
               class="row bg-white q-pa-xs"
               size="sm"
-              @click="zoom++"
+              @click="map.zoomIn()"
             />
             <q-btn
               icon="remove"
               dense
               class="row bg-white q-pa-xs q-mt-sm"
               size="sm"
-              @click="zoom--"
+              @click="map.zoomOut()"
             />
           </l-control>
 
@@ -322,6 +322,9 @@ import {
 import Vue2LeafletMarkercluster from "src/clustermarkers/Vue2LeafletMarkercluster";
 import { getCountryData } from "app/firebase-functions/shared/src/country-constants.js";
 
+const DEFAULT_ZOOM_LEVEL = 3
+const DEFAULT_CLUSTER_BREAK = 6.5
+
 export default {
   mixins: [mixinGeneral],
 
@@ -352,8 +355,7 @@ export default {
   data() {
     return {
       map: null,
-      zoom: 3,
-      clusterbreak: 6.5,
+      clusterBreak: 6.5,
       // mapMarkersNew: '',
       showAddNewMarker: false,
       clusterOptions: {},
@@ -400,28 +402,23 @@ export default {
       }
     },
 
-    zoomlevel() {
+    zoomLevel() {
       if (this.map) {
-        this.zoom = this.map._zoom;
-      }
-    },
-    checkmapdata() {
-      if (this.map) {
-        console.log("checkmapdata 1", this.map);
-        // this.movemapfunction()
-        console.log("checkmapdata 2", this.localcenter.lat);
-      }
-    },
+        return this.map.getZoom();
+      } else return DEFAULT_ZOOM_LEVEL
+    }
   },
 
   methods: {
     click: (e) => console.log("clusterclick", e),
     ready: (e) => console.log("ready", e),
+
     modalShown() {
       setTimeout(() => {
         this.$refs.mymap.mapObject.invalidateSize();
       }, 100);
     },
+
     clickedUserMethod(userKey) {
       if (this.isWebApp) {
         let routeData = this.$router.resolve("/user/" + userKey);
@@ -431,6 +428,7 @@ export default {
         this.userdialog = true;
       }
     },
+
     clickedMarkerMethod(itemKey) {
       this.itemDialog = true;
       this.itemDetails = {};
@@ -440,20 +438,29 @@ export default {
     clickusermarker(userKey) {
       this.clickedUserId2 = userKey;
     },
-    doSomethingOnReady() {
+
+    setMapOnReady() {
       this.map = this.$refs.mymap.mapObject;
     },
-    clickmarkercounter(cc) {
-      // this.getcountrymarkers(this.countryConstants[cc].fullName)
-      this.map.fitBounds(getCountryData(cc).boundingBox);
+
+    // when a user zooms out beyond clusterBreak, let's reset clusterBreak to
+    // default so zooming in won't start a slow load of all markers until the
+    // default cluster break is hit.
+    // Otherwise, clicking the marker count of a large country like Russia or
+    // Canada would render the whole clusterBreak mechanism useless until a full
+    // page reload
+    zoomLevelChanged() {
+      const newZoomLevel = this.map.getZoom();
+      if (newZoomLevel < this.clusterBreak || newZoomLevel === this.mapsettings.minZoom) this.clusterBreak = DEFAULT_CLUSTER_BREAK;
     },
-    movemapfunction() {
-      //   console.log('movemapfunction 1',this.map);
-      //   console.log('movemapfunction 2',this.map._lastCenter.lat);
-      //   this.localcenter.lat=this.map._lastCenter.lat
-      //   this.localcenter.lng=this.map._lastCenter.lng
+
+    async clickCountryMarkerCount(cc) {
+      this.map.fitBounds(getCountryData(cc).boundingBox);
+      const newZoomLevel = this.map.getZoom();
+      this.clusterBreak = Math.min(this.map.getZoom(), this.clusterBreak);
     },
   },
+
   mounted() {
     this.$nextTick(() => {
       this.clusterOptions = { disableClusteringAtZoom: 11 };
