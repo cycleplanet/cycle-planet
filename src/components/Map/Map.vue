@@ -22,7 +22,7 @@
           :key="markerKey"
           v-if="zoomLevel < clusterBreak"
         >
-          <div v-if="mapMarkersNew === 'markers'">
+          <div v-if="showMarkersFor === 'poi'">
             <v-marker
               v-if="marker.location && marker.poi"
               :lat-lng="[marker.location.lat, marker.location.lng]"
@@ -42,13 +42,13 @@
               </l-icon>
             </v-marker>
           </div>
-          <div v-if="mapMarkersNew === 'users'">
+          <div v-if="showMarkersFor === 'hosts'">
             <v-marker
-              v-if="marker.location && marker.users"
+              v-if="marker.location && marker.hosts"
               :lat-lng="[marker.location.lat, marker.location.lng]"
               @click="clickCountryMarkerCount(markerKey)"
             >
-              <l-icon v-if="marker.users" style="margin: 1px;">
+              <l-icon v-if="marker.hosts" style="margin: 1px;">
                 <q-btn
                   size="sm"
                   rounded
@@ -57,7 +57,7 @@
                   style="font-size: 15px;"
                   color="white"
                   class="bg-teal"
-                  :label="marker.users + ' '"
+                  :label="marker.hosts + ' '"
                 />
               </l-icon>
             </v-marker>
@@ -67,7 +67,7 @@
           v-if="
             loggedIn &&
             zoomLevel >= clusterBreak &&
-            mapMarkersNew === 'users' &&
+            showMarkersFor === 'hosts' &&
             clickedUserId2
           "
         >
@@ -95,7 +95,7 @@
           <div v-for="(marker, markerKey) in landMarkers" :key="markerKey">
             <v-marker
               :lat-lng="
-                mapMarkersNew === 'markers'
+                showMarkersFor === 'poi'
                   ? [marker.coordinates.lat, marker.coordinates.lng]
                   : [0, 720]
               "
@@ -113,7 +113,7 @@
             </v-marker>
           </div>
           <div
-            v-if="mapMarkersNew === 'users'"
+            v-if="showMarkersFor === 'hosts'"
             v-for="(userData, userKey) in usersWithMapLocation"
             :key="userKey"
           >
@@ -163,7 +163,7 @@
           <v-marker
             v-if="country && markerCounts[cc]"
             :lat-lng="
-              mapMarkersNew === 'countries'
+              showMarkersFor === 'countries'
                 ? [markerCounts[cc].location.lat, markerCounts[cc].location.lng]
                 : [
                     markerCounts[cc].location.lat,
@@ -242,23 +242,23 @@
               <q-option-group
                 :options="radio_options"
                 type="radio"
-                v-model="mapMarkersNew"
+                v-model="showMarkersFor"
               />
               <!-- <div>Zoom: {{zoom}}</div> -->
               <!-- <div>Lat: {{localcenter.lat}}</div> -->
             </div>
 
-            <marker-filter v-if="mapMarkersNew === 'markers'" class="col" />
-            <user-filter v-if="mapMarkersNew === 'users'" class="col" />
-            <search-countries v-if="mapMarkersNew === 'countries'" />
+            <marker-filter v-if="showMarkersFor === 'poi'" class="col" />
+            <user-filter v-if="showMarkersFor === 'hosts'" class="col" />
+            <search-countries v-if="showMarkersFor === 'countries'" />
           </l-control>
 
           <l-control position="bottomleft">
             <q-banner
-              v-if="mapMarkersNew === 'users' && !loggedIn"
+              v-if="showMarkersFor === 'hosts' && !loggedIn"
               class="bg-red-3 text-black"
             >
-              Location of users are not correct. You need to login to see
+              Locations of users are not precise. You need to login to see
               accurate locations
             </q-banner>
             <q-btn
@@ -352,7 +352,6 @@ export default {
     return {
       map: null,
       clusterBreak: 6.5,
-      // mapMarkersNew: '',
       showAddNewMarker: false,
       clusterOptions: {},
       userdialog: false,
@@ -361,7 +360,7 @@ export default {
       clickedUserId2: "",
       itemDetails: {},
       isload: false,
-      mapMarkersNew: "users",
+      showMarkersFor: "hosts",
       localcenter: {
         lat: 0,
         lng: 0,
@@ -370,8 +369,8 @@ export default {
       randomLng: 0.05,
 
       radio_options: [
-        { label: "Land markers", value: "markers", color: "red" },
-        { label: "Users", value: "users", color: "red" },
+        { label: "Points of Interest", value: "poi", color: "red" },
+        { label: "Hosts", value: "hosts", color: "red" },
         { label: "Country Wiki", value: "countries", color: "red" },
       ],
     };
