@@ -1,10 +1,5 @@
 <template>
   <div>
-    {{ zoomLevel }} {{ clusterBreak }}
-    <!-- {{countriesFiltered}} -->
-    <!-- <div v-for="(country, cc) in countriesFiltered" :key="cc">
-        <div>{{cc}}: {{markerCounts[cc].location}}</div>
-      </div> -->
     <template>
       <v-map
         ref="mymap"
@@ -51,6 +46,7 @@
             <v-marker
               v-if="marker.location && marker.users"
               :lat-lng="[marker.location.lat, marker.location.lng]"
+              @click="clickCountryMarkerCount(markerKey)"
             >
               <l-icon v-if="marker.users" style="margin: 1px;">
                 <q-btn
@@ -322,8 +318,8 @@ import {
 import Vue2LeafletMarkercluster from "src/clustermarkers/Vue2LeafletMarkercluster";
 import { getCountryData } from "app/firebase-functions/shared/src/country-constants.js";
 
-const DEFAULT_ZOOM_LEVEL = 3
-const DEFAULT_CLUSTER_BREAK = 6.5
+const DEFAULT_ZOOM_LEVEL = 3;
+const DEFAULT_CLUSTER_BREAK = 6.5;
 
 export default {
   mixins: [mixinGeneral],
@@ -405,8 +401,8 @@ export default {
     zoomLevel() {
       if (this.map) {
         return this.map.getZoom();
-      } else return DEFAULT_ZOOM_LEVEL
-    }
+      } else return DEFAULT_ZOOM_LEVEL;
+    },
   },
 
   methods: {
@@ -451,7 +447,11 @@ export default {
     // page reload
     zoomLevelChanged() {
       const newZoomLevel = this.map.getZoom();
-      if (newZoomLevel < this.clusterBreak || newZoomLevel === this.mapsettings.minZoom) this.clusterBreak = DEFAULT_CLUSTER_BREAK;
+      if (
+        newZoomLevel < this.clusterBreak ||
+        newZoomLevel === this.mapsettings.minZoom
+      )
+        this.clusterBreak = DEFAULT_CLUSTER_BREAK;
     },
 
     async clickCountryMarkerCount(cc) {
