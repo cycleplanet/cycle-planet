@@ -276,7 +276,7 @@ const actions = {
           });
         }
       });
-    firebase.db.signOut();
+    firebase.auth.signOut();
   },
 
   firebaseUpdateToken({}, payload) {
