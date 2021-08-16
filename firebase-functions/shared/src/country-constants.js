@@ -1,10 +1,34 @@
 const countryConstants = {
+  AD: {
+    iso2: "AD",
+    fullName: "Andorra",
+    boundingBox: [
+      [42.417452824164435, 1.3819164390881604],
+      [42.67249321789804, 1.7992928967266377],
+    ],
+  },
+  AE: {
+    iso2: "AE",
+    fullName: "United Arab Emirates",
+    boundingBox: [
+      [22.4969475367, 51.5795186705],
+      [26.055464179, 56.3968473651],
+    ],
+  },
   AF: {
     iso2: "AF",
     fullName: "Afghanistan",
     boundingBox: [
       [29.318572496, 60.5284298033],
       [38.4862816432, 75.1580277851],
+    ],
+  },
+  AG: {
+    iso2: "AF",
+    fullName: "Antigua and Barbuda",
+    boundingBox: [
+      [16.97791515268311, -61.94260693957849],
+      [17.761341369349335, -61.686240912016515],
     ],
   },
   AO: {
@@ -23,20 +47,21 @@ const countryConstants = {
       [42.6882473822, 21.0200403175],
     ],
   },
-  AE: {
-    iso2: "AE",
-    fullName: "United Arab Emirates",
-    boundingBox: [
-      [22.4969475367, 51.5795186705],
-      [26.055464179, 56.3968473651],
-    ],
-  },
+  
   AR: {
     iso2: "AR",
     fullName: "Argentina",
     boundingBox: [
       [-55.25, -73.4154357571],
       [-21.8323104794, -53.628348965],
+    ],
+  },
+  AS: {
+    iso2: "AS",
+    fullName: "American Samoa",
+    boundingBox: [
+      [-14.381831598198502, -170.84854555920649],
+      [-14.229702197424459, -170.54396814082213],
     ],
   },
   AM: {
@@ -63,12 +88,28 @@ const countryConstants = {
       [49.0390742051, 16.9796667823],
     ],
   },
+  AW: {
+    iso2: "AW",
+    fullName: "Aruba",
+    boundingBox: [
+      [12.39296256965915, -70.08815475145093],
+      [12.634861862919196, -69.85451804208694],
+    ],
+  },
   AZ: {
     iso2: "AZ",
     fullName: "Azerbaijan",
     boundingBox: [
       [38.2703775091, 44.7939896991],
       [41.8606751572, 50.3928210793],
+    ],
+  },
+  BB: {
+    iso2: "BB",
+    fullName: "Barbados",
+    boundingBox: [
+      [13.045731878730564, -59.68494691609267],
+      [13.346481757752356, -59.40386299928462],
     ],
   },
   BI: {
@@ -119,6 +160,14 @@ const countryConstants = {
       [44.2349230007, 28.5580814959],
     ],
   },
+  BH: {
+    iso2: "BH",
+    fullName: "Bahrain",
+    boundingBox: [
+      [25.56269553944, 50.36078481269258],
+      [26.34622549286839, 50.84792831650223],
+    ],
+  },
   BS: {
     iso2: "BS",
     fullName: "Bahamas",
@@ -129,7 +178,7 @@ const countryConstants = {
   },
   BA: {
     iso2: "BA",
-    fullName: "Bosnia and Herz.",
+    fullName: "Bosnia and Herzegovina",
     boundingBox: [
       [42.65, 15.7500260759],
       [45.2337767604, 19.59976],
@@ -193,7 +242,7 @@ const countryConstants = {
   },
   CF: {
     iso2: "CF",
-    fullName: "Central African Rep.",
+    fullName: "Central African Republic",
     boundingBox: [
       [2.2676396753, 14.4594071794],
       [11.1423951278, 27.3742261085],
@@ -233,7 +282,7 @@ const countryConstants = {
   },
   CI: {
     iso2: "CI",
-    fullName: "Ivory Coast",
+    fullName: "Cote d'Ivoire",
     boundingBox: [
       [4.33828847902, -8.60288021487],
       [10.5240607772, -2.56218950033],
@@ -249,7 +298,7 @@ const countryConstants = {
   },
   CD: {
     iso2: "CD",
-    fullName: "Congo [Kinshasa]",
+    fullName: "Congo, Democratic Republic",
     boundingBox: [
       [-13.2572266578, 12.1823368669],
       [5.25608775474, 31.1741492042],
@@ -257,10 +306,18 @@ const countryConstants = {
   },
   CG: {
     iso2: "CG",
-    fullName: "Congo [Brazzaville]",
+    fullName: "Congo, Republic",
     boundingBox: [
       [-5.03798674888, 11.0937728207],
       [3.72819651938, 18.4530652198],
+    ],
+  },
+  CK: {
+    iso2: "CK",
+    fullName: "Cook Islands",
+    boundingBox: [
+      [-22.114161345636237, -160.24291974255536],
+      [-18.717423462750194, -157.78056931203716],
     ],
   },
   CO: {
@@ -287,6 +344,22 @@ const countryConstants = {
       [23.1886107447, -74.1780248685],
     ],
   },
+  CV: {
+    iso2: "CV",
+    fullName: "Cape Verde",
+    boundingBox: [
+      [14.689936110370386, -25.609731680770867],
+      [17.3350366192175, -22.51405313242647],
+    ],
+  },
+  CW: {
+    iso2: "CW",
+    fullName: "Curaçao",
+    boundingBox: [
+      [11.982084371255489, -69.2217274475702],
+      [12.391635222041353, -68.60238415856082],
+    ],
+  },
   CY: {
     iso2: "CY",
     fullName: "Cyprus",
@@ -297,7 +370,7 @@ const countryConstants = {
   },
   CZ: {
     iso2: "CZ",
-    fullName: "Czech Rep.",
+    fullName: "Czech Republic",
     boundingBox: [
       [48.5553052842, 12.2401111182],
       [51.1172677679, 18.8531441586],
@@ -327,9 +400,17 @@ const countryConstants = {
       [57.730016588, 12.6900061378],
     ],
   },
+  DM: {
+    iso2: "DM",
+    fullName: "Dominica",
+    boundingBox: [
+      [15.189989696441362, -61.49896026637638],
+      [15.652623013732734, -61.234913806810454],
+    ],
+  },
   DO: {
     iso2: "DO",
-    fullName: "Dominican Rep.",
+    fullName: "Dominican Republic",
     boundingBox: [
       [17.598564358, -71.9451120673],
       [19.8849105901, -68.3179432848],
@@ -407,6 +488,22 @@ const countryConstants = {
       [-16.0208822567, 180],
     ],
   },
+  FM: {
+    iso2: "FM",
+    fullName: "Micronesia",
+    boundingBox: [
+      [6.763602155366165, 158.08416083862346],
+      [7.0377799006226, 158.3606167309732],
+    ],
+  },
+  FO: {
+    iso2: "FO",
+    fullName: "Faroe Islands",
+    boundingBox: [
+      [61.39759987586435, -7.7831373706064255],
+      [62.429100534608885, -6.032150955817634],
+    ],
+  },
   FR: {
     iso2: "FR",
     fullName: "France",
@@ -431,6 +528,14 @@ const countryConstants = {
       [58.6350001085, 1.68153079591],
     ],
   },
+  GD: {
+    iso2: "GD",
+    fullName: "Grenada",
+    boundingBox: [
+      [11.985861479889824, -61.81697386108993],
+      [12.563971538076629, -61.36427326795818],
+    ],
+  },
   GE: {
     iso2: "GE",
     fullName: "Georgia",
@@ -439,12 +544,28 @@ const countryConstants = {
       [43.553104153, 46.6379081561],
     ],
   },
+  GF: {
+    iso2: "GF",
+    fullName: "French Guiana",
+    boundingBox: [
+      [1.922366072885753, -54.73660972061988],
+      [5.679791898817586, -51.40427484246132],
+    ],
+  },
   GH: {
     iso2: "GH",
     fullName: "Ghana",
     boundingBox: [
       [4.71046214438, -3.24437008301],
       [11.0983409693, 1.0601216976],
+    ],
+  },
+  GI: {
+    iso2: "GI",
+    fullName: "Gibraltar",
+    boundingBox: [
+      [36.106353293322066, -5.36806374717395],
+      [36.155916009084585, -5.333888332223305],
     ],
   },
   GN: {
@@ -465,7 +586,7 @@ const countryConstants = {
   },
   GW: {
     iso2: "GW",
-    fullName: "Guinea Bissau",
+    fullName: "Guinea-Bissau",
     boundingBox: [
       [11.0404116887, -16.6774519516],
       [12.6281700708, -13.7004760401],
@@ -473,7 +594,7 @@ const countryConstants = {
   },
   GQ: {
     iso2: "GQ",
-    fullName: "Eq. Guinea",
+    fullName: "Equatorial Guinea",
     boundingBox: [
       [1.01011953369, 9.3056132341],
       [2.28386607504, 11.285078973],
@@ -509,6 +630,14 @@ const countryConstants = {
     boundingBox: [
       [1.26808828369, -61.4103029039],
       [8.36703481692, -56.5393857489],
+    ],
+  },
+  HK: {
+    iso2: "HK",
+    fullName: "Hong Kong",
+    boundingBox: [
+      [22.177197984074372, 113.82420097525592],
+      [22.582748267012363, 114.42142981213384],
     ],
   },
   HN: {
@@ -663,9 +792,33 @@ const countryConstants = {
       [14.5705838078, 107.614547968],
     ],
   },
+  KI: {
+    iso2: "KI",
+    fullName: "Kiribati",
+    boundingBox: [
+      [1.6798504784921835, -157.59661732674542],
+      [2.076936186388872, -157.11913954795352],
+    ],
+  },
+  KM: {
+    iso2: "KM",
+    fullName: "Comoros",
+    boundingBox: [
+      [-12.604999965756575, 43.0295442751568],
+      [-11.29175249023404, 44.64249757698091],
+    ],
+  },
+  KN: {
+    iso2: "KN",
+    fullName: "Saint Kitts and Nevis",
+    boundingBox: [
+      [17.06314389393137, -62.90132268772603],
+      [17.42333054557871, -62.49687708797402],
+    ],
+  },
   KR: {
     iso2: "KR",
-    fullName: "S. Korea",
+    fullName: "South Korea",
     boundingBox: [
       [34.3900458847, 126.117397903],
       [38.6122429469, 129.468304478],
@@ -693,6 +846,22 @@ const countryConstants = {
     boundingBox: [
       [33.0890400254, 35.1260526873],
       [34.6449140488, 36.6117501157],
+    ],
+  },
+  LC: {
+    iso2: "LC",
+    fullName: "Saint Lucia",
+    boundingBox: [
+      [13.693502181869043, -61.08933072262439],
+      [14.118026264760072, -60.85898897546525],
+    ],
+  },
+  LI: {
+    iso2: "LI",
+    fullName: "Liechtenstein",
+    boundingBox: [
+      [47.0402636090691, 9.44575625076311],
+      [47.27912679656889, 9.636564808273212],
     ],
   },
   LR: {
@@ -759,6 +928,14 @@ const countryConstants = {
       [35.7599881048, -1.12455115397],
     ],
   },
+  MC: {
+    iso2: "MC",
+    fullName: "Monaco",
+    boundingBox: [
+      [43.72426900765138, 7.407313159980604],
+      [43.75192264566373, 7.441653831389954],
+    ],
+  },
   MD: {
     iso2: "MD",
     fullName: "Moldova",
@@ -767,12 +944,28 @@ const countryConstants = {
       [48.4671194525, 30.0246586443],
     ],
   },
+  MF: {
+    iso2: "MF",
+    fullName: "Saint Martin",
+    boundingBox: [
+      [17.998856739199645, -63.16585919144463],
+      [18.137098731172916, -62.96592822630362],
+    ],
+  },
   MG: {
     iso2: "MG",
     fullName: "Madagascar",
     boundingBox: [
       [-25.6014344215, 43.2541870461],
       [-12.0405567359, 50.4765368996],
+    ],
+  },
+  MH: {
+    iso2: "MH",
+    fullName: "Marshall Islands",
+    boundingBox: [
+      [7.242435544083269, 168.41483231704888],
+      [7.821281515626566, 169.1019542267993],
     ],
   },
   MX: {
@@ -823,6 +1016,14 @@ const countryConstants = {
       [52.0473660345, 119.772823928],
     ],
   },
+  MO: {
+    iso2: "MO",
+    fullName: "Macau",
+    boundingBox: [
+      [22.127746661922203, 113.49943992340735],
+      [22.2167344635996, 113.59724285158003],
+    ],
+  },
   MZ: {
     iso2: "MZ",
     fullName: "Mozambique",
@@ -837,6 +1038,30 @@ const countryConstants = {
     boundingBox: [
       [14.6168342147, -17.0634232243],
       [27.3957441269, -4.92333736817],
+    ],
+  },
+  MT: {
+    iso2: "MT",
+    fullName: "Malta",
+    boundingBox: [
+      [35.79423296165734, 14.151633761446499],
+      [36.086697598980976, 14.619790188626538],
+    ],
+  },
+  MU: {
+    iso2: "MU",
+    fullName: "Mauritius",
+    boundingBox: [
+      [-20.5771759072706, 57.21126343318688],
+      [-19.83884637737797, 57.915369612392],
+    ],
+  },
+  MV: {
+    iso2: "MV",
+    fullName: "Maldives",
+    boundingBox: [
+      [-0.9113423404969719, 72.44953041113672],
+      [6.852219355563365, 74.06185707347991],
     ],
   },
   MW: {
@@ -919,6 +1144,14 @@ const countryConstants = {
       [30.4227169866, 88.1748043151],
     ],
   },
+  NR: {
+    iso2: "NR",
+    fullName: "Nauru",
+    boundingBox: [
+      [-0.5578479717113421, 166.90734347217932],
+      [-0.499483471749511, 166.96262131658082],
+    ],
+  },
   NZ: {
     iso2: "NZ",
     fullName: "New Zealand",
@@ -959,6 +1192,14 @@ const countryConstants = {
       [-0.0572054988649, -68.6650797187],
     ],
   },
+  PF: {
+    iso2: "PF",
+    fullName: "French Polynesia",
+    boundingBox: [
+      [-17.953926358243656, -149.97309781517708],
+      [-17.428102392654786, -149.058458507388],
+    ],
+  },
   PH: {
     iso2: "PH",
     fullName: "Philippines",
@@ -991,9 +1232,25 @@ const countryConstants = {
       [18.5206011011, -65.5910037909],
     ],
   },
+  PS: {
+    iso2: "PS",
+    fullName: "Palestine",
+    boundingBox: [
+      [31.165380818755306, 34.169069485228306],
+      [32.57470390915119, 35.62482692468221],
+    ],
+  },
+  PW: {
+    iso2: "PW",
+    fullName: "Palau",
+    boundingBox: [
+      [6.8336298281020085, 134.0503780464659],
+      [7.789413074971502, 134.7524165255001],
+    ],
+  },
   KP: {
     iso2: "KP",
-    fullName: "N. Korea",
+    fullName: "North Korea",
     boundingBox: [
       [37.669070543, 124.265624628],
       [42.9853868678, 130.780007359],
@@ -1031,6 +1288,14 @@ const countryConstants = {
       [48.2208812526, 29.62654341],
     ],
   },
+  RS: {
+    iso2: "RS",
+    fullName: "Serbia",
+    boundingBox: [
+      [42.2452243971, 18.82982],
+      [46.1717298447, 22.9860185076],
+    ],
+  },
   RU: {
     iso2: "RU",
     fullName: "Russia",
@@ -1055,6 +1320,22 @@ const countryConstants = {
       [32.161008816, 55.6666593769],
     ],
   },
+  SB: {
+    iso2: "SB",
+    fullName: "Solomon Islands",
+    boundingBox: [
+      [-10.8263672828, 156.491357864],
+      [-6.59933847415, 162.398645868],
+    ],
+  },
+  SC: {
+    iso2: "SC",
+    fullName: "Seychelles",
+    boundingBox: [
+      [-4.8165720056456305, 55.31225468974184],
+      [-4.219952362861905, 55.90454993185486],
+    ],
+  },
   SD: {
     iso2: "SD",
     fullName: "Sudan",
@@ -1063,76 +1344,20 @@ const countryConstants = {
       [22, 38.4100899595],
     ],
   },
-  SS: {
-    iso2: "SS",
-    fullName: "S. Sudan",
+  SE: {
+    iso2: "SE",
+    fullName: "Sweden",
     boundingBox: [
-      [3.50917, 23.8869795809],
-      [12.2480077571, 35.2980071182],
+      [55.3617373725, 11.0273686052],
+      [69.1062472602, 23.9033785336],
     ],
   },
-  SN: {
-    iso2: "SN",
-    fullName: "Senegal",
+  SG: {
+    iso2: "SG",
+    fullName: "Singapore",
     boundingBox: [
-      [12.332089952, -17.6250426905],
-      [16.5982636581, -11.4678991358],
-    ],
-  },
-  SB: {
-    iso2: "SB",
-    fullName: "Solomon Is.",
-    boundingBox: [
-      [-10.8263672828, 156.491357864],
-      [-6.59933847415, 162.398645868],
-    ],
-  },
-  SL: {
-    iso2: "SL",
-    fullName: "Sierra Leone",
-    boundingBox: [
-      [6.78591685631, -13.2465502588],
-      [10.0469839543, -10.2300935531],
-    ],
-  },
-  SV: {
-    iso2: "SV",
-    fullName: "El Salvador",
-    boundingBox: [
-      [13.1490168319, -90.0955545723],
-      [14.4241327987, -87.7235029772],
-    ],
-  },
-  SO: {
-    iso2: "SO",
-    fullName: "Somalia",
-    boundingBox: [
-      [-1.68325, 40.98105],
-      [12.02464, 51.13387],
-    ],
-  },
-  RS: {
-    iso2: "RS",
-    fullName: "Serbia",
-    boundingBox: [
-      [42.2452243971, 18.82982],
-      [46.1717298447, 22.9860185076],
-    ],
-  },
-  SR: {
-    iso2: "SR",
-    fullName: "Suriname",
-    boundingBox: [
-      [1.81766714112, -58.0446943834],
-      [6.0252914494, -53.9580446031],
-    ],
-  },
-  SK: {
-    iso2: "SK",
-    fullName: "Slovakia",
-    boundingBox: [
-      [47.7584288601, 16.8799829444],
-      [49.5715740017, 22.5581376482],
+      [1.149226327726779, 103.55719969957994],
+      [1.4883670580369166, 104.12881217789821],
     ],
   },
   SI: {
@@ -1143,12 +1368,84 @@ const countryConstants = {
       [46.8523859727, 16.5648083839],
     ],
   },
-  SE: {
-    iso2: "SE",
-    fullName: "Sweden",
+  SK: {
+    iso2: "SK",
+    fullName: "Slovakia",
     boundingBox: [
-      [55.3617373725, 11.0273686052],
-      [69.1062472602, 23.9033785336],
+      [47.7584288601, 16.8799829444],
+      [49.5715740017, 22.5581376482],
+    ],
+  },
+  SL: {
+    iso2: "SL",
+    fullName: "Sierra Leone",
+    boundingBox: [
+      [6.78591685631, -13.2465502588],
+      [10.0469839543, -10.2300935531],
+    ],
+  },
+  SM: {
+    iso2: "SM",
+    fullName: "San Marino",
+    boundingBox: [
+      [43.88772861006763, 12.397943292309943],
+      [43.99493878816262, 12.52786059979232],
+    ],
+  },
+  SN: {
+    iso2: "SN",
+    fullName: "Senegal",
+    boundingBox: [
+      [12.332089952, -17.6250426905],
+      [16.5982636581, -11.4678991358],
+    ],
+  },
+  SO: {
+    iso2: "SO",
+    fullName: "Somalia",
+    boundingBox: [
+      [-1.68325, 40.98105],
+      [12.02464, 51.13387],
+    ],
+  },
+  SR: {
+    iso2: "SR",
+    fullName: "Suriname",
+    boundingBox: [
+      [1.81766714112, -58.0446943834],
+      [6.0252914494, -53.9580446031],
+    ],
+  },
+  SS: {
+    iso2: "SS",
+    fullName: "South Sudan",
+    boundingBox: [
+      [3.50917, 23.8869795809],
+      [12.2480077571, 35.2980071182],
+    ],
+  },
+  ST: {
+    iso2: "ST",
+    fullName: "Sao Tome and Principe",
+    boundingBox: [
+      [-0.013708240034433342, 6.405286306684213],
+      [1.7945392586160167, 7.583760892354913],
+    ],
+  },
+  SV: {
+    iso2: "SV",
+    fullName: "El Salvador",
+    boundingBox: [
+      [13.1490168319, -90.0955545723],
+      [14.4241327987, -87.7235029772],
+    ],
+  },
+  SX: {
+    iso2: "SX",
+    fullName: "Sint Maarten",
+    boundingBox: [
+      [17.999414530316933, -63.14050281691246],
+      [18.063830078363836, -62.98967316201023],
     ],
   },
   SZ: {
@@ -1199,14 +1496,6 @@ const countryConstants = {
       [40.9602133245, 74.9800024759],
     ],
   },
-  TM: {
-    iso2: "TM",
-    fullName: "Turkmenistan",
-    boundingBox: [
-      [35.2706639674, 52.5024597512],
-      [42.7515510117, 66.5461503437],
-    ],
-  },
   TL: {
     iso2: "TL",
     fullName: "East Timor",
@@ -1215,12 +1504,12 @@ const countryConstants = {
       [-8.27334482181, 127.335928176],
     ],
   },
-  TT: {
-    iso2: "TT",
-    fullName: "Trinidad and Tobago",
+  TM: {
+    iso2: "TM",
+    fullName: "Turkmenistan",
     boundingBox: [
-      [10, -61.95],
-      [10.89, -60.895],
+      [35.2706639674, 52.5024597512],
+      [42.7515510117, 66.5461503437],
     ],
   },
   TN: {
@@ -1231,12 +1520,37 @@ const countryConstants = {
       [37.3499944118, 11.4887874691],
     ],
   },
+  TO: {
+    iso2: "TO",
+    fullName: "Tonga",
+    boundingBox: [
+      [-21.465920998659335, -175.3762983790691],
+      [-21.05300341946692, -174.84938764767716],
+    ],
+  },
+  TT: {
+    iso2: "TT",
+    fullName: "Trinidad and Tobago",
+    boundingBox: [
+      [10, -61.95],
+      [10.89, -60.895],
+    ],
+  },
+  
   TR: {
     iso2: "TR",
     fullName: "Turkey",
     boundingBox: [
       [35.8215347357, 26.0433512713],
       [42.1414848903, 44.7939896991],
+    ],
+  },
+  TV: {
+    iso2: "TV",
+    fullName: "Tuvalu",
+    boundingBox: [
+      [-8.652427651768171, 178.97002228054674],
+      [-8.40877921232478, 179.21486269533975],
     ],
   },
   TW: {
@@ -1281,7 +1595,7 @@ const countryConstants = {
   },
   US: {
     iso2: "US",
-    fullName: "United States",
+    fullName: "United States of America",
     boundingBox: [
       [18.91619, -171.791110603],
       [71.3577635769, -66.96466],
@@ -1293,6 +1607,22 @@ const countryConstants = {
     boundingBox: [
       [37.1449940049, 55.9289172707],
       [45.5868043076, 73.055417108],
+    ],
+  },
+  VA: {
+    iso2: "VA",
+    fullName: "Vatican City",
+    boundingBox: [
+      [41.899184612598376, 12.445881184559493],
+      [41.907200644724114, 12.459186108799637],
+    ],
+  },
+  VC: {
+    iso2: "VC",
+    fullName: "Saint Vincent and the Grenadines",
+    boundingBox: [
+      [12.521628145627805, -61.4744510073802],
+      [13.430244839577007, -61.04315138606564],
     ],
   },
   VE: {
@@ -1319,12 +1649,28 @@ const countryConstants = {
       [-14.6264970842, 167.844876744],
     ],
   },
-  PS: {
-    iso2: "PS",
-    fullName: "West Bank",
+  VU: {
+    iso2: "VU",
+    fullName: "Vanuatu",
     boundingBox: [
-      [31.3534353704, 34.9274084816],
-      [32.5325106878, 35.5456653175],
+      [-16.5978496233, 166.629136998],
+      [-14.6264970842, 167.844876744],
+    ],
+  },
+  WS: {
+    iso2: "WS",
+    fullName: "Samoa",
+    boundingBox: [
+      [-14.095957877914726, -172.92149152683794],
+      [-13.36752383949733, -171.26316724329152],
+    ],
+  },
+  XK: {
+    iso2: "XK",
+    fullName: "Kosovo",
+    boundingBox: [
+      [41.81341051711876, 19.968030316308802],
+      [43.21143123729114, 21.89313847822513],
     ],
   },
   YE: {
