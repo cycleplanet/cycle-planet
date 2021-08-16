@@ -2,7 +2,7 @@
   <div>
     <div class="q-pa-sm">
       <q-item-label header class="text-black cp-h2">
-        <div class="q-mr-md">q{{ title }}</div>
+        <div class="q-mr-md">{{ title }}</div>
         <q-separator class="q-mb-sm" />
 
         <q-btn
