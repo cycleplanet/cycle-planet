@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <q-page>
     <div>
       <div :style="screenwidthbig ? 'height:500px' : 'height:300px'">
         <map-trip-general :tripDetails="tripDetails" :showParts="true" />
@@ -83,7 +83,7 @@
         </q-tab-panel>
       </q-tab-panels>
     </div>
-  </div>
+  </q-page>
 </template>
 
 <script>
