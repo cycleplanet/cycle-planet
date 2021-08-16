@@ -59,7 +59,7 @@
             <q-chip v-if="index < 16">
               <q-avatar>
                 <img
-                  :src="flagUrlFor(countryConstants[countrycode].fullName)"
+                  :src="flagUrlFor(countrycode)"
                 />
               </q-avatar>
               <div>{{ number }} users</div>
@@ -117,7 +117,7 @@
             <q-chip v-if="index < 16">
               <q-avatar>
                 <img
-                  :src="flagUrlFor(countryConstants[countrycode].fullName)"
+                  :src="flagUrlFor(countrycode)"
                 />
               </q-avatar>
               <div>{{ number }} markers</div>

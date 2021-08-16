@@ -239,6 +239,7 @@ import {
 } from "vue2-leaflet";
 import { Geoapify } from "app/firebase-functions/shared/src/geoapify";
 import { geoapify } from "../../../boot/config.js";
+import { getCountryData } from "app/firebase-functions/shared/src/country-constants.js";
 
 export default {
   props: ["refKey", "countryKey"],
@@ -258,6 +259,7 @@ export default {
       zoom: 1,
       warningDescription: false,
       addVisa: false,
+      getCountryData:getCountryData,
       visas: [],
       payload: {
         visas: [],
@@ -286,7 +288,7 @@ export default {
             this.payload.coordinates.lng
           )
           .then((cc) => {
-            this.payload.country = countryConstants[cc].fullName;
+            this.payload.country = getCountryData(cc).fullName;
           })
           .catch((err) => {
             console.log("currentLocation 3", err);

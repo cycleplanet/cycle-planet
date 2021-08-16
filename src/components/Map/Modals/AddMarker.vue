@@ -110,7 +110,8 @@ import {
 import { uid, Notify } from "quasar";
 import { Geoapify } from "app/firebase-functions/shared/src/geoapify";
 import { geoapify } from "../../../boot/config.js";
-import { countryConstants } from "app/firebase-functions/shared/src/country-constants.js";
+import { getCountryData } from "app/firebase-functions/shared/src/country-constants.js";
+
 export default {
   props: ["refKey", "countryKey"],
   mixins: [mixinGeneral],
@@ -128,7 +129,7 @@ export default {
       geocoder: new Geoapify(geoapify.apiKey),
       zoom: 1,
       warningDescription: false,
-      countryConstants: countryConstants,
+      getCountryData:getCountryData,
       payload: {
         description: "",
         country: "",
@@ -164,7 +165,7 @@ export default {
             this.payload.coordinates.lng
           )
           .then((cc) => {
-            this.payload.country = countryConstants[cc].fullName;
+            this.payload.country = getCountryData(cc).fullName;
           })
           .catch((err) => {
             console.log("currentLocation 3", err);

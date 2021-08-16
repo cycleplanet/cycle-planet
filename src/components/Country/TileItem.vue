@@ -168,13 +168,13 @@
                         >{{ index + 1 }}.
                         <img
                           :src="
-                            flagUrlFor(landMarkers[markerKey].country1.country)
+                            flagUrlFor(getCountryDataByName(landMarkers[markerKey].country1.country).iso2)
                           "
                           style="width: 25px;"
                         />{{ landMarkers[markerKey].country1.city }} -
                         <img
                           :src="
-                            flagUrlFor(landMarkers[markerKey].country2.country)
+                            flagUrlFor(getCountryDataByName(landMarkers[markerKey].country2.country).iso2)
                           "
                           style="width: 25px;"
                         />{{
@@ -269,6 +269,7 @@
 <script>
 import mixinGeneral from "src/mixins/mixin-general.js";
 import { mapState, mapActions, mapGetters } from "vuex";
+import { getCountryDataByName } from "app/firebase-functions/shared/src/country-constants.js";
 
 export default {
   mixins: [mixinGeneral],
@@ -299,6 +300,7 @@ export default {
       indexSeeDo: 5,
       indexBikeShop: 5,
       indexEmbassy: 5,
+      getCountryDataByName:getCountryDataByName,
     };
   },
   computed: {

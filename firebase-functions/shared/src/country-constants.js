@@ -1728,3 +1728,4 @@ function reverseCountryCodes() {
 exports.getCountryData = getCountryData;
 exports.getCountryDataByName = getCountryDataByName;
 exports.countryConstants = countryConstants;
+exports.reverseCountryCodes = reverseCountryCodes;

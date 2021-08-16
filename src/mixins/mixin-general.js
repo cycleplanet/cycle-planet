@@ -5,11 +5,7 @@ import { openURL } from "quasar";
 import { version } from "../../package.json";
 import { Platform } from "quasar";
 import { LocalStorage } from "quasar";
-import {
-  countryConstants,
-  getCountryDataByName,
-  reverseCountryCodes,
-} from "app/firebase-functions/shared/src/country-constants.js";
+import { getCountryData, countryConstants, getCountryDataByName, reverseCountryCodes } from "app/firebase-functions/shared/src/country-constants.js";
 
 import Embed from "v-video-embed";
 Vue.use(Embed);
@@ -18,6 +14,7 @@ export default {
   data() {
     return {
       version: version,
+	  getCountryData: getCountryData,
       countryConstants: countryConstants,
       getCountryDataByName: getCountryDataByName,
       reverseCountryCodes: reverseCountryCodes,
@@ -49,7 +46,7 @@ export default {
     ]),
 
     countryKeys() {
-      return Object.keys(this.reverseCountryCodes);
+		return Object.keys(this.reverseCountryCodes()).sort()
     },
 
     isLoggedIn() {

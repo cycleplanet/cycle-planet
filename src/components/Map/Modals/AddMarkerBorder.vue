@@ -75,7 +75,7 @@
 
         <p class="cp-h2">Details of first country</p>
         <div class="text-h6">
-          <b>Country:</b> {{ payload.country1.country }}{{ currentLocation }}
+          <b>Country:1 </b> {{ payload.country1.country }}{{ currentLocation }}
         </div>
 
         <q-input
@@ -131,8 +131,7 @@ import {
 import { uid } from "quasar";
 import { Geoapify } from "app/firebase-functions/shared/src/geoapify";
 import { geoapify } from "../../../boot/config.js";
-import { countryConstants } from "app/firebase-functions/shared/src/country-constants.js";
-
+import { getCountryData } from "app/firebase-functions/shared/src/country-constants.js";
 export default {
   props: ["refKey", "countryKey"],
   mixins: [mixinGeneral],
@@ -149,6 +148,7 @@ export default {
     return {
       zoom: 1,
       warningDescription: false,
+      getCountryData:getCountryData,
       payload: {
         country1: { city: "", country: "" },
         country2: { city: "", country: "" },
@@ -181,7 +181,7 @@ export default {
           )
           .then((cc) => {
             if (cc) {
-              this.payload.country1.country = countryConstants[cc].fullName;
+              this.payload.country1.country = getCountryData(cc).fullName;
             }
           })
           .catch((err) => {});
