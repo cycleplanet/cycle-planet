@@ -1,13 +1,5 @@
 <template>
   <div class="q-ma-sm">
-    <!-- <div>countryKey:{{countryKey}}</div>
-	<div>countryData name:{{countryData.name}}</div>
-	<div>countryData qf:{{countryData.quickFacts}}</div> -->
-    <!-- <div>countryData:{{countryData}}</div>
-<div>pageReady:{{pageReady}}</div>
-<div>checkCountry:{{checkCountry}}</div>
-<div>checkMarkersLoaded:{{checkMarkersLoaded}}</div>
- -->
     <div
       v-if="
         Object.keys(countryData).length &&
@@ -45,7 +37,7 @@
               style="width: auto;"
               :size="isWebApp ? 'lg' : 'md'"
             >
-              <img :src="flagUrlFor(countryKey)" />
+              <img :src="flagUrlFor(getCountryDataByName(countryKey).iso2)" />
             </q-avatar>
             <p class="q-mt-md q-ml-sm" :class="isWebApp ? 'text-h4' : 'cp-h2'">
               {{ countryKey }}
