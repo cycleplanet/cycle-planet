@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <template>
+  <div style="height:100%">
+    <template style="height:100%">
       <v-map
         ref="mymap"
         @ready="setMapOnReady()"
@@ -10,7 +10,7 @@
         :min-zoom="mapsettings.minZoom"
         :center="mapsettings.center"
         :max-bounds="mapsettings.bounds"
-        style="height: 100vh;"
+        style="height:100%"
       >
         <v-tilelayer
           :url="mapsettings.url"

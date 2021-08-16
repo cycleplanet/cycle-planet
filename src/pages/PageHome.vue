@@ -1,12 +1,6 @@
 <template>
-  <div>
-    <map-all
-      :style="
-        isWebApp
-          ? 'height:' + (screenInnerHeight - 85) + 'px'
-          : 'height:' + (screenInnerHeight - 135) + 'px'
-      "
-    />
+  <div style="height:100%">
+    <map-all style="height:100%" />
   </div>
 </template>
 
@@ -21,6 +15,7 @@ export default {
     return {
       editProfileForm: false,
       loginRequest: false,
+
     };
   },
   components: {

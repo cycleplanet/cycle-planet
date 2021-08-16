@@ -181,7 +181,7 @@
         $route.fullPath === '/' || $route.fullPath === '/map' ? '' : 'constrain'
       "
       class="bg-white"
-      style="min-height: 48vh;"
+      style="height: 100vh;"
     >
       <router-view />
     </q-page-container>
