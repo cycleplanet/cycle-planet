@@ -169,10 +169,6 @@ export default {
     dynamicAnchor() {
       return [this.mapsettings.iconSize / 2, this.mapsettings.iconSize * 1.0];
     },
-    // popupAnchor () {
-    // 	return [0,-this.mapsettings.iconSize * 1.0];
-    // },
-
     itemUserCreatedMixin() {
       if (this.users[this.itemUserCreated]) {
         return this.users[this.itemUserCreated].id;
@@ -252,14 +248,15 @@ export default {
     ...mapActions("post", ["getPosts"]),
 
     countryCoordinatesWithKey(country) {
-      return this.markerCounts[this.reverseCountryCodes[country].iso2].location;
+		if(!this.markerCounts) return
+		const cc = this.getCountryDataByName(country).iso2
+      	return this.markerCounts[cc].location;
     },
     countryCoordinatesWithCode(countrycode) {
       return this.markerCounts[countrycode].location;
     },
 
     flagUrlFor(cc) {
-      // return ('countryflags/Flag_of_'+country+'.svg.png').split(' ').join('_')
       return "countryflagsnew/" + cc + ".svg";
     },
 
