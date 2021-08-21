@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="hHh LpR fFf">
+  <q-layout :view="isWebApp?'hHh LpR fff':'hHh LpR fFf'">
     <q-header elevated v-if="$route.fullPath !== '/'">
       <q-toolbar class="text-black constrain flex items-center">
         <div>
@@ -181,7 +181,7 @@
         $route.fullPath === '/' || $route.fullPath === '/map' ? '' : 'constrain'
       "
       class="bg-white"
-      style="height: 100vh;"
+      
     >
       <router-view />
     </q-page-container>
@@ -197,6 +197,15 @@
         "
         :title="'Added markers'"
       />
+    </q-dialog>
+
+
+
+    <q-dialog v-model="showpromotion">
+      <q-card class="no-padding">
+        <q-btn flat round dense icon="close" style="position:absolute; right:0px" @click="showpromotion=false"/>
+        <img src="Promotion2.png">
+      </q-card>
     </q-dialog>
 
     <q-dialog v-model="checkMarkersDialog">
@@ -221,8 +230,7 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 import mixinGeneral from "src/mixins/mixin-general.js";
 import mixinHosting from "src/mixins/mixin-hosting.js";
-
-import meta from "src/utils/meta.js";
+import { LocalStorage, SessionStorage } from 'quasar'
 
 export default {
   mixins: [mixinGeneral, mixinHosting],
@@ -231,13 +239,13 @@ export default {
     return {
       rightDrawerOpen: false,
       myMarkersDialog: false,
+      showpromotion:true,
       checkMarkersDialog: false,
       feedbackDialog: false,
       tab: "",
       myRequestsDialog: false,
       myTripsDialog: false,
       sections: {
-        // {title: 'Donate', icon: 'fas fa-hand-holding-heart', to:'/donate',apple:true},
         collections: {
           title: "Collections",
           icon: "collections",
@@ -295,6 +303,7 @@ export default {
     logoutUserMethod() {
       this.logoutUser();
     },
+
   },
   mounted() {
     if (this.isLoggedIn) {
@@ -304,67 +313,7 @@ export default {
       }
     }
   },
-  meta() {
-    return {
-      title: "Cycle Planet",
-      titleTemplate: (title) => `${title} | The bicycle touring guide`,
-
-      // meta tags
-      meta: {
-        description: { name: "description", content: "Page 1" },
-        keywords: {
-          name: "keywords",
-          content:
-            "bicycle, bike, cycle, cycling, touring, visa, border, safe, information",
-        },
-        equiv: {
-          "http-equiv": "Content-Type",
-          content: "text/html; charset=UTF-8",
-        },
-        // note: for Open Graph type metadata you will need to use SSR, to ensure page is rendered by the server
-        ogTitle: {
-          name: "og:title",
-          // optional; similar to titleTemplate, but allows templating with other meta properties
-          template(ogTitle) {
-            return `${ogTitle}`;
-          },
-        },
-      },
-
-      // CSS tags
-      link: {
-        material: {
-          rel: "stylesheet",
-          href: "https://fonts.googleapis.com/icon?family=Material+Icons",
-        },
-      },
-
-      // JS tags
-      script: {
-        ldJson: {
-          type: "application/ld+json",
-          innerHTML: `{ "@context": "http://schema.org" }`,
-        },
-      },
-
-      // <html> attributes
-      htmlAttr: {
-        "xmlns:cc": "http://creativecommons.org/ns#", // generates <html xmlns:cc="http://creativecommons.org/ns#">,
-        empty: undefined, // generates <html empty>
-      },
-
-      // <body> attributes
-      bodyAttr: {
-        "action-scope": "xyz", // generates <body action-scope="xyz">
-        empty: undefined, // generates <body empty>
-      },
-
-      // <noscript> tags
-      noscript: {
-        default: "This is content for browsers with no JS (or disabled JS)",
-      },
-    };
-  },
+  
 };
 </script>
 
