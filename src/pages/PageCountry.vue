@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <q-page>
     <country-page :countryKey="countryKey" />
-  </div>
+  </q-page>
 </template>
 
 <script>

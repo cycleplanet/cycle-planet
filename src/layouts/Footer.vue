@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div
+    <q-footer
       class="cp-footer bg-secondary"
       v-if="
         isWebApp &&
@@ -80,7 +80,7 @@
       </div>
       <div class="bg-grey-3" style="padding-bottom: 40px;">
         <div class="constrain text-center">
-          <div class="q-pa-md">
+          <div class="q-pa-md text-black">
             Cycle Planet is a non-profit organization. This website is made by
             volunteers with love for the bicycle touring community.
           </div>
@@ -99,7 +99,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </q-footer>
     <q-footer class="layout" v-if="!$route.fullPath.includes('/chat/')">
       <q-tabs
         indicator-color="transparent"
@@ -195,6 +195,7 @@ export default {
 </script>
 
 <style>
+
 .quicklink {
   color: #000;
   text-decoration: underline;
