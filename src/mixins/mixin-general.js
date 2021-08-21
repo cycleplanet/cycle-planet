@@ -18,11 +18,12 @@ export default {
       countryConstants: countryConstants,
       getCountryDataByName: getCountryDataByName,
       reverseCountryCodes: reverseCountryCodes,
+      
     };
   },
 
   computed: {
-    ...mapState("auth", ["myUserIdState", "followData", "loggedIn"]),
+    ...mapState("auth", ["myUserIdState", "followData", "loggedIn","showedpromotionstate"]),
     ...mapState("markers", ["markerlist", "mapsettings", "markeruserlist"]),
     ...mapState("markers", [
       "landMarkers",
@@ -64,13 +65,7 @@ export default {
         return false;
       }
     },
-    showedPromotion() {
-      if (LocalStorage.getItem("promotion")) {
-        return true;
-      } else {
-        return false;
-      }
-    },
+   
 
     myUserId() {
       return this.myUserIdState;
@@ -243,6 +238,8 @@ export default {
     ]),
     ...mapActions("markers", ["updateMarkerAction"]),
     ...mapActions("post", ["getPosts"]),
+
+    
 
     countryCoordinatesWithKey(country) {
 		if(!this.markerCounts) return

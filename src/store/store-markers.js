@@ -323,16 +323,16 @@ const actions = {
   },
 
   getAllLandMarkersFs({ commit }) {
-    firebase.fs
-      .collection("Markers")
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          let itemId = doc.id;
-          let itemDetails = doc.data();
-          commit("addLandMarkers", { itemId, itemDetails });
-        });
-      });
+    // firebase.fs
+    //   .collection("Markers")
+    //   .get()
+    //   .then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //       let itemId = doc.id;
+    //       let itemDetails = doc.data();
+    //       commit("addLandMarkers", { itemId, itemDetails });
+    //     });
+    //   });
 
     firebase.fs.collection("Markers").onSnapshot(function (snapshot) {
       snapshot.docChanges().forEach(function (change) {

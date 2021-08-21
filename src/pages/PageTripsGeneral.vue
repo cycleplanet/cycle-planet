@@ -1,6 +1,5 @@
 <template>
   <div>
-    <template>
       <div class="row q-ma-sm">
         <div
           v-for="(trip, tripKey) in tripsData"
@@ -67,7 +66,6 @@
           <create-trip @close="createTripDialog = false" />
         </q-dialog>
       </div>
-    </template>
   </div>
 </template>
 

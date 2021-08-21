@@ -1,5 +1,5 @@
 <template>
-  <div style="height:100%">
+  <div style="height:93.5vh">
     <map-all style="height:100%" />
   </div>
 </template>
