@@ -122,7 +122,7 @@ export default {
   props: ["mySelectedCountriesComputed"],
 
   components: {
-    "item-footer": require("components/Trip/Modals/itemfooter.vue").default,
+    "item-footer": require("components/Trip/Modals/ItemFooter.vue").default,
   },
 
   computed: {
