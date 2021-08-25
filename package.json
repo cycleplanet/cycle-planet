@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@firebase/firestore": "^2.1.7",
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.10.11",
     "@types/leaflet": "^1.7.0",
     "axios": "^0.21.1",
     "chart.js": "^2.9.4",
@@ -40,7 +40,7 @@
     "leaflet": "^1.7.1",
     "leaflet-gpx": "^1.5.2",
     "leaflet.markercluster": "^1.4.1",
-    "quasar": "^1.0.0",
+    "quasar": "^1.15.23",
     "sitemap-webpack-plugin": "^1.1.0",
     "v-video-embed": "^1.0.8",
     "vue": "^2.6.12",
@@ -59,12 +59,12 @@
     "vuex": "^3.6.0"
   },
   "devDependencies": {
-    "@quasar/app": "^2.0.0",
-    "@quasar/quasar-app-extension-qmarkdown": "^1.4.0",
+    "@quasar/app": "^2.2.10",
+    "@quasar/quasar-app-extension-qmarkdown": "^1.4.3",
+    "prettier": "2.0.2",
     "vue-loader": "^15.9.6",
     "vue-template-compiler": "^2.6.12",
-    "workbox-webpack-plugin": "^5.1.4",
-    "prettier": "2.0.2"
+    "workbox-webpack-plugin": "^5.1.4"
   },
   "browserslist": [
     "last 10 Chrome versions",
