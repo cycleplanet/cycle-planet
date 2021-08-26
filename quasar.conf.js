@@ -18,8 +18,8 @@ let API_LOCAL = 'http://localhost:3000',
 //   { path: '/country/Togo' },
 //   { path: '/about' },
 //   { path: '/contact' },
-  
-// ] 
+
+// ]
 // const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 
@@ -68,6 +68,11 @@ module.exports = function (ctx ) {
       },
       vueRouterMode: 'history', // available values: 'history', 'history'
 
+      chainWebpack (chain) {
+        const nodePolyfillWebpackPlugin = require('node-polyfill-webpack-plugin')
+        chain.plugin('node-polyfill').use(nodePolyfillWebpackPlugin)
+      }
+
       // transpile: false,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
@@ -103,8 +108,8 @@ module.exports = function (ctx ) {
       //     })
       //   ),
       //   cfg.plugins.push(
-      //     new CopyWebpackPlugin([{ context: `${__dirname}/src/assets`, from: `*.*` }]) 
-      //   )   
+      //     new CopyWebpackPlugin([{ context: `${__dirname}/src/assets`, from: `*.*` }])
+      //   )
       // }
     },
 
@@ -118,7 +123,7 @@ module.exports = function (ctx ) {
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
       iconSet: 'material-icons', // Quasar icon set
-      lang: 'en-us', // Quasar language pack
+      lang: 'en-US', // Quasar language pack
       // config: {
       //   brand:{
       //     primary: '#FCBA03',

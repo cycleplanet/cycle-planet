@@ -1,7 +1,5 @@
 <template>
-  <div id="q-app" class="ownfont bg-grey-2">
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
 <script>
