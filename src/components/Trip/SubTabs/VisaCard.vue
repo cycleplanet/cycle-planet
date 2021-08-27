@@ -51,7 +51,7 @@ export default {
   props: ["countryKey", "itemKey"],
   components: {
     "add-button": require("components/Trip/Modals/AddtoMap.vue").default,
-    "item-footer": require("components/Trip/Modals/itemfooter.vue").default,
+    "item-footer": require("components/Trip/Modals/ItemFooter.vue").default,
   },
   computed: {
     ...mapState("markers", ["embassyData"]),
