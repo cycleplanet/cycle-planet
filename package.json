@@ -62,9 +62,7 @@
     "@quasar/app": "3",
     "node-polyfill-webpack-plugin": "^1.1.4",
     "prettier": "2.0.2",
-    "vue-loader": "^15.9.6",
-    "vue-template-compiler": "^2.6.12",
-    "workbox-webpack-plugin": "^5.1.4"
+    "workbox-webpack-plugin": "^6.2.4"
   },
   "browserslist": [
     "last 10 Chrome versions",
