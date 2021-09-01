@@ -2,7 +2,7 @@ import Vue from "vue";
 import { mapState, mapActions, mapGetters } from "vuex";
 import { date, uid, Notify } from "quasar";
 import { openURL } from "quasar";
-import { version } from "../../package.json";
+import pkg from "../../package.json";
 import { Platform } from "quasar";
 import { LocalStorage } from "quasar";
 import { getCountryData, countryConstants, getCountryDataByName, reverseCountryCodes } from "app/firebase-functions/shared/src/country-constants.js";
@@ -13,7 +13,7 @@ Vue.use(Embed);
 export default {
   data() {
     return {
-      version: version,
+      version: pkg.version,
 	  getCountryData: getCountryData,
       countryConstants: countryConstants,
       getCountryDataByName: getCountryDataByName,
