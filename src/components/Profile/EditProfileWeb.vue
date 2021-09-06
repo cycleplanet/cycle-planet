@@ -19,9 +19,8 @@
       >
         <q-scroll-area class="fit">
           <q-list>
-            <template v-for="(menuItem, index) in menuList">
+            <template :key="index" v-for="(menuItem, index) in menuList">
               <q-item
-                :key="index"
                 clickable
                 @click="activelabel = menuItem.label"
                 :active="menuItem.label === activelabel"

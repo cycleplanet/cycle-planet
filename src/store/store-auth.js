@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { LocalStorage, Loading } from "quasar";
 import { firebase } from "boot/config";
 import { showErrorMessage } from "src/functions/function-show-error-message";
@@ -43,20 +42,20 @@ const mutations = {
   },
 
   addUser(state, payload) {
-    Vue.set(state.users, payload.userId, payload.userDetails);
+    state.users[payload.userId] = payload.userDetails;
   },
   addUserWithMapLocation(state, payload) {
-    Vue.set(state.usersWithMapLocation, payload.userId, payload.userDetails);
+    state.usersWithMapLocation[payload.userId] = payload.userDetails;
   },
   updateUser(state, payload) {
     Object.assign(state.users[payload.userId], payload.userDetails);
   },
 
   addFollowData(state, payload) {
-    Vue.set(state.followData, payload.userId, payload.userDetails);
+    state.followData[payload.userId] = payload.userDetails;
   },
   addLoggedInUserFollowData(state, payload) {
-    Vue.set(state.loggedInUserFollow, payload.itemId, payload.itemDetails);
+    state.loggedInUserFollow[payload.itemId] = payload.itemDetails;
   },
 
   clearMessages(state) {
@@ -76,9 +75,9 @@ const mutations = {
     Object.assign(state.settings, settings);
   },
   deleteUserDetail(state, path) {
-    Vue.delete(state.users, path);
+    state.users.delete(path);
   },
-  
+
 };
 
 const actions = {

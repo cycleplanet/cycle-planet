@@ -1,5 +1,4 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import { createStore } from "vuex";
 
 import settings from "./store-settings";
 import auth from "./store-auth";
@@ -12,8 +11,6 @@ import other from "./store-other";
 import admin from "./store-admin";
 import markers from "./store-markers";
 
-Vue.use(Vuex);
-
 /*
  * If not building with SSR mode, you can
  * directly export the Store instantiation;
@@ -24,7 +21,7 @@ Vue.use(Vuex);
  */
 
 export default function (/* { ssrContext } */) {
-  const Store = new Vuex.Store({
+  const Store = createStore({
     modules: {
       settings,
       auth,

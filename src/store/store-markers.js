@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { uid, Notify, date } from "quasar";
 import { firebase } from "boot/config";
 
@@ -262,29 +261,29 @@ const mutations = {
     Object.assign(state.landMarkers, payload);
   },
   addMarkerCounts(state, payload) {
-    Vue.set(state.markerCounts, payload.countryCode, payload.countryCounts);
+    state.markerCounts[payload.countryCode] = payload.countryCounts;
   },
   addLandMarkers(state, payload) {
-    Vue.set(state.landMarkers, payload.itemId, payload.itemDetails);
+    state.landMarkers[payload.itemId] = payload.itemDetails;
   },
   deleteLandMarker(state, itemId) {
-    Vue.delete(state.landMarkers, itemId);
+    state.landMarkers.delete(itemId);
   },
   addBorderData(state, payload) {
-    Vue.set(state.borderData, payload.itemId, payload.itemDetails);
+    state.borderData[payload.itemId] = payload.itemDetails;
   },
   addEmbassyData(state, payload) {
-    Vue.set(state.embassyData, payload.itemId, payload.itemDetails);
+    state.embassyData[payload.itemId] = payload.itemDetails;
   },
 
   addSeeDoData(state, payload) {
-    Vue.set(state.seeDoData, payload.itemId, payload.itemDetails);
+    state.seeDoData[payload.itemId] = payload.itemDetails;
   },
   addUserMarker(state, payload) {
-    Vue.set(state.userMarkerData, payload.itemId, payload.itemDetails);
+    state.userMarkerData[payload.itemId] = payload.itemDetails;
   },
   addCheckMarker(state, payload) {
-    Vue.set(state.checkMarkerData, payload.itemId, payload.itemDetails);
+    state.checkMarkerData[payload.itemId] = payload.itemDetails;
   },
   // deleteCountryMarkerData(state){
   // 	state.countryData2.Embassy={}

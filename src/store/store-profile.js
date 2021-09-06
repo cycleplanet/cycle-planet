@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { uid, Notify } from "quasar";
 import { firebase } from "boot/config";
 import { showErrorMessage } from "src/functions/function-show-error-message";
@@ -9,7 +8,7 @@ const state = {
 
 const mutations = {
   addUserData(state, payload) {
-    Vue.set(state.userDataState, payload.userId, payload.userDetails);
+    state.userDataState[payload.userId] = payload.userDetails;
   },
 };
 

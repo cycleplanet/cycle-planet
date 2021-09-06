@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { firebase } from "boot/config";
 import { showErrorMessage } from "src/functions/function-show-error-message";
 import { countryConstants } from "app/firebase-functions/shared/src/country-constants.js";
@@ -102,7 +101,7 @@ const state = {
 
 const mutations = {
   addCountry(state, payload) {
-    Vue.set(state.allCountryData, payload.countryKey, payload.countryDetails);
+    state.allCountryData[payload.countryKey] = payload.countryDetails;
   },
   updateCountry(state, payload) {
     Object.assign(
