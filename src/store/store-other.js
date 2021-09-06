@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { uid, Notify } from "quasar";
 import { firebase } from "boot/config";
 import { showErrorMessage } from "src/functions/function-show-error-message";
@@ -12,19 +11,19 @@ const state = {
 
 const mutations = {
   addPage(state, payload) {
-    Vue.set(state.pages, payload.itemId, payload.itemDetails);
+    state.pages[payload.itemId] = payload.itemDetails;
   },
   addStatistics(state, payload) {
-    Vue.set(state.statistics, payload.itemId, payload.itemDetails);
+    state.statistics[payload.itemId] = payload.itemDetails;
   },
   addGear(state, payload) {
-    Vue.set(state.gear, payload.itemId, payload.itemDetails);
+    state.gear[payload.itemId] = payload.itemDetails;
   },
   updateGear(state, payload) {
     Object.assign(state.gear[payload.itemId], payload.itemDetails);
   },
   addGearUser(state, payload) {
-    Vue.set(state.gearUser, payload.itemId, payload.itemDetails);
+    state.gearUser[payload.itemId] = payload.itemDetails;
   },
   updateGearUser(state, payload) {
     Object.assign(state.gearUser[payload.itemId], payload.itemDetails);

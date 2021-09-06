@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { firebase } from "boot/config";
 import { uid, Notify, date } from "quasar";
 import { showErrorMessage } from "src/functions/function-show-error-message";
@@ -12,25 +11,25 @@ const state = {
 
 const mutations = {
   getAdminMutation(state, payload) {
-    Vue.set(state.adminData, payload.itemId, payload.itemDetails);
+    state.adminData[payload.itemId] = payload.itemDetails;
   },
   getFeedbackMutation(state, payload) {
-    Vue.set(state.userFeedback, payload.itemId, payload.itemDetails);
+    state.userFeedback[payload.itemId] = payload.itemDetails;
   },
   getReportsMutation(state, payload) {
-    Vue.set(state.userReports, payload.itemId, payload.itemDetails);
+    state.userReports[payload.itemId] = payload.itemDetails;
   },
   getApplicationMutation(state, payload) {
-    Vue.set(state.userApplication, payload.itemId, payload.itemDetails);
+    state.userApplication[payload.itemId] = payload.itemDetails;
   },
   deleteFeedback(state, id) {
-    Vue.delete(state.userFeedback, id);
+    state.userFeedback.delete(id);
   },
   deleteReport(state, id) {
-    Vue.delete(state.userReports, id);
+    state.userReports.delete(id);
   },
   deleteApplication(state, id) {
-    Vue.delete(state.userApplication, id);
+    state.userApplication.delete(id);
   },
 };
 

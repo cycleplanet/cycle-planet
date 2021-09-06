@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { firebase } from "boot/config";
 import { showErrorMessage } from "src/functions/function-show-error-message";
 
@@ -179,20 +178,20 @@ const mutations = {
     Object.assign(state.singleItemDataState, payload);
   },
   addSingleItemData(state, payload) {
-    Vue.set(state.singleItemDataState, payload.itemId, payload.itemDetails);
+    state.singleItemDataState[payload.itemId] = payload.itemDetails;
   },
 
   addCountryDataNew(state, payload) {
-    Vue.set(state.countryData, payload.itemId, payload.itemDetails);
+    state.countryData[payload.itemId] = payload.itemDetails;
   },
   addBorderData(state, payload) {
-    Vue.set(state.borderItem, payload.itemId, payload.itemDetails);
+    state.borderItem[payload.itemId] = payload.itemDetails;
   },
   addBlogCountryData(state, payload) {
-    Vue.set(state.blogDataCountry, payload.itemId, payload.itemDetails);
+    state.blogDataCountry[payload.itemId] = payload.itemDetails;
   },
   addVideoCountryData(state, payload) {
-    Vue.set(state.videoDataCountry, payload.itemId, payload.itemDetails);
+    state.videoDataCountry[payload.itemId] = payload.itemDetails;
   },
   clearCountryData(state) {
     state.countryData = {};
@@ -201,7 +200,7 @@ const mutations = {
   },
 
   addVisaData(state, payload) {
-    Vue.set(state.visaData, payload.itemId, payload.itemDetails);
+    state.visaData[payload.itemId] = payload.itemDetails;
   },
 };
 

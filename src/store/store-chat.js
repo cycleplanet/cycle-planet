@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { firebase } from "boot/config";
 import { uid, Notify, date } from "quasar";
 
@@ -22,23 +21,23 @@ const mutations = {
     state.userDetails = payload;
   },
   addUser(state, payload) {
-    Vue.set(state.users, payload.userId, payload.userDetails);
+    state.users[payload.userId] = payload.userDetails;
   },
   addChatlist(state, payload) {
-    Vue.set(state.chatlist, payload.userId, payload.messageDetails);
+    state.chatlist[payload.userId] = payload.messageDetails;
   },
 
   addUnreadChatlistNew(state, payload) {
-    Vue.set(state.unreadchatlistNew, payload.userId, payload.undreadMessages);
+    state.unreadchatlistNew[payload.userId] = payload.undreadMessages;
   },
   removeUnreadChatlist(state, payload) {
-    Vue.delete(state.unreadchatlistNew, payload.otherUserId);
+    state.unreadchatlistNew.delete(payload.otherUserId);
   },
   updateUser(state, payload) {
     Object.assign(state.users[payload.userId], payload.userDetails);
   },
   addMessage(state, payload) {
-    Vue.set(state.messages, payload.messageId, payload.messageDetails);
+    state.messages[payload.messageId] = payload.messageDetails;
   },
 
   clearMessages(state) {

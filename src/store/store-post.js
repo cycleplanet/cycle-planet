@@ -1,4 +1,3 @@
-import Vue from "vue";
 import { uid, Notify } from "quasar";
 import { firebase } from "boot/config";
 import { showErrorMessage } from "src/functions/function-show-error-message";
@@ -23,28 +22,28 @@ const mutations = {
   // 	Vue.set(state.videoData[payload.itemId], 'country', payload.countryKey)
   // },
   addPostsData(state, payload) {
-    Vue.set(state.postData, payload.itemId, payload.itemDetails);
+    state.postData[payload.itemId] = payload.itemDetails;
   },
   addRouteCollectionData(state, payload) {
-    Vue.set(state.routeCollectionData, payload.itemId, payload.itemDetails);
+    state.routeCollectionData[payload.itemId] = payload.itemDetails;
   },
   addRoutePostsData(state, payload) {
-    Vue.set(state.routeData, payload.itemId, payload.itemDetails);
+    state.routeData[payload.itemId] = payload.itemDetails;
   },
   addVideoPostsData(state, payload) {
-    Vue.set(state.videoData, payload.itemId, payload.itemDetails);
+    state.videoData[payload.itemId] = payload.itemDetails;
   },
   addBlogPostsData(state, payload) {
-    Vue.set(state.blogData, payload.itemId, payload.itemDetails);
+    state.blogData[payload.itemId] = payload.itemDetails;
   },
   deleteBlogPost(state, payload) {
-    Vue.delete(state.blogData, payload.itemId);
+    state.blogData.delete(payload.itemId);
   },
   deleteVideoPost(state, payload) {
-    Vue.delete(state.videoData, payload.itemId);
+    state.videoData.delete(payload.itemId);
   },
   deleteRoutePost(state, payload) {
-    Vue.delete(state.routeData, payload.itemId);
+    state.routeData.delete(payload.itemId);
   },
   clearPostData(state) {
     state.blogData = {};

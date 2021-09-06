@@ -233,7 +233,6 @@
 import mixinGeneral from "src/mixins/mixin-general.js";
 // import { mapState, mapActions, mapGetters } from 'vuex'
 import { uid } from "quasar";
-import Vue from "vue";
 import { Geoapify } from "app/firebase-functions/shared/src/geoapify";
 import { geoapify } from "../../../boot/config.js";
 
@@ -331,7 +330,7 @@ export default {
               date_created: this.timeStamp,
               user_created: this.myUserId,
             };
-            Vue.set(this.bulkMarkers, markerId, markerData);
+            this.bulkMarkers[markerId] = markerData;
           })
           .catch((err) => {});
       }
