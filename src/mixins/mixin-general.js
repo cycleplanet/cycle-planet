@@ -251,7 +251,7 @@ export default {
     },
 
     flagUrlFor(cc) {
-      return "countryflagsnew/" + cc + ".svg";
+      return "countryflagsnew/" + cc.toLowerCase() + ".svg";
     },
 
     updateAppVersion() {
