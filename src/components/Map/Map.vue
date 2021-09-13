@@ -113,7 +113,7 @@
             </v-marker>
           </div>
           <div
-            v-if="showMarkersFor === 'hosts'"
+            v-if="showMarkersFor === 'hosts'&&userData.hosting"
             v-for="(userData, userKey) in usersWithMapLocation"
             :key="userKey"
           >
@@ -139,7 +139,7 @@
                 "
                 @click="clickusermarker(userKey)"
               >
-                <l-icon
+                <l-icon v-if="userData.hosting"
                   :icon-url="markerlist[userData.hosting.status].iconurl"
                   :icon-size="dynamicSize"
                   :icon-anchor="dynamicAnchor"
