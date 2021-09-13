@@ -1,8 +1,8 @@
 <template>
-  <div style="height:100%">
-    <template style="height:100%">
+  <div style="min-height: inherit;">
       <v-map
         ref="mymap"
+        style="min-height: inherit;"
         @ready="setMapOnReady()"
         @update:zoom="zoomLevelChanged()"
         :options="mapOptions"
@@ -10,7 +10,6 @@
         :min-zoom="mapsettings.minZoom"
         :center="mapsettings.center"
         :max-bounds="mapsettings.bounds"
-        style="height:100%"
       >
         <v-tilelayer
           :url="mapsettings.url"
@@ -276,7 +275,6 @@
         </div>
         -->
       </v-map>
-    </template>
 
     <q-dialog
       :maximized="!isWebApp"
@@ -386,14 +384,14 @@ export default {
           preferCanvas: true,
           zoomSnap: 0.25,
           wheelPxPerZoomLevel: 50,
-        };
+        }
       } else {
         return {
-          scrollWheelZoom: false,
-          dragging: false,
+          scrollWheelZoom: true,
+          dragging: true,
           tap: false,
           preferCanvas: true,
-        };
+        }
       }
     },
 
@@ -470,4 +468,16 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.mapwrapper{
+  position: relative;
+}
+.mapelement {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+</style>

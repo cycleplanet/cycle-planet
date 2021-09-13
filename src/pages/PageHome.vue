@@ -1,7 +1,7 @@
 <template>
-  <div style="height:93.5vh">
-    <map-all style="height:100%" />
-  </div>
+  <q-page>
+    <map-all />
+  </q-page>
 </template>
 
 <script>
