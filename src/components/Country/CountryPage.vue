@@ -283,7 +283,7 @@ export default {
 
   methods: {
     ...mapActions("country", ["destroyData", "firebaseGetCountryDataNew"]),
-    ...mapActions("markers", ["destroyMapData"]),
+    ...mapActions("markers", ["destroyMapData", "loadPoiWithinCountry"]),
 
     refreshData() {
       this.destroyMapData().then(() => {});
@@ -295,13 +295,11 @@ export default {
   },
 
   mounted() {
-    if (this.landMarkers) {
-      this.loadedLandmarkers = true;
-    }
     if (this.countryKey) {
       this.refreshData();
       this.pageReady = true;
       this.zoom = this.countryData.zoom;
+      this.loadPoiWithinCountry(this.getCountryDataByName(this.countryKey).iso2);
     }
     if (!this.loadedPosts) {
       this.getPosts();

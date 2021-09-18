@@ -316,7 +316,6 @@ const actions = {
   },
 
   getAllLandMarkersFs({ commit }) {
-    console.log('getAllLandMarkersFs called');s
     firebase.fs.collection("Markers").onSnapshot(function (snapshot) {
       snapshot.docChanges().forEach(function (change) {
         if (change.type === "added") {
@@ -339,9 +338,6 @@ const actions = {
 
   // this is built following the guidance at https://firebase.google.com/docs/firestore/solutions/geoqueries
   async loadPoiWithinBounds({ commit }, bounds) {
-    console.log("loadPoiWithinBounds called with bounds", bounds);
-    console.log("Current landMarker set", state.landMarkers);
-
     // convert bounds to geohash ranges
     const searchRadiusInMeters = bounds
       .getCenter()
@@ -363,17 +359,35 @@ const actions = {
     });
 
     // filter out false positives
-    const allMarkerDocs = await Promise.all(markersPromisesPerRange).then((markersPerRange) => {
-      const resultingMarkerDocs = [];
-      for (const snapshot of markersPerRange) {
-        for (const marker of snapshot.docs) {
-          resultingMarkerDocs.push([ marker.id, marker.data() ]);
+    const allMarkerDocs = await Promise.all(markersPromisesPerRange).then(
+      (markersPerRange) => {
+        const resultingMarkerDocs = [];
+        for (const snapshot of markersPerRange) {
+          for (const marker of snapshot.docs) {
+            resultingMarkerDocs.push([marker.id, marker.data()]);
+          }
         }
+        return resultingMarkerDocs;
       }
-      return resultingMarkerDocs;
-    });
+    );
 
     commit("addLandMarkersOnce", Object.fromEntries(allMarkerDocs));
+  },
+
+  async loadPoiWithinCountry({ commit }, countryCode) {
+    const poiInCountry = await firebase.fs
+      .collection("Markers")
+      .where("countryCode", "==", countryCode)
+      .get();
+
+    commit(
+      "addLandMarkersOnce",
+      Object.fromEntries(
+        poiInCountry.docs.map((pIC) => {
+          return { itemId: pIC.id, itemDetails: pIC.data() };
+        })
+      )
+    );
   },
 
   getMainMarkersData({ commit }) {
