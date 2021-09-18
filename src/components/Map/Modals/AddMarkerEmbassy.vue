@@ -240,6 +240,7 @@ import {
 import { Geoapify } from "app/firebase-functions/shared/src/geoapify";
 import { geoapify } from "../../../boot/config.js";
 import { getCountryData } from "app/firebase-functions/shared/src/country-constants.js";
+const geofire = require('geofire-common')
 
 export default {
   props: ["refKey", "countryKey"],
@@ -336,6 +337,9 @@ export default {
         this.addPoints(10);
         Notify.create("Thanks for your contribution. You`ve earned 10 points!");
 
+        const lat = Number(this.payload.coordinates.lat)
+        const lng = Number(this.payload.coordinates.lng)
+
         this.setItemActionFs({
           collection: "Markers",
           doc: markerId,
@@ -350,6 +354,7 @@ export default {
             date_created: this.timeStamp,
             user_created: this.myUserId,
             onlineVisa: this.payload.onlineVisa,
+            geohash:geofire.geohashForLocation([lat, lng]),
             coordinates: {
               lat: this.payload.coordinates.lat,
               lng: this.payload.coordinates.lng,
