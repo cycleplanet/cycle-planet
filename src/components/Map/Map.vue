@@ -5,6 +5,7 @@
         style="min-height: inherit;"
         @ready="setMapOnReady()"
         @update:zoom="zoomLevelChanged()"
+        @update:bounds="boundsChanged()"
         :options="mapOptions"
         :zoom="zoomLevel"
         :min-zoom="mapsettings.minZoom"
@@ -112,7 +113,7 @@
             </v-marker>
           </div>
           <div
-            v-if="showMarkersFor === 'hosts'&&userData.hosting"
+            v-if="showMarkersFor === 'hosts' && userData.hosting"
             v-for="(userData, userKey) in usersWithMapLocation"
             :key="userKey"
           >
@@ -302,7 +303,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 import mixinGeneral from "src/mixins/mixin-general.js";
 import {
   LMap,
@@ -374,7 +375,9 @@ export default {
     };
   },
   computed: {
+
     ...mapState("auth", ["usersWithMapLocation"]),
+
     ...mapGetters("countries", ["countriesAll"]),
 
     mapOptions() {
@@ -403,6 +406,8 @@ export default {
   },
 
   methods: {
+    ...mapActions("markers", ["loadPoiWithinBounds"]),
+
     click: (e) => console.log("clusterclick", e),
     ready: (e) => console.log("ready", e),
 
@@ -449,6 +454,17 @@ export default {
         newZoomLevel === this.mapsettings.minZoom
       )
         this.clusterBreak = DEFAULT_CLUSTER_BREAK;
+    },
+
+    // when the bounds of the map change and we're zoomed in beyond clusterbreak,
+    // we fetch the POI markers for just the area within the bounds
+    boundsChanged() {
+      console.log('boundsChanged called');
+      const showingMarkers = this.map.getZoom() >= this.clusterBreak;
+
+      if (showingMarkers) {
+        this.loadPoiWithinBounds(this.map.getBounds());
+      }
     },
 
     async clickCountryMarkerCount(cc) {

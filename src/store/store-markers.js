@@ -1,6 +1,7 @@
 import Vue from "vue";
 import { uid, Notify, date } from "quasar";
 import { firebase } from "boot/config";
+import { geohashQueryBounds } from "geofire-common";
 
 const state = {
   mapsettings: {
@@ -306,14 +307,6 @@ const actions = {
       });
   },
 
-  // getAllLandMarkersNew({commit}){
-  // 	const axios = require('axios');
-  // 	axios.get(`${ process.env.API }/markers`).then(response=>{
-  // 		commit('addLandMarkersOnceNew', response.data)
-  // 	  }).catch(err=>{
-  // 	})
-  // },
-
   getMarkerCounts({ commit }) {
     firebase.db.ref("CountryMarkerCounts/").on("child_added", (snapshot) => {
       let countryCounts = snapshot.val();
@@ -323,17 +316,6 @@ const actions = {
   },
 
   getAllLandMarkersFs({ commit }) {
-    // firebase.fs
-    //   .collection("Markers")
-    //   .get()
-    //   .then((querySnapshot) => {
-    //     querySnapshot.forEach((doc) => {
-    //       let itemId = doc.id;
-    //       let itemDetails = doc.data();
-    //       commit("addLandMarkers", { itemId, itemDetails });
-    //     });
-    //   });
-
     firebase.fs.collection("Markers").onSnapshot(function (snapshot) {
       snapshot.docChanges().forEach(function (change) {
         if (change.type === "added") {
@@ -353,9 +335,57 @@ const actions = {
       });
     });
   },
+
+  // this is built following the guidance at https://firebase.google.com/docs/firestore/solutions/geoqueries
+  loadPoiWithinBounds({ commit }, bounds) {
+    console.log("loadPoiWithinBounds called with bounds", bounds);
+    console.log("Current landMarker set", state.landMarkers);
+
+    // convert bounds to geohash ranges
+    const searchRadiusInMeters = bounds
+      .getCenter()
+      .distanceTo(bounds.getNorthEast());
+
+    const geohashRangesToQuery = geohashQueryBounds(
+      [bounds.getCenter().lat, bounds.getCenter().lng],
+      searchRadiusInMeters
+    );
+
+    // query Cloud Firestore for geohash ranges
+    const markersPromisesPerRange = geohashRangesToQuery.map(async (r) => {
+      return await firebase.fs
+        .collection("Markers")
+        .orderBy("geohash")
+        .startAt(r[0])
+        .endAt(r[1])
+        .get();
+    });
+
+    // filter out false positives
+    Promise.all(markersPromisesPerRange).then((markersPerRange) => {
+      for (const snapshot of markersPerRange) {
+        console.log("Got a snapshot out of Firebase", snapshot);
+        for (const marker of snapshot.docs) {
+          // and store the ones that are true positives
+          if (bounds.contains(marker.get("coordinates"))) {
+            console.log("Adding a marker at", marker.get("coordinates"));
+            commit("addLandMarkers", marker.id, marker.data());
+          } else
+            console.log(
+              `Fetched marker that's not inside bounds`,
+              marker.get("coordinates"),
+              bounds
+            );
+        }
+      }
+    });
+  },
+
   getMainMarkersData({ commit }) {
     console.log("getMainMarkersData 1");
+
     let allLandMarkers = Object.keys(state.landMarkers);
+
     allLandMarkers.forEach((element) => {
       let itemId = element;
       let itemDetails = state.landMarkers[element];
@@ -370,6 +400,7 @@ const actions = {
       }
     });
   },
+
   getUserMarkerData({ commit }, userId) {
     let allLandMarkers = Object.keys(state.landMarkers);
     allLandMarkers.forEach((element) => {
@@ -381,6 +412,7 @@ const actions = {
       }
     });
   },
+
   getCheckMarkerData({ commit }) {
     let userId = firebase.auth.currentUser.uid;
     let allLandMarkers = Object.keys(state.landMarkers);
@@ -393,6 +425,7 @@ const actions = {
       }
     });
   },
+
   backupFirestoreMarkers() {
     let allLandMarkers = Object.keys(state.landMarkers);
     allLandMarkers.forEach((element) => {
