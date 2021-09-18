@@ -128,10 +128,11 @@ import {
   LPopup,
   LFeatureGroup,
 } from "vue2-leaflet";
-import { uid } from "quasar";
+import { uid, Notify } from "quasar";
+
 import { Geoapify } from "app/firebase-functions/shared/src/geoapify";
 import { geoapify } from "../../../boot/config.js";
-import { getCountryData } from "app/firebase-functions/shared/src/country-constants.js";
+import { getCountryData, getCountryDataByName } from "app/firebase-functions/shared/src/country-constants.js";
 const geofire = require('geofire-common')
 
 export default {
@@ -152,8 +153,8 @@ export default {
       warningDescription: false,
       getCountryData:getCountryData,
       payload: {
-        country1: { city: "", country: "" },
-        country2: { city: "", country: "" },
+        country1: { city: "", country: "", countrycode:"" },
+        country2: { city: "", country: "", countrycode:"" },
         coordinates: { lat: null, lng: null },
       },
     };
@@ -184,6 +185,7 @@ export default {
           .then((cc) => {
             if (cc) {
               this.payload.country1.country = getCountryData(cc).fullName;
+              this.payload.country1.countrycode = cc
             }
           })
           .catch((err) => {});
@@ -217,6 +219,8 @@ export default {
 
             const lat = Number(this.payload.coordinates.lat)
             const lng = Number(this.payload.coordinates.lng)
+
+            this.payload.country2.countrycode = getCountryDataByName(this.payload.country2.country).iso2
 
             this.setItemActionFs({
               collection: "Markers",

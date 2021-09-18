@@ -136,6 +136,7 @@ export default {
       payload: {
         description: "",
         country: "",
+        countrycode: "",
         coordinates: {
           lat: "",
           lng: "",
@@ -175,6 +176,7 @@ export default {
             this.payload.coordinates.lng
           )
           .then((cc) => {
+            this.payload.countrycode = cc;
             this.payload.country = getCountryData(cc).fullName;
           })
           .catch((err) => {
@@ -231,6 +233,7 @@ export default {
             data: {
               itemKey: markerId,
               countryKey: this.payload.country,
+              countrycode: this.payload.countrycode,
               refKey: this.refKey,
               title: this.payload.title,
               description: this.payload.description,

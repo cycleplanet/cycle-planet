@@ -79,7 +79,7 @@
           <q-select
             filled
             :options="countryKeys"
-            v-model="payload.country_located"
+            v-model="payload.country_for"
             label="In which country do you apply for this visa?"
             behavior="menu"
             :rules="[(val) => !!val || 'Field is required']"
@@ -95,7 +95,8 @@
           filled
           v-if="!countryKey"
           :options="countryKeys"
-          v-model="payload.country"
+          v-model="payload.country_for
+          "
           label="For which country is this visa?"
           behavior="menu"
           :rules="[(val) => !!val || 'Field is required']"
@@ -239,7 +240,7 @@ import {
 } from "vue2-leaflet";
 import { Geoapify } from "app/firebase-functions/shared/src/geoapify";
 import { geoapify } from "../../../boot/config.js";
-import { getCountryData } from "app/firebase-functions/shared/src/country-constants.js";
+import { getCountryData, getCountryDataByName } from "app/firebase-functions/shared/src/country-constants.js";
 const geofire = require('geofire-common')
 
 export default {
@@ -289,7 +290,9 @@ export default {
             this.payload.coordinates.lng
           )
           .then((cc) => {
-            this.payload.country = getCountryData(cc).fullName;
+            this.payload.countrycode_located = cc
+            this.payload.country_located = getCountryData(cc).fullName;
+            this.payload.country_for = getCountryData(cc).fullName;
           })
           .catch((err) => {
             console.log("currentLocation 3", err);
@@ -323,7 +326,7 @@ export default {
         }
         if (this.payload.onlineVisa) {
           this.payload.coordinates = this.markerCounts[
-            this.getCountryDataByName(this.payload.country).iso2
+            getCountryDataByName(this.payload.country).iso2
           ].location;
         }
         let markerId = uid();
@@ -347,8 +350,11 @@ export default {
             itemKey: markerId,
             refKey: this.refKey,
             countryKey: this.payload.country,
+            countrycode: getCountryDataByName(this.payload.country).iso2,
             country_located: this.payload.country_located,
-            // visas:this.payload.visas,
+            country_for: this.payload.country_for,
+            countrycode_located: this.payload.countrycode,
+            visas:this.payload.visas,
             refKey: this.refKey,
             description: this.payload.description,
             date_created: this.timeStamp,
