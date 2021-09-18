@@ -316,6 +316,7 @@ const actions = {
   },
 
   getAllLandMarkersFs({ commit }) {
+    console.log('getAllLandMarkersFs called');s
     firebase.fs.collection("Markers").onSnapshot(function (snapshot) {
       snapshot.docChanges().forEach(function (change) {
         if (change.type === "added") {
@@ -337,7 +338,7 @@ const actions = {
   },
 
   // this is built following the guidance at https://firebase.google.com/docs/firestore/solutions/geoqueries
-  loadPoiWithinBounds({ commit }, bounds) {
+  async loadPoiWithinBounds({ commit }, bounds) {
     console.log("loadPoiWithinBounds called with bounds", bounds);
     console.log("Current landMarker set", state.landMarkers);
 
@@ -362,23 +363,17 @@ const actions = {
     });
 
     // filter out false positives
-    Promise.all(markersPromisesPerRange).then((markersPerRange) => {
+    const allMarkerDocs = await Promise.all(markersPromisesPerRange).then((markersPerRange) => {
+      const resultingMarkerDocs = [];
       for (const snapshot of markersPerRange) {
-        console.log("Got a snapshot out of Firebase", snapshot);
         for (const marker of snapshot.docs) {
-          // and store the ones that are true positives
-          if (bounds.contains(marker.get("coordinates"))) {
-            console.log("Adding a marker at", marker.get("coordinates"));
-            commit("addLandMarkers", marker.id, marker.data());
-          } else
-            console.log(
-              `Fetched marker that's not inside bounds`,
-              marker.get("coordinates"),
-              bounds
-            );
+          resultingMarkerDocs.push([ marker.id, marker.data() ]);
         }
       }
+      return resultingMarkerDocs;
     });
+
+    commit("addLandMarkersOnce", Object.fromEntries(allMarkerDocs));
   },
 
   getMainMarkersData({ commit }) {
