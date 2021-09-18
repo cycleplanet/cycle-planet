@@ -16,6 +16,8 @@
     "axios": "^0.21.1",
     "firebase-admin": "^9.2.0",
     "firebase-functions": "^3.11.0",
+    "geofire": "^5.2.0",
+    "geofire-common": "^5.2.0",
     "quasar": "^2.0.2"
   },
   "devDependencies": {
