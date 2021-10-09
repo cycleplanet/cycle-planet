@@ -293,7 +293,6 @@ export default {
     "edit-profile": require("components/Profile/EditProfile.vue").default,
     "edit-profile-web": require("components/Profile/EditProfileWeb.vue")
       .default,
-    "trips-tab": require("components/Profile/Tabs/TripsTab.vue").default,
     "about-tab": require("components/Profile/Tabs/AboutTab.vue").default,
     "hosting-tab": require("components/Profile/Tabs/HostingTab.vue").default,
     "modal-follow-button": require("components/Shared/Modals/FollowButton.vue")

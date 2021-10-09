@@ -21,7 +21,6 @@
             label="Admin panel"
             to="/admin"
           />
-          <q-btn flat name="Trips" label="Trips" to="/trips" />
           <q-btn
             flat
             name="Chat"
@@ -105,9 +104,7 @@
               >
                 <q-item-section>Check markers</q-item-section>
               </q-item>
-              <q-item clickable v-close-popup @click="myTripsDialog = true">
-                <q-item-section>My trips (beta)</q-item-section>
-              </q-item>
+             
               <q-item v-close-popup>
                 <q-item-section>
                   <q-btn
@@ -220,9 +217,7 @@
       <my-requests />
     </q-dialog>
 
-    <q-dialog v-model="myTripsDialog">
-      <trips-dialog />
-    </q-dialog>
+   
   </q-layout>
 </template>
 
@@ -244,7 +239,6 @@ export default {
       feedbackDialog: false,
       tab: "",
       myRequestsDialog: false,
-      myTripsDialog: false,
       sections: {
         collections: {
           title: "Collections",
@@ -270,7 +264,6 @@ export default {
     "markerlist-dialog": require("components/Marker/MarkerListDialog.vue")
       .default,
     "my-requests": require("src/components/Profile/MyRequests.vue").default,
-    "trips-dialog": require("components/Profile/myTripsDialog.vue").default,
   },
   computed: {
     ...mapState("auth", ["loggedIn"]),
