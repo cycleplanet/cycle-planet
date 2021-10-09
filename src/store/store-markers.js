@@ -234,22 +234,7 @@ const state = {
   usermarkeroptions: {
     pets: { title: "Allows pets", active: false, icon: "pets" },
   },
-  // userMarkers:{
-  // 	'Touring':{},
-  // 	'Available for hosting':{},
-  // 	'Not available for hosting':{}
-  // },
-  // countryData2:{
-  // 	'Embassy':{},
-  // 	'SeeDo':{},
-  // 	'BikeShop':{},
-  // 	'Border_item':{},
-  // },
   landMarkers: {},
-  landMarkersNewState: {},
-  borderData: {},
-  embassyData: {},
-  seeDoData: {},
   userMarkerData: {},
   checkMarkerData: {},
   markerCounts: {},
@@ -259,6 +244,11 @@ const mutations = {
   addLandMarkersOnce(state, payload) {
     console.log('addLandMarkersOnce 1', payload);
     Object.assign(state.landMarkers, payload);
+  },
+  addSingleLandMarker(state, payload) {
+    console.log('addLandMarkersOnce 1', payload);
+    Vue.set(state.landMarkers, payload.key, payload.data);
+    // Object.assign(state.landMarkers, payload);
   },
   addLandMarkersOnceNew(state, payload) {
     Object.assign(state.landMarkers, payload);
@@ -272,28 +262,13 @@ const mutations = {
   deleteLandMarker(state, itemId) {
     Vue.delete(state.landMarkers, itemId);
   },
-  addBorderData(state, payload) {
-    Vue.set(state.borderData, payload.itemId, payload.itemDetails);
-  },
-  addEmbassyData(state, payload) {
-    Vue.set(state.embassyData, payload.itemId, payload.itemDetails);
-  },
-
-  addSeeDoData(state, payload) {
-    Vue.set(state.seeDoData, payload.itemId, payload.itemDetails);
-  },
   addUserMarker(state, payload) {
     Vue.set(state.userMarkerData, payload.itemId, payload.itemDetails);
   },
   addCheckMarker(state, payload) {
     Vue.set(state.checkMarkerData, payload.itemId, payload.itemDetails);
   },
-  // deleteCountryMarkerData(state){
-  // 	state.countryData2.Embassy={}
-  // 	state.countryData2.SeeDo={}
-  // 	state.countryData2.BikeShop={}
-  // 	state.countryData2.Border_item={}
-  // },
+
 };
 
 const actions = {
@@ -313,27 +288,6 @@ const actions = {
       let countryCounts = snapshot.val();
       let countryCode = snapshot.key;
       commit("addMarkerCounts", { countryCode, countryCounts });
-    });
-  },
-
-  getAllLandMarkersFs({ commit }) {
-    firebase.fs.collection("Markers").onSnapshot(function (snapshot) {
-      snapshot.docChanges().forEach(function (change) {
-        if (change.type === "added") {
-          let itemId = change.doc.id;
-          let itemDetails = change.doc.data();
-          commit("addLandMarkers", { itemId, itemDetails });
-        }
-        if (change.type === "modified") {
-          let itemId = change.doc.id;
-          let itemDetails = change.doc.data();
-          commit("addLandMarkers", { itemId, itemDetails });
-        }
-        if (change.type === "removed") {
-          let itemId = change.doc.id;
-          commit("deleteLandMarker", itemId);
-        }
-      });
     });
   },
 
@@ -394,25 +348,26 @@ const actions = {
     );
   },
 
-  getMainMarkersData({ commit }) {
-    console.log("getMainMarkersData 1");
-
-    let allLandMarkers = Object.keys(state.landMarkers);
-
-    allLandMarkers.forEach((element) => {
-      let itemId = element;
-      let itemDetails = state.landMarkers[element];
-      console.log("getMainMarkersData 2", itemId);
-
-      if (itemDetails.refKey === "Border_item") {
-        commit("addBorderData", { itemId, itemDetails });
-      } else if (itemDetails.refKey === "Embassy") {
-        commit("addEmbassyData", { itemId, itemDetails });
-      } else if (itemDetails.refKey === "SeeDo") {
-        commit("addSeeDoData", { itemId, itemDetails });
-      }
-    });
+  async loadSinglePoi({ commit }, itemKey) {
+    console.log('loadSinglePoi 1 ', itemKey)
+    await firebase.fs
+      .collection("Markers")
+      .doc(itemKey)
+      .get().then((doc) => {
+        console.log("Document data:", doc.data())
+        if (doc.exists) {
+            console.log("Document data:", doc.data())
+            const key = itemKey
+            const data = doc.data()
+            commit("addSingleLandMarker",{key, data})
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+      })
   },
+
+  
 
   getUserMarkerData({ commit }, userId) {
     let allLandMarkers = Object.keys(state.landMarkers);
@@ -447,9 +402,7 @@ const actions = {
       firebase.db.ref("MarkersBackup/" + itemId).set(itemDetails);
     });
   },
-  destroyMapData({ commit }) {
-    // 	// commit('deleteCountryMarkerData')
-  },
+
 };
 
 const getters = {
