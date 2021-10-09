@@ -1,6 +1,7 @@
 <template>
   <div style="min-height: inherit;">
-      <v-map
+      <v-map @click="rightclickmarker=false"
+        @touchstart="holdtouch"
         ref="mymap"
         style="min-height: inherit;"
         @ready="setMapOnReady()"
@@ -213,6 +214,7 @@
         </div>
 
         <div>
+        
           <l-control position="topleft" class="q-ma-md">
             <q-btn
               icon="add"
@@ -315,6 +317,8 @@ import {
 } from "vue2-leaflet";
 import Vue2LeafletMarkercluster from "src/clustermarkers/Vue2LeafletMarkercluster";
 import { getCountryData } from "app/firebase-functions/shared/src/country-constants.js";
+import { copyToClipboard } from 'quasar'
+import { Notify } from "quasar";
 
 const DEFAULT_ZOOM_LEVEL = 3;
 const DEFAULT_CLUSTER_BREAK = 6.5;
@@ -365,6 +369,8 @@ export default {
       },
       randomLat: 0.05,
       randomLng: 0.05,
+      rightclickcoordinates:[],
+      rightclickmarker:false,
 
       radio_options: [
         { label: "Points of Interest", value: "poi", color: "red" },
@@ -384,6 +390,23 @@ export default {
           preferCanvas: true,
           zoomSnap: 0.25,
           wheelPxPerZoomLevel: 50,
+          contextmenu: true,
+          contextmenuWidth: 140,
+          contextmenuItems: [{
+          text: 'Show coordinates',
+          callback: this.showCoordinates
+      }, {
+          text: 'Center map here',
+          callback: this.centerMap
+      }, '-', {
+          text: 'Zoom in',
+          icon: 'images/zoom-in.png',
+          callback: this.zoomIn
+      }, {
+          text: 'Zoom out',
+          icon: 'images/zoom-out.png',
+          callback: this.zoomOut
+      }]
         }
       } else {
         return {
@@ -391,6 +414,24 @@ export default {
           dragging: true,
           tap: false,
           preferCanvas: true,
+                    contextmenu: true,
+          contextmenuWidth: 140,
+          contextmenuItems: [{
+          text: 'Show coordinates',
+          callback: this.showCoordinates
+      }, {
+          text: 'Center map here',
+          callback: this.centerMap
+      }, '-', {
+          text: 'Zoom in',
+          icon: 'images/zoom-in.png',
+          callback: this.zoomIn
+      }, {
+          text: 'Zoom out',
+          icon: 'images/zoom-out.png',
+          callback: this.zoomOut
+      }]
+
         }
       }
     },
@@ -405,6 +446,76 @@ export default {
   methods: {
     click: (e) => console.log("clusterclick", e),
     ready: (e) => console.log("ready", e),
+
+    rightclick(e){
+      console.log('rightclick 1',e)
+      console.log('rightclick 2',e.latlng)
+      console.log('rightclick 3',this.$refs.mymap)
+      console.log('rightclick 4',this.$refs.mymap.mapObject)
+      this.rightclickcoordinates=e.latlng
+      this.$refs.mymap.mapObject.contextmenu=true;
+      this.$refs.mymap.mapObject.contextmenuWidth=140;
+      this.$refs.mymap.mapObject.contextmenuItems= [{
+          text: 'Show coordinates',
+          callback: this.showCoordinates
+      }, {
+          text: 'Center map here',
+          callback: this.centerMap
+      }, '-', {
+          text: 'Zoom in',
+          icon: 'images/zoom-in.png',
+          callback: this.zoomIn
+      }, {
+          text: 'Zoom out',
+          icon: 'images/zoom-out.png',
+          callback: this.zoomOut
+      }]
+      
+      // this.rightclickmarker=true
+
+      
+    },
+    showCoordinates (e) {
+      alert(e.latlng);
+    },
+
+    centerMap (e) {
+      this.$refs.mymap.panTo(e.latlng);
+    },
+
+    zoomIn (e) {
+      this.$refs.mymap.zoomIn();
+    },
+
+    zoomOut (e) {
+      map.zoomOut();
+    },
+    holdtouch(e){
+      console.log('rightclick 1',e)
+      console.log('rightclick 1',e.latlng)
+       setTimeout(() => {
+        this.rightclickcoordinates=e.latlng
+        this.rightclickmarker=true
+      }, 1000);
+     
+      
+    },
+    copyCoordinates(){
+      console.log('copyCoordinates');
+      copyToClipboard(this.rightclickcoordinates.lat+', '+this.rightclickcoordinates.lng)
+      .then(() => {
+        Notify.create("Copied succesfully!");
+
+        this.rightclickmarker=false
+
+        // success!
+      })
+      .catch(() => {
+        Notify.create("something went wrong");
+        // fail
+      })
+
+    },
 
     modalShown() {
       setTimeout(() => {
@@ -459,7 +570,10 @@ export default {
   },
 
   mounted() {
-    this.$nextTick(() => {
+    console.log('map', this.$refs.mymap);
+    console.log('context menu', this.$refs.mymap.mapObject.contextmenu);
+
+    this.$nextTick(() => {s
       this.clusterOptions = { disableClusteringAtZoom: 11 };
     });
     this.randomLat = Math.random() * 0.02 - 0.01;

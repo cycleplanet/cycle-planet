@@ -6188,6 +6188,11 @@
   dependencies:
     "readable-stream" "^2.0.5"
 
+"leaflet-contextmenu@^1.4.0":
+  "integrity" "sha1-4r2kga8QJggOq6oymX5TH9RPYFw="
+  "resolved" "https://registry.npmjs.org/leaflet-contextmenu/-/leaflet-contextmenu-1.4.0.tgz"
+  "version" "1.4.0"
+
 "leaflet-gpx@^1.5.2":
   "integrity" "sha512-qryfvqeAxYJNJlhthqgtD5NCE/ANUx8oPDGOXPuULIBl0eYYuYalJshoRiyDvf5lL+w2+hkpuHVqewcc4IMdsw=="
   "resolved" "https://registry.npmjs.org/leaflet-gpx/-/leaflet-gpx-1.5.2.tgz"
@@ -9985,6 +9990,11 @@
   dependencies:
     "clipboard" "^2.0.0"
 
+"vue-context-menu@^2.0.6":
+  "integrity" "sha512-wTyyjWbrGq/Rc1iivHl9ryI0IcsodRgg46CAGCm6knADDsTj5qJzo2pPDfi6y2nQreg8llJC2lGGts88tMX1sQ=="
+  "resolved" "https://registry.npmjs.org/vue-context-menu/-/vue-context-menu-2.0.6.tgz"
+  "version" "2.0.6"
+
 "vue-croppa@^1.3.8":
   "integrity" "sha512-WwYgEKscTCD7BzhnbfRJfzWIU6RcMq2JRimB3aI5gGzpADmpKuqmDh9+oVfiZaEnpmRthgXZxcAvbxU6CeIU9w=="
   "resolved" "https://registry.npmjs.org/vue-croppa/-/vue-croppa-1.3.8.tgz"
@@ -10077,7 +10087,7 @@
   "resolved" "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz"
   "version" "1.9.1"
 
-"vue@^2.5.16", "vue@^2.6.10", "vue@^2.6.12", "vue@2.6.12":
+"vue@^2.3.4", "vue@^2.5.16", "vue@^2.6.10", "vue@^2.6.12", "vue@2.6.12":
   "integrity" "sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-2.6.12.tgz"
   "version" "2.6.12"
