@@ -35,8 +35,9 @@
 
 <script>
 import mixinGeneral from "src/mixins/mixin-general.js";
-import firebase from "firebase/app";
-import { firebase as firebaseConfig } from "boot/config";
+// import firebase from "firebase/app";
+// import { firebase as firebaseConfig } from "boot/config";
+import { firebase } from "boot/config";
 
 export default {
   props: ["singleItemData"],
@@ -58,7 +59,7 @@ export default {
             [this.myUserId]: true,
           };
         }
-        firebaseConfig.fs
+        firebase.fs
           .collection("Markers")
           .doc(this.itemKey)
           .update({ likes: this.singleItemData.likes });
@@ -74,13 +75,13 @@ export default {
       }
     },
     clickDislikeItem() {
-      firebaseConfig.fs
+      firebase.fs
         .collection("Markers")
         .doc(this.itemKey)
         .set(
           {
             likes: {
-              [this.myUserId]: firebase.firestore.FieldValue.delete(),
+              [this.myUserId]: firebase.fs.FieldValue.delete(),
             },
           },
           { merge: true }

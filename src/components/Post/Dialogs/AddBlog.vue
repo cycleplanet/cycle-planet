@@ -76,7 +76,9 @@ import mixinGeneral from "src/mixins/mixin-general.js";
 import "vue-croppa/dist/vue-croppa.css";
 import Vue from "vue";
 import Croppa from "vue-croppa";
-import firebase from "firebase";
+// import firebase from "firebase";
+import { firebase } from "boot/config";
+
 import { uid, Notify } from "quasar";
 
 Vue.use(Croppa);

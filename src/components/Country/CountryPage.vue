@@ -295,6 +295,7 @@ export default {
   },
 
   mounted() {
+    console.log("CountryPage mounted",this.countryKey);
     if (this.countryKey) {
       this.refreshData();
       this.pageReady = true;

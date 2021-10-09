@@ -262,8 +262,10 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import mixinGeneral from "src/mixins/mixin-general.js";
-import { firebase as firebaseConfig } from "boot/config";
-import firebase from "firebase/app";
+// import { firebase as firebaseConfig } from "boot/config";
+import { firebase } from "boot/config";
+
+// import firebase from "firebase/app";
 import { date } from "quasar";
 import Vue from "vue";
 import Embed from "v-video-embed";
@@ -310,7 +312,7 @@ export default {
       }
     },
     getImages() {
-      var storageRef = firebaseConfig.storage.ref("/users/" + this.userId);
+      var storageRef = firebase.storage.ref("/users/" + this.userId);
       storageRef
         .listAll()
         .then((result) => {
@@ -328,7 +330,7 @@ export default {
       let url1 = url.split("%2F");
       let url2 = url1[2].split("?alt");
       let docName = url2[0];
-      firebaseConfig.storage
+      firebase.storage
         .ref("/users/" + this.userId)
         .child(docName)
         .delete()

@@ -257,6 +257,7 @@ const state = {
 
 const mutations = {
   addLandMarkersOnce(state, payload) {
+    console.log('addLandMarkersOnce 1', payload);
     Object.assign(state.landMarkers, payload);
   },
   addLandMarkersOnceNew(state, payload) {
@@ -375,16 +376,19 @@ const actions = {
   },
 
   async loadPoiWithinCountry({ commit }, countryCode) {
+    console.log('loadPoiWithinCountry 1 ', countryCode)
     const poiInCountry = await firebase.fs
       .collection("Markers")
       .where("countryCode", "==", countryCode)
       .get();
 
+      console.log('loadPoiWithinCountry 1 ', poiInCountry)
+
     commit(
       "addLandMarkersOnce",
       Object.fromEntries(
         poiInCountry.docs.map((pIC) => {
-          return { itemId: pIC.id, itemDetails: pIC.data() };
+          return [ pIC.id, pIC.data() ];
         })
       )
     );
