@@ -242,16 +242,10 @@ const state = {
 
 const mutations = {
   addLandMarkersOnce(state, payload) {
-    console.log('addLandMarkersOnce 1', payload);
-    Object.assign(state.landMarkers, payload);
+    state.landMarkers = { ...state.landMarkers, ...payload };
   },
   addSingleLandMarker(state, payload) {
-    console.log('addLandMarkersOnce 1', payload);
     Vue.set(state.landMarkers, payload.key, payload.data);
-    // Object.assign(state.landMarkers, payload);
-  },
-  addLandMarkersOnceNew(state, payload) {
-    Object.assign(state.landMarkers, payload);
   },
   addMarkerCounts(state, payload) {
     Vue.set(state.markerCounts, payload.countryCode, payload.countryCounts);
@@ -268,7 +262,6 @@ const mutations = {
   addCheckMarker(state, payload) {
     Vue.set(state.checkMarkerData, payload.itemId, payload.itemDetails);
   },
-
 };
 
 const actions = {
@@ -330,44 +323,37 @@ const actions = {
   },
 
   async loadPoiWithinCountry({ commit }, countryCode) {
-    console.log('loadPoiWithinCountry 1 ', countryCode)
     const poiInCountry = await firebase.fs
       .collection("Markers")
       .where("countryCode", "==", countryCode)
       .get();
 
-      console.log('loadPoiWithinCountry 1 ', poiInCountry)
-
     commit(
       "addLandMarkersOnce",
       Object.fromEntries(
         poiInCountry.docs.map((pIC) => {
-          return [ pIC.id, pIC.data() ];
+          return [pIC.id, pIC.data()];
         })
       )
     );
   },
 
   async loadSinglePoi({ commit }, itemKey) {
-    console.log('loadSinglePoi 1 ', itemKey)
     await firebase.fs
       .collection("Markers")
       .doc(itemKey)
-      .get().then((doc) => {
-        console.log("Document data:", doc.data())
+      .get()
+      .then((doc) => {
         if (doc.exists) {
-            console.log("Document data:", doc.data())
-            const key = itemKey
-            const data = doc.data()
-            commit("addSingleLandMarker",{key, data})
+          const key = itemKey;
+          const data = doc.data();
+          commit("addSingleLandMarker", { key, data });
         } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
         }
-      })
+      });
   },
-
-  
 
   getUserMarkerData({ commit }, userId) {
     let allLandMarkers = Object.keys(state.landMarkers);
@@ -402,7 +388,6 @@ const actions = {
       firebase.db.ref("MarkersBackup/" + itemId).set(itemDetails);
     });
   },
-
 };
 
 const getters = {

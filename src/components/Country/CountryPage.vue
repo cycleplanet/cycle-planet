@@ -274,10 +274,9 @@ export default {
 
   methods: {
     ...mapActions("country", ["destroyData", "firebaseGetCountryDataNew"]),
-    ...mapActions("markers", ["destroyMapData", "loadPoiWithinCountry"]),
+    ...mapActions("markers", ["loadPoiWithinCountry"]),
 
     refreshData() {
-      this.destroyMapData().then(() => {});
       this.destroyData().then(() => {
         this.loadPoiWithinCountry(this.getCountryDataByName(this.countryKey).iso2);
         this.firebaseGetCountryDataNew(this.countryKey);
