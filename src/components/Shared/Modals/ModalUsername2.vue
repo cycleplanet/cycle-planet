@@ -6,9 +6,9 @@
     v-if="users"
   >
     <q-avatar size="sm" class="q-mx-sm">
-      <img :src="users[userIdChecked].imageurl" />
+      <img :src="users[userIdChecked] && users[userIdChecked].imageurl" />
     </q-avatar>
-    <div class="underline-hover">{{ users[userIdChecked].fullname }}</div>
+    <div class="underline-hover">{{ users[userIdChecked] && users[userIdChecked].fullname }}</div>
   </div>
 </template>
 
