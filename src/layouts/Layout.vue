@@ -186,7 +186,7 @@
     <cp-footer />
 
     <q-dialog :maximized="true" v-model="myMarkersDialog" v-if="myUserDetails">
-      <markerlist-dialog
+      <marker-list-dialog
         :markersArray="
           myUserDetails.points.markers_added
             ? Object.values(myUserDetails.points.markers_added)
@@ -225,7 +225,7 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 import mixinGeneral from "src/mixins/mixin-general.js";
 import mixinHosting from "src/mixins/mixin-hosting.js";
-import { LocalStorage, SessionStorage } from 'quasar'
+import { LocalStorage, SessionStorage } from 'quasar';
 
 export default {
   mixins: [mixinGeneral, mixinHosting],
@@ -261,8 +261,7 @@ export default {
     // 'my-markers' : require('components/Marker/MyMarkers.vue').default,
     "check-markers": require("components/Marker/CheckMarkers.vue").default,
     "map-all": require("components/Map/Map.vue").default,
-    "markerlist-dialog": require("components/Marker/MarkerListDialog.vue")
-      .default,
+    "marker-list-dialog": require("components/Marker/MarkerListDialog.vue").default,
     "my-requests": require("src/components/Profile/MyRequests.vue").default,
   },
   computed: {

@@ -109,7 +109,7 @@ export default {
     "search-countries": require("src/components/Shared/Modals/SearchCountries.vue")
       .default,
 
-    "user-page": require("components/Profile/UserPage.vue").default,
+    "user-page": () => import("components/Profile/UserPage.vue"),
     "item-dialog": require("components/Marker/ItemDialog.vue").default,
   },
 
