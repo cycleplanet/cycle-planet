@@ -459,7 +459,6 @@ export default {
     // when the bounds of the map change and we're zoomed in beyond clusterbreak,
     // we fetch the POI markers for just the area within the bounds
     boundsChanged() {
-      console.log('boundsChanged called');
       const showingMarkers = this.map.getZoom() >= this.clusterBreak;
 
       if (showingMarkers) {
@@ -470,7 +469,7 @@ export default {
     async clickCountryMarkerCount(cc) {
       this.map.fitBounds(getCountryData(cc).boundingBox);
       const newZoomLevel = this.map.getZoom();
-      this.clusterBreak = Math.min(this.map.getZoom(), this.clusterBreak);
+      this.clusterBreak = Math.min(newZoomLevel, this.clusterBreak);
     },
   },
 
