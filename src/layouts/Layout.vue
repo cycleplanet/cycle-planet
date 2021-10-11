@@ -258,7 +258,6 @@ export default {
     "cp-footer": require("layouts/Footer.vue").default,
     "feedback-dialog": require("components/Shared/FeedbackDialog.vue").default,
     "drawer-right": require("src/layouts/DrawerRight.vue").default,
-    // 'my-markers' : require('components/Marker/MyMarkers.vue').default,
     "check-markers": require("components/Marker/CheckMarkers.vue").default,
     "map-all": require("components/Map/Map.vue").default,
     "marker-list-dialog": require("components/Marker/MarkerListDialog.vue").default,

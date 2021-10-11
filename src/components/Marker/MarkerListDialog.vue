@@ -192,6 +192,7 @@
 
 <script>
 import mixinGeneral from "src/mixins/mixin-general.js";
+import { mapActions } from 'vuex';
 
 export default {
   mixins: [mixinGeneral],
@@ -216,7 +217,12 @@ export default {
       this.itemDetails = listItem;
       this.itemDialog = true;
     },
+    ...mapActions("markers", ["loadPoiByIds"])
   },
+
+  async created() {
+    await this.loadPoiByIds(this.markersArray)
+  }
 };
 </script>
 

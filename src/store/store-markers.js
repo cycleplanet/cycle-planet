@@ -235,13 +235,12 @@ const state = {
     pets: { title: "Allows pets", active: false, icon: "pets" },
   },
   landMarkers: {},
-  userMarkerData: {},
   checkMarkerData: {},
   markerCounts: {},
 };
 
 const mutations = {
-  addLandMarkersOnce(state, payload) {
+  addLandMarkers(state, payload) {
     state.landMarkers = { ...state.landMarkers, ...payload };
   },
   addSingleLandMarker(state, payload) {
@@ -250,14 +249,8 @@ const mutations = {
   addMarkerCounts(state, payload) {
     Vue.set(state.markerCounts, payload.countryCode, payload.countryCounts);
   },
-  addLandMarkers(state, payload) {
-    Vue.set(state.landMarkers, payload.itemId, payload.itemDetails);
-  },
   deleteLandMarker(state, itemId) {
     Vue.delete(state.landMarkers, itemId);
-  },
-  addUserMarker(state, payload) {
-    Vue.set(state.userMarkerData, payload.itemId, payload.itemDetails);
   },
   addCheckMarker(state, payload) {
     Vue.set(state.checkMarkerData, payload.itemId, payload.itemDetails);
@@ -319,7 +312,7 @@ const actions = {
       }
     );
 
-    commit("addLandMarkersOnce", Object.fromEntries(allMarkerDocs));
+    commit("addLandMarkers", Object.fromEntries(allMarkerDocs));
   },
 
   async loadPoiWithinCountry({ commit }, countryCode) {
@@ -329,7 +322,7 @@ const actions = {
       .get();
 
     commit(
-      "addLandMarkersOnce",
+      "addLandMarkers",
       Object.fromEntries(
         poiInCountry.docs.map((pIC) => {
           return [pIC.id, pIC.data()];
@@ -355,16 +348,15 @@ const actions = {
       });
   },
 
-  getUserMarkerData({ commit }, userId) {
-    let allLandMarkers = Object.keys(state.landMarkers);
-    allLandMarkers.forEach((element) => {
-      let itemId = element;
-      let itemDetails = state.landMarkers[element];
+  async loadPoiByIds({ commit }, markerIds) {
+    for (const i in markerIds) {
+      const poi = await firebase.fs
+        .collection("Markers")
+        .doc(markerIds[i])
+        .get();
 
-      if (itemDetails.user_created === userId) {
-        commit("addUserMarker", { itemId, itemDetails });
-      }
-    });
+      commit("addSingleLandMarker", { key: markerIds[i], data: poi.data() });
+    }
   },
 
   getCheckMarkerData({ commit }) {
