@@ -128,10 +128,13 @@ import {
   LPopup,
   LFeatureGroup,
 } from "vue2-leaflet";
-import { uid } from "quasar";
+import { uid, Notify } from "quasar";
+
 import { Geoapify } from "app/firebase-functions/shared/src/geoapify";
 import { geoapify } from "../../../boot/config.js";
-import { getCountryData } from "app/firebase-functions/shared/src/country-constants.js";
+import { getCountryData, getCountryDataByName } from "app/firebase-functions/shared/src/country-constants.js";
+const geofire = require('geofire-common')
+
 export default {
   props: ["refKey", "countryKey"],
   mixins: [mixinGeneral],
@@ -150,8 +153,8 @@ export default {
       warningDescription: false,
       getCountryData:getCountryData,
       payload: {
-        country1: { city: "", country: "" },
-        country2: { city: "", country: "" },
+        country1: { city: "", country: "", countrycode:"" },
+        country2: { city: "", country: "", countrycode:"" },
         coordinates: { lat: null, lng: null },
       },
     };
@@ -182,6 +185,7 @@ export default {
           .then((cc) => {
             if (cc) {
               this.payload.country1.country = getCountryData(cc).fullName;
+              this.payload.country1.countrycode = cc
             }
           })
           .catch((err) => {});
@@ -213,6 +217,11 @@ export default {
               "Thanks for your contribution. You`ve earned 10 points!"
             );
 
+            const lat = Number(this.payload.coordinates.lat)
+            const lng = Number(this.payload.coordinates.lng)
+
+            this.payload.country2.countrycode = getCountryDataByName(this.payload.country2.country).iso2
+
             this.setItemActionFs({
               collection: "Markers",
               doc: markerId,
@@ -225,6 +234,7 @@ export default {
                 refKey: this.refKey,
                 date_created: this.timeStamp,
                 user_created: this.myUserId,
+                geohash:geofire.geohashForLocation([lat, lng]),
                 coordinates: {
                   lat: this.payload.coordinates.lat,
                   lng: this.payload.coordinates.lng,

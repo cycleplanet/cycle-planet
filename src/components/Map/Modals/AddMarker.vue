@@ -112,6 +112,9 @@ import { Geoapify } from "app/firebase-functions/shared/src/geoapify";
 import { geoapify } from "../../../boot/config.js";
 import { getCountryData } from "app/firebase-functions/shared/src/country-constants.js";
 
+const geofire = require('geofire-common')
+
+
 export default {
   props: ["refKey", "countryKey"],
   mixins: [mixinGeneral],
@@ -133,6 +136,7 @@ export default {
       payload: {
         description: "",
         country: "",
+        countryCode: "",
         coordinates: {
           lat: "",
           lng: "",
@@ -158,13 +162,21 @@ export default {
     },
     currentLocation() {
       console.log("currentLocation 1", this.payload);
+      const lat = this.payload.coordinates.lat
+      const lng = this.payload.coordinates.lng
+      
       if (this.payload.coordinates.lat) {
+        console.log("currentLocation 2", lat);
+        console.log("currentLocation 3", lng);
+        console.log('geohash '+ geofire.geohashForLocation([lat, lng]))
+
         this.geocoder
           .reverseGeocodeToCountryCode(
             this.payload.coordinates.lat,
             this.payload.coordinates.lng
           )
           .then((cc) => {
+            this.payload.countryCode = cc;
             this.payload.country = getCountryData(cc).fullName;
           })
           .catch((err) => {
@@ -212,21 +224,26 @@ export default {
             "Thanks for your contribution. You`ve earned 10 points!"
           );
 
+          const lat = Number(this.payload.coordinates.lat)
+          const lng = Number(this.payload.coordinates.lng)
+
           this.setItemActionFs({
             collection: "Markers",
             doc: markerId,
             data: {
               itemKey: markerId,
               countryKey: this.payload.country,
+              countryCode: this.payload.countryCode,
               refKey: this.refKey,
               title: this.payload.title,
               description: this.payload.description,
               refKey: this.refKey,
               date_created: this.timeStamp,
               user_created: this.myUserId,
+              geohash:geofire.geohashForLocation([lat, lng]),
               coordinates: {
-                lat: this.payload.coordinates.lat,
-                lng: this.payload.coordinates.lng,
+                lat: lat,
+                lng: lng,
               },
             },
           })

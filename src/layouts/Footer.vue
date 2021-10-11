@@ -109,7 +109,6 @@
         :breakpoint="0"
       >
         <q-tab name="map" icon="map" @click="$router.push('/map')" />
-        <q-tab name="trips" icon="alt_route" @click="$router.push('/trips')" />
         <q-tab v-if="loggedIn" icon="chat" @click="$router.push('/chat')">
           <q-badge
             color="red"
@@ -161,7 +160,6 @@ export default {
       sections: {
         Main: {
           Home: { to: "/" },
-          Trips: { to: "/trips" },
           Countries: { to: "/countries" },
         },
         Useful: {

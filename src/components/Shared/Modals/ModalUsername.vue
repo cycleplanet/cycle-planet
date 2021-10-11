@@ -5,7 +5,7 @@
     class="cursor-pointer"
     v-if="users && userIdChecked"
   >
-    <div class="underline">{{ users[userIdChecked].fullname }}</div>
+    <div class="underline">{{ users[userIdChecked] && users[userIdChecked].fullname }}</div>
   </div>
 </template>
 

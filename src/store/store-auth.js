@@ -78,18 +78,15 @@ const mutations = {
   deleteUserDetail(state, path) {
     Vue.delete(state.users, path);
   },
-  
 };
 
 const actions = {
-  loadBaseData({ commit,dispatch }) {
+  loadBaseData({ commit, dispatch }) {
     dispatch("markers/getMarkerCounts", null, { root: true });
     dispatch("firebaseGetUsers");
     dispatch("countries/firebasegetCountries", null, { root: true });
-    dispatch("markers/getAllLandMarkersFs", null, { root: true });
 
     LocalStorage.set("loadedBaseData", true);
-    
   },
   loadSecondaryData({ dispatch }) {
     dispatch("chat/firebaseGetUsers", null, { root: true });

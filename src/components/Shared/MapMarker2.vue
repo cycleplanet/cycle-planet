@@ -31,16 +31,18 @@
           <div v-for="markerKey in markersArray" :key="markerKey">
             <v-marker
               :lat-lng="landMarkers[markerKey].coordinates"
-              v-if="markerlist[landMarkers[markerKey].refKey].active"
+              v-if="landMarkers[markerKey] && markerlist[landMarkers[markerKey].refKey].active"
             >
               <l-icon
                 :icon-url="markerlist[landMarkers[markerKey].refKey].iconurl"
                 :icon-size="dynamicSize"
                 :icon-anchor="dynamicAnchor"
+                v-if="landMarkers[markerKey]"
               ></l-icon>
               <mapmarker-popup
                 :singleItemData="landMarkers[markerKey]"
                 @markerClick="clickedMarkerMethod(markerKey)"
+                v-if="landMarkers[markerKey]"
               />
             </v-marker>
           </div>
@@ -109,7 +111,7 @@ export default {
     "search-countries": require("src/components/Shared/Modals/SearchCountries.vue")
       .default,
 
-    "user-page": require("components/Profile/UserPage.vue").default,
+    "user-page": () => import("components/Profile/UserPage.vue"),
     "item-dialog": require("components/Marker/ItemDialog.vue").default,
   },
 

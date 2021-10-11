@@ -229,9 +229,9 @@
     </q-dialog>
 
     <q-dialog :maximized="true" v-model="markerAddedDialog" class="bg-white">
-      <markerlist-dialog
+      <marker-list-dialog
         :markersArray="
-          userData.points.markers_added
+          userData && userData.points && userData.points.markers_added
             ? Object.values(userData.points.markers_added)
             : 0
         "
@@ -240,9 +240,9 @@
     </q-dialog>
 
     <q-dialog :maximized="true" v-model="markerCheckedDialog" class="bg-white">
-      <markerlist-dialog
+      <marker-list-dialog
         :markersArray="
-          userData.points.markers_checked
+          userData && userData.points && userData.points.markers_checked
             ? Object.values(userData.points.markers_checked)
             : 0
         "
@@ -251,9 +251,9 @@
     </q-dialog>
 
     <q-dialog :maximized="true" v-model="markerLikedDialog" class="bg-white">
-      <markerlist-dialog
+      <marker-list-dialog
         :markersArray="
-          userData.points.markers_liked
+          userData && userData.points && userData.points.markers_liked
             ? Object.keys(userData.points.markers_liked)
             : 0
         "
@@ -291,9 +291,9 @@ export default {
 
   components: {
     "edit-profile": require("components/Profile/EditProfile.vue").default,
+    "marker-list-dialog": require("components/Marker/MarkerListDialog.vue").default,
     "edit-profile-web": require("components/Profile/EditProfileWeb.vue")
       .default,
-    "trips-tab": require("components/Profile/Tabs/TripsTab.vue").default,
     "about-tab": require("components/Profile/Tabs/AboutTab.vue").default,
     "hosting-tab": require("components/Profile/Tabs/HostingTab.vue").default,
     "modal-follow-button": require("components/Shared/Modals/FollowButton.vue")
@@ -302,9 +302,7 @@ export default {
       .default,
     "hosting-stats": require("components/Shared/Modals/HostingStats.vue")
       .default,
-    "markerlist-dialog": require("components/Marker/MarkerListDialog.vue")
-      .default,
-    "host-request": require("components/Chat/HostRequestDialog.vue").default,
+    "host-request": require("components/Chat/HostRequestDialog.vue").default
   },
 
   computed: {

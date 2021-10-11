@@ -46,9 +46,10 @@ import mixinGeneral from "src/mixins/mixin-general.js";
 import "vue-croppa/dist/vue-croppa.css";
 import Vue from "vue";
 import Croppa from "vue-croppa";
-import firebase from "firebase";
+// import firebase from "firebase";
 import { uid, Notify } from "quasar";
 import { date } from "quasar";
+import { firebase } from "boot/config";
 
 // const storage = firebase.storage()
 // export const storageProfilePhotoRef = firebase.storage().ref('profilePhoto')

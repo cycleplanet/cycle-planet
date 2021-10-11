@@ -1,6 +1,7 @@
 import Vue from "vue";
 import { uid, Notify, date } from "quasar";
 import { firebase } from "boot/config";
+import { geohashQueryBounds } from "geofire-common";
 
 const state = {
   mapsettings: {
@@ -233,65 +234,27 @@ const state = {
   usermarkeroptions: {
     pets: { title: "Allows pets", active: false, icon: "pets" },
   },
-  // userMarkers:{
-  // 	'Touring':{},
-  // 	'Available for hosting':{},
-  // 	'Not available for hosting':{}
-  // },
-  // countryData2:{
-  // 	'Embassy':{},
-  // 	'SeeDo':{},
-  // 	'BikeShop':{},
-  // 	'Border_item':{},
-  // },
   landMarkers: {},
-  landMarkersNewState: {},
-  borderData: {},
-  embassyData: {},
-  seeDoData: {},
-  userMarkerData: {},
   checkMarkerData: {},
   markerCounts: {},
 };
 
 const mutations = {
-  addLandMarkersOnce(state, payload) {
-    Object.assign(state.landMarkers, payload);
+  addLandMarkers(state, payload) {
+    state.landMarkers = { ...state.landMarkers, ...payload };
   },
-  addLandMarkersOnceNew(state, payload) {
-    Object.assign(state.landMarkers, payload);
+  addSingleLandMarker(state, payload) {
+    Vue.set(state.landMarkers, payload.key, payload.data);
   },
   addMarkerCounts(state, payload) {
     Vue.set(state.markerCounts, payload.countryCode, payload.countryCounts);
   },
-  addLandMarkers(state, payload) {
-    Vue.set(state.landMarkers, payload.itemId, payload.itemDetails);
-  },
   deleteLandMarker(state, itemId) {
     Vue.delete(state.landMarkers, itemId);
-  },
-  addBorderData(state, payload) {
-    Vue.set(state.borderData, payload.itemId, payload.itemDetails);
-  },
-  addEmbassyData(state, payload) {
-    Vue.set(state.embassyData, payload.itemId, payload.itemDetails);
-  },
-
-  addSeeDoData(state, payload) {
-    Vue.set(state.seeDoData, payload.itemId, payload.itemDetails);
-  },
-  addUserMarker(state, payload) {
-    Vue.set(state.userMarkerData, payload.itemId, payload.itemDetails);
   },
   addCheckMarker(state, payload) {
     Vue.set(state.checkMarkerData, payload.itemId, payload.itemDetails);
   },
-  // deleteCountryMarkerData(state){
-  // 	state.countryData2.Embassy={}
-  // 	state.countryData2.SeeDo={}
-  // 	state.countryData2.BikeShop={}
-  // 	state.countryData2.Border_item={}
-  // },
 };
 
 const actions = {
@@ -306,14 +269,6 @@ const actions = {
       });
   },
 
-  // getAllLandMarkersNew({commit}){
-  // 	const axios = require('axios');
-  // 	axios.get(`${ process.env.API }/markers`).then(response=>{
-  // 		commit('addLandMarkersOnceNew', response.data)
-  // 	  }).catch(err=>{
-  // 	})
-  // },
-
   getMarkerCounts({ commit }) {
     firebase.db.ref("CountryMarkerCounts/").on("child_added", (snapshot) => {
       let countryCounts = snapshot.val();
@@ -322,65 +277,88 @@ const actions = {
     });
   },
 
-  getAllLandMarkersFs({ commit }) {
-    // firebase.fs
-    //   .collection("Markers")
-    //   .get()
-    //   .then((querySnapshot) => {
-    //     querySnapshot.forEach((doc) => {
-    //       let itemId = doc.id;
-    //       let itemDetails = doc.data();
-    //       commit("addLandMarkers", { itemId, itemDetails });
-    //     });
-    //   });
+  // this is built following the guidance at https://firebase.google.com/docs/firestore/solutions/geoqueries
+  async loadPoiWithinBounds({ commit }, bounds) {
+    // convert bounds to geohash ranges
+    const searchRadiusInMeters = bounds
+      .getCenter()
+      .distanceTo(bounds.getNorthEast());
 
-    firebase.fs.collection("Markers").onSnapshot(function (snapshot) {
-      snapshot.docChanges().forEach(function (change) {
-        if (change.type === "added") {
-          let itemId = change.doc.id;
-          let itemDetails = change.doc.data();
-          commit("addLandMarkers", { itemId, itemDetails });
+    const geohashRangesToQuery = geohashQueryBounds(
+      [bounds.getCenter().lat, bounds.getCenter().lng],
+      searchRadiusInMeters
+    );
+
+    // query Cloud Firestore for geohash ranges
+    const markersPromisesPerRange = geohashRangesToQuery.map(async (r) => {
+      return await firebase.fs
+        .collection("Markers")
+        .orderBy("geohash")
+        .startAt(r[0])
+        .endAt(r[1])
+        .get();
+    });
+
+    // filter out false positives
+    const allMarkerDocs = await Promise.all(markersPromisesPerRange).then(
+      (markersPerRange) => {
+        const resultingMarkerDocs = [];
+        for (const snapshot of markersPerRange) {
+          for (const marker of snapshot.docs) {
+            resultingMarkerDocs.push([marker.id, marker.data()]);
+          }
         }
-        if (change.type === "modified") {
-          let itemId = change.doc.id;
-          let itemDetails = change.doc.data();
-          commit("addLandMarkers", { itemId, itemDetails });
-        }
-        if (change.type === "removed") {
-          let itemId = change.doc.id;
-          commit("deleteLandMarker", itemId);
+        return resultingMarkerDocs;
+      }
+    );
+
+    commit("addLandMarkers", Object.fromEntries(allMarkerDocs));
+  },
+
+  async loadPoiWithinCountry({ commit }, countryCode) {
+    const poiInCountry = await firebase.fs
+      .collection("Markers")
+      .where("countryCode", "==", countryCode)
+      .get();
+
+    commit(
+      "addLandMarkers",
+      Object.fromEntries(
+        poiInCountry.docs.map((pIC) => {
+          return [pIC.id, pIC.data()];
+        })
+      )
+    );
+  },
+
+  async loadSinglePoi({ commit }, itemKey) {
+    await firebase.fs
+      .collection("Markers")
+      .doc(itemKey)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          const key = itemKey;
+          const data = doc.data();
+          commit("addSingleLandMarker", { key, data });
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
         }
       });
-    });
   },
-  getMainMarkersData({ commit }) {
-    console.log("getMainMarkersData 1");
-    let allLandMarkers = Object.keys(state.landMarkers);
-    allLandMarkers.forEach((element) => {
-      let itemId = element;
-      let itemDetails = state.landMarkers[element];
-      console.log("getMainMarkersData 2", itemId);
 
-      if (itemDetails.refKey === "Border_item") {
-        commit("addBorderData", { itemId, itemDetails });
-      } else if (itemDetails.refKey === "Embassy") {
-        commit("addEmbassyData", { itemId, itemDetails });
-      } else if (itemDetails.refKey === "SeeDo") {
-        commit("addSeeDoData", { itemId, itemDetails });
-      }
-    });
-  },
-  getUserMarkerData({ commit }, userId) {
-    let allLandMarkers = Object.keys(state.landMarkers);
-    allLandMarkers.forEach((element) => {
-      let itemId = element;
-      let itemDetails = state.landMarkers[element];
+  async loadPoiByIds({ commit }, markerIds) {
+    for (const i in markerIds) {
+      const poi = await firebase.fs
+        .collection("Markers")
+        .doc(markerIds[i])
+        .get();
 
-      if (itemDetails.user_created === userId) {
-        commit("addUserMarker", { itemId, itemDetails });
-      }
-    });
+      commit("addSingleLandMarker", { key: markerIds[i], data: poi.data() });
+    }
   },
+
   getCheckMarkerData({ commit }) {
     let userId = firebase.auth.currentUser.uid;
     let allLandMarkers = Object.keys(state.landMarkers);
@@ -393,6 +371,7 @@ const actions = {
       }
     });
   },
+
   backupFirestoreMarkers() {
     let allLandMarkers = Object.keys(state.landMarkers);
     allLandMarkers.forEach((element) => {
@@ -400,9 +379,6 @@ const actions = {
       let itemDetails = state.landMarkers[element];
       firebase.db.ref("MarkersBackup/" + itemId).set(itemDetails);
     });
-  },
-  destroyMapData({ commit }) {
-    // 	// commit('deleteCountryMarkerData')
   },
 };
 

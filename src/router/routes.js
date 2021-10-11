@@ -20,15 +20,6 @@ const routes = [
         path: "/country/:countryKey",
         component: () => import("pages/PageCountry.vue"),
       },
-      { path: "/trips", component: () => import("pages/PageTripsGeneral.vue") },
-      {
-        path: "/trips/:tripId",
-        component: () => import("pages/PageTripsGeneralSingle.vue"),
-      },
-      {
-        path: "/trip/:userId/:tripId",
-        component: () => import("pages/PageTrip.vue"),
-      },
 
       { path: "item/:itemKey", component: () => import("pages/PageItem.vue") },
       { path: "post/:postKey", component: () => import("pages/PagePost.vue") },

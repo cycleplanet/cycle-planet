@@ -4,7 +4,6 @@
       <modal-header>{{ title }}</modal-header>
       <map-marker2 :markersArray="markersArray" style="height: 500px;" />
       <div class="flex justify-center q-my-md">
-        <!-- {{markersArray}} -->
         <download-gpx v-if="markersArray" :markersArray="markersArray" />
       </div>
       <q-list
@@ -43,7 +42,6 @@
                     :countryKey="landMarkers[itemKey].countryKey"
                   />
                 </div>
-                <!-- <div>{{markerlist[landMarkers[itemKey].refKey].title}}</div> -->
               </q-item-section>
               <q-item-section
                 avatar
@@ -193,8 +191,8 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
 import mixinGeneral from "src/mixins/mixin-general.js";
+import { mapActions } from 'vuex';
 
 export default {
   mixins: [mixinGeneral],
@@ -213,12 +211,18 @@ export default {
     "map-marker2": require("components/Shared/MapMarker2.vue").default,
     "download-gpx": require("components/Shared/Modals/DownloadGpx.vue").default,
   },
+
   methods: {
     openItem(listItem) {
       this.itemDetails = listItem;
       this.itemDialog = true;
     },
+    ...mapActions("markers", ["loadPoiByIds"])
   },
+
+  async created() {
+    await this.loadPoiByIds(this.markersArray)
+  }
 };
 </script>
 

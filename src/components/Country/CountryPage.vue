@@ -61,8 +61,8 @@
           </div>
 
           <div v-if="countryData && mapsettings">
-            <div v-if="countryData.zoom">
               <l-map
+                ref="mymap"
                 :options="
                   screenwidthbig
                     ? {
@@ -81,8 +81,7 @@
                       }
                 "
                 :style="screenwidthbig ? 'height: 650px' : 'height: 350px'"
-                :zoom="screenwidthbig ? zoom + 1 : zoom"
-                :center="countryData.location"
+                :bounds="getCountryDataByName(countryKey).boundingBox"
               >
                 <l-tile-layer
                   :url="mapsettings.url"
@@ -96,18 +95,17 @@
                     dense
                     class="row bg-white q-pa-xs"
                     size="sm"
-                    @click="zoom++"
+                    @click="zoomIn"
                   />
                   <q-btn
                     icon="remove"
                     dense
                     class="row bg-white q-pa-xs q-mt-sm"
                     size="sm"
-                    @click="zoom--"
+                    @click="zoomOut"
                   />
                 </l-control>
               </l-map>
-            </div>
           </div>
         </div>
         <div class="flex justify-center q-mt-md">
@@ -171,7 +169,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from "vuex";
+import { mapState, mapActions } from "vuex";
 import mixinGeneral from "src/mixins/mixin-general.js";
 import meta from "src/utils/meta.js";
 import {
@@ -181,11 +179,10 @@ import {
   LMarker,
   LIcon,
   LPopup,
-  LFeatureGroup,
 } from "vue2-leaflet";
-import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { latLng, Icon } from "leaflet";
+import { Icon } from "leaflet";
+
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
   iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
@@ -218,18 +215,11 @@ export default {
     return {
       loading: true,
       pageReady: false,
-      zoom: 6,
       shareDialog: false,
 
       countrySettingsDialog: false,
       title: this.$route.params.countryKey,
-      loadedLandmarkers: false,
-      // metaTags: {
-      // 	// description: this.$route.params.countryKey,
-      // 	' | Cycle Planet',
-      // 	// url: 'https://cycleplanet.org/country/'+this.$route.params.countryKey,
-      // 	// image: 'absolute url to share image'
-      // }
+      loadedLandmarkers: false
     };
   },
 
@@ -243,9 +233,9 @@ export default {
           array[element] = element;
         }
       });
-      console.log("markersArray 1", array);
       return array;
     },
+
     checkMarkersLoaded() {
       if (!this.loadedLandmarkers) {
         this.loadedLandmarkers = false;
@@ -268,6 +258,7 @@ export default {
         }
       }
     },
+
     isSchengenCountry() {
       if (this.countryData) {
         if (this.countryData.schengen) {
@@ -283,31 +274,34 @@ export default {
 
   methods: {
     ...mapActions("country", ["destroyData", "firebaseGetCountryDataNew"]),
-    ...mapActions("markers", ["destroyMapData"]),
+    ...mapActions("markers", ["loadPoiWithinCountry"]),
 
     refreshData() {
-      this.destroyMapData().then(() => {});
       this.destroyData().then(() => {
+        this.loadPoiWithinCountry(this.getCountryDataByName(this.countryKey).iso2);
         this.firebaseGetCountryDataNew(this.countryKey);
-        this.zoom = this.countryData.zoom;
       });
     },
+
+    zoomIn() {
+      this.$refs.mymap.mapObject.zoomIn();
+    },
+
+    zoomOut() {
+      this.$refs.mymap.mapObject.zoomOut();
+    }
   },
 
   mounted() {
     if (this.landMarkers) {
-      this.loadedLandmarkers = true;
+      this.loadedLandmarkers = true
     }
     if (this.countryKey) {
       this.refreshData();
       this.pageReady = true;
-      this.zoom = this.countryData.zoom;
     }
     if (!this.loadedPosts) {
       this.getPosts();
-    }
-    if (this.countryData) {
-      this.zoom = this.countryData.zoom;
     }
   },
   destroyed() {

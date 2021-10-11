@@ -48,7 +48,8 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import mixinGeneral from "src/mixins/mixin-general.js";
-import firebase from "firebase";
+// import firebase from "firebase";
+import { firebase } from "boot/config";
 
 export default {
   name: "Upload",

@@ -37,6 +37,8 @@
     "emailjs-com": "^2.6.4",
     "firebase": "^8.5.0",
     "firebase-admin": "9.4.2",
+    "geofire": "^5.2.0",
+    "geofire-common": "^5.2.0",
     "leaflet": "^1.7.1",
     "leaflet-gpx": "^1.5.2",
     "leaflet.markercluster": "^1.4.1",

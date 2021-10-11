@@ -90,8 +90,9 @@
 <script>
 import mixinGeneral from "src/mixins/mixin-general.js";
 import { mapState, mapActions, mapGetters } from "vuex";
-import firebase from "firebase/app";
-import { firebase as firebaseConfig } from "boot/config";
+// import firebase from "firebase/app";
+// import { firebase as firebaseConfig } from "boot/config";
+import { firebase } from "boot/config";
 
 export default {
   mixins: [mixinGeneral],
@@ -127,7 +128,7 @@ export default {
   methods: {
     editCommentMethod(comment) {
       this.singleItemData.comments[comment.date] = comment;
-      firebaseConfig.fs
+      firebase.fs
         .collection("Markers")
         .doc(this.itemKey)
         .update({ comments: this.singleItemData.comments });
@@ -136,13 +137,13 @@ export default {
       this.editCommentString = {};
     },
     deleteCommentMethod(commentId) {
-      firebaseConfig.fs
+      firebase.fs
         .collection("Markers")
         .doc(this.itemKey)
         .set(
           {
             comments: {
-              [commentId]: firebase.firestore.FieldValue.delete(),
+              [commentId]: firebase.fs.FieldValue.delete(),
             },
           },
           { merge: true }

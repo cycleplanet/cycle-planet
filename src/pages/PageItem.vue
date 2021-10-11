@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-card>
+    <q-card v-if="landMarkers[itemKey]">
       <item-page :singleItemData="landMarkers[itemKey]" />
     </q-card>
   </div>
@@ -8,10 +8,14 @@
 
 <script>
 import mixinGeneral from "src/mixins/mixin-general.js";
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 export default {
   mixins: [mixinGeneral],
+  data(){
+    return{
+    }
+  },
   computed: {
     itemKey() {
       return this.$route.params.itemKey;
@@ -20,13 +24,13 @@ export default {
   components: {
     "item-page": require("components/Marker/ItemPage.vue").default,
   },
+ 
   methods: {
-    ...mapActions("markers", ["getAllLandMarkersFs"]),
+    ...mapActions("markers", ["loadSinglePoi"]),
   },
   created() {
-    if (!this.landMarkers) {
-      this.getAllLandMarkersFs();
-    }
+    console.log('created');
+      this.loadSinglePoi(this.$route.params.itemKey);
   },
 };
 </script>

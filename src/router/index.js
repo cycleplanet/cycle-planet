@@ -1,13 +1,13 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import routes from "./routes";
-import VueAnalytics from "vue-analytics";
+// import VueAnalytics from "vue-analytics";
 
 Vue.use(VueRouter);
-Vue.use(VueAnalytics, {
-  id: "228807717",
-  disabled: true,
-});
+// Vue.use(VueAnalytics, {
+//   id: "228807717",
+//   disabled: true,
+// });
 
 /*
  * If not building with SSR mode, you can
