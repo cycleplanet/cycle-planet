@@ -349,13 +349,15 @@ const actions = {
   },
 
   async loadPoiByIds({ commit }, markerIds) {
-    for (const i in markerIds) {
+    for (let i = 0; i < markerIds.length; i += 10) {
       const poi = await firebase.fs
         .collection("Markers")
-        .doc(markerIds[i])
+        .where("itemKey", "in", markerIds.slice(i, i + 10))
         .get();
 
-      commit("addSingleLandMarker", { key: markerIds[i], data: poi.data() });
+      poi.docs.forEach((doc) =>
+        commit("addSingleLandMarker", { key: doc.id, data: doc.data() })
+      );
     }
   },
 
