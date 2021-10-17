@@ -102,7 +102,7 @@
           >
             {{ listitem.title }}
           </div>
-          <div class="cp-p" v-if="data" v-html="data[refKey][key]"></div>
+          <div class="cp-p" v-if="data" v-html-safe="data[refKey][key]"></div>
         </div>
       </q-list>
       <q-list v-else class="full-width">
@@ -125,7 +125,7 @@
             >
               {{ listitem.title }}
             </p>
-            <p v-if="data[refKey]" class="cp-p" v-html="data[refKey][key]"></p>
+            <p v-if="data[refKey]" class="cp-p" v-html-safe="data[refKey][key]"></p>
           </q-item-section>
         </q-item>
       </q-list>
@@ -221,6 +221,10 @@ import {
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { latLng, Icon } from "leaflet";
+import Vue from 'vue';
+import VueSecureHTML from 'vue-html-secure';
+
+Vue.use(VueSecureHTML);
 
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({

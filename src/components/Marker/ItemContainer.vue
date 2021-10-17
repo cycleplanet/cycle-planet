@@ -85,7 +85,7 @@
     <div
       v-if="singleItemData.description"
       class="text-subtitle1"
-      v-html="
+      v-html-safe="
         languageSelected === 'en'
           ? singleItemData.description
           : singleItemData.description_translated[languageSelected]
@@ -122,6 +122,10 @@
 
 <script>
 import mixinGeneral from "src/mixins/mixin-general.js";
+import Vue from 'vue';
+import VueSecureHTML from 'vue-html-secure';
+
+Vue.use(VueSecureHTML);
 
 export default {
   props: ["singleItemData"],

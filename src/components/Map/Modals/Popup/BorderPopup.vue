@@ -24,7 +24,7 @@
       <q-item-section>
         <q-item-label
           lines="2"
-          v-html="singleItemData.description"
+          v-html-safe="singleItemData.description"
         ></q-item-label>
       </q-item-section>
     </q-item>
@@ -62,6 +62,10 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import mixinGeneral from "src/mixins/mixin-general.js";
+import Vue from 'vue';
+import VueSecureHTML from 'vue-html-secure';
+
+Vue.use(VueSecureHTML);
 
 export default {
   mixins: [mixinGeneral],

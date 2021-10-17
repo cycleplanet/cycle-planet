@@ -17,7 +17,7 @@
         <div>
           <b>Description:</b>
           <div
-            v-html="
+            v-html-safe="
               randomItemData.description
                 ? randomItemData.description
                 : 'No description'
@@ -240,6 +240,10 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 import mixinGeneral from "src/mixins/mixin-general.js";
 import { date, uid, Notify } from "quasar";
+import Vue from 'vue';
+import VueSecureHTML from 'vue-html-secure';
+
+Vue.use(VueSecureHTML);
 
 const stringOptions = [
   "Wrong category",

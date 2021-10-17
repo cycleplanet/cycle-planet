@@ -18,7 +18,7 @@
       <q-item-section>
         <q-item-label
           lines="2"
-          v-html="
+          v-html-safe="
             singleItemData.description
               ? singleItemData.description
               : 'There is no description yet.'
@@ -59,6 +59,11 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import mixinGeneral from "src/mixins/mixin-general.js";
+import Vue from 'vue';
+import VueSecureHTML from 'vue-html-secure';
+
+Vue.use(VueSecureHTML);
+
 export default {
   mixins: [mixinGeneral],
   props: ["singleItemData"],

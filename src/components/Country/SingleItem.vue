@@ -40,9 +40,9 @@
     <div v-if="data" class="cp-p">
       <p
         v-if="refKey === 'Visa' && data.schengen"
-        v-html="adminData.visas.schengen.text"
+        v-html-safe="adminData.visas.schengen.text"
       ></p>
-      <p v-else v-html="data.body"></p>
+      <p v-else v-html-safe="data.body"></p>
     </div>
 
     <q-dialog v-model="editItem">

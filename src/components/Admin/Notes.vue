@@ -15,7 +15,7 @@
           />
         </q-item-label>
         <q-item>
-          <q-item-section v-html="getPages.Admin.section1"> </q-item-section>
+          <q-item-section v-html-safe="getPages.Admin.section1"> </q-item-section>
         </q-item>
       </q-list>
     </q-card>
@@ -25,6 +25,10 @@
 <script>
 import mixinGeneral from "src/mixins/mixin-general.js";
 import { mapState, mapActions, mapGetters } from "vuex";
+import Vue from 'vue';
+import VueSecureHTML from 'vue-html-secure';
+
+Vue.use(VueSecureHTML);
 
 export default {
   mixins: [mixinGeneral],

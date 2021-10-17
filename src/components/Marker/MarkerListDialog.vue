@@ -161,7 +161,7 @@
               </div>
               <div>
                 <b>Description:</b>
-                <div v-html="landMarkers[itemKey].description"></div>
+                <div v-html-safe="landMarkers[itemKey].description"></div>
               </div>
               <q-btn
                 :style="buttonStyle"
@@ -193,6 +193,10 @@
 <script>
 import mixinGeneral from "src/mixins/mixin-general.js";
 import { mapActions } from 'vuex';
+import Vue from 'vue';
+import VueSecureHTML from 'vue-html-secure';
+
+Vue.use(VueSecureHTML);
 
 export default {
   mixins: [mixinGeneral],

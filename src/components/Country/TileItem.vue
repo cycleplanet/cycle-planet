@@ -58,7 +58,7 @@
               <q-item-label
                 caption
                 lines="2"
-                v-html="landMarkers[markerKey].description"
+                v-html-safe="landMarkers[markerKey].description"
               ></q-item-label>
             </q-item-section>
             <q-item-section side top>
@@ -184,7 +184,7 @@
                       <q-item-label
                         caption
                         lines="2"
-                        v-html="landMarkers[markerKey].description"
+                        v-html-safe="landMarkers[markerKey].description"
                       ></q-item-label>
                     </q-item-section>
                     <q-item-section side top>
@@ -270,6 +270,10 @@
 import mixinGeneral from "src/mixins/mixin-general.js";
 import { mapState, mapActions, mapGetters } from "vuex";
 import { getCountryDataByName } from "app/firebase-functions/shared/src/country-constants.js";
+import Vue from 'vue';
+import VueSecureHTML from 'vue-html-secure';
+
+Vue.use(VueSecureHTML);
 
 export default {
   mixins: [mixinGeneral],

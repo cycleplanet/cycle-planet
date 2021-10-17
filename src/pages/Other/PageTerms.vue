@@ -11,7 +11,7 @@
         />
       </div>
       <q-separator class="q-my-sm" />
-      <div v-html="getPages[title].section1" />
+      <div v-html-safe="getPages[title].section1" />
     </div>
 
     <q-dialog v-model="editPage" :maximized="maximizedToggle">
@@ -27,6 +27,10 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import mixinGeneral from "src/mixins/mixin-general.js";
+import Vue from 'vue';
+import VueSecureHTML from 'vue-html-secure';
+
+Vue.use(VueSecureHTML);
 
 export default {
   mixins: [mixinGeneral],

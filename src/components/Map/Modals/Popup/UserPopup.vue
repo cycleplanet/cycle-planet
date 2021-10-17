@@ -39,7 +39,7 @@
     <!-- <hosting-stats :data="data"/> -->
     <q-item v-if="loggedIn" class="q-pa-none q-my-sm">
       <q-item-section>
-        <q-item-label lines="3" v-html="data.bio"></q-item-label>
+        <q-item-label lines="3" v-html-safe="data.bio"></q-item-label>
 
         <q-item-label class="row">
           <q-chip
@@ -101,8 +101,11 @@
 </template>
 
 <script>
-// import { mapState, mapActions, mapGetters } from 'vuex'
 import mixinGeneral from "src/mixins/mixin-general.js";
+import Vue from 'vue';
+import VueSecureHTML from 'vue-html-secure';
+
+Vue.use(VueSecureHTML);
 
 export default {
   mixins: [mixinGeneral],

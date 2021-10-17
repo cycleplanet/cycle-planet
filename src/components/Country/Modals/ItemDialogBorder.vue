@@ -83,7 +83,7 @@
             <p><b>Longitude:</b> {{ singleItemData.coordinates.lng }}</p>
           </div>
           <p class="text-bold text-subtitle1">Description</p>
-          <p class="text-subtitle1" v-html="singleItemData.description"></p>
+          <p class="text-subtitle1" v-html-safe="singleItemData.description"></p>
         </div>
       </q-card-section>
       <q-card-section>
@@ -124,6 +124,10 @@
 import mixinGeneral from "src/mixins/mixin-general.js";
 import { mapState, mapActions, mapGetters } from "vuex";
 import { date } from "quasar";
+import Vue from 'vue';
+import VueSecureHTML from 'vue-html-secure';
+
+Vue.use(VueSecureHTML);
 
 export default {
   props: ["singleItemData"],
