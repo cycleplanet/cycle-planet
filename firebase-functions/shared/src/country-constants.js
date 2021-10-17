@@ -47,7 +47,7 @@ const countryConstants = {
       [42.6882473822, 21.0200403175],
     ],
   },
-  
+
   AR: {
     iso2: "AR",
     fullName: "Argentina",
@@ -1536,7 +1536,7 @@ const countryConstants = {
       [10.89, -60.895],
     ],
   },
-  
+
   TR: {
     iso2: "TR",
     fullName: "Turkey",
@@ -1718,7 +1718,7 @@ function getCountryDataByName(countryName) {
 }
 
 function reverseCountryCodes() {
-  revMap = {};
+  const revMap = {};
   Object.keys(countryConstants).forEach(
     (k) => (revMap[countryConstants[k].fullName] = k)
   );
