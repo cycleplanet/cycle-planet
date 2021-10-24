@@ -20,7 +20,7 @@
         <div
           v-for="(marker, markerKey) in markerCounts"
           :key="markerKey"
-          v-if="zoomLevel < clusterBreak"
+          v-if="showCountryMarkerCounts"
         >
           <div v-if="showMarkersFor === 'poi'">
             <v-marker
@@ -66,7 +66,7 @@
         <div
           v-if="
             loggedIn &&
-            zoomLevel >= clusterBreak &&
+            showSeparateMarkers &&
             showMarkersFor === 'hosts' &&
             clickedUserId2
           "
@@ -86,12 +86,7 @@
             :radius="1100"
           />
         </div>
-        <v-marker-cluster
-          v-if="zoomLevel >= clusterBreak"
-          :options="clusterOptions"
-          @clusterclick="click()"
-          @ready="true"
-        >
+        <div v-if="showSeparateMarkers">
           <div v-for="(marker, markerKey) in landMarkers" :key="markerKey">
             <v-marker
               :lat-lng="
@@ -157,7 +152,7 @@
               </v-marker>
             </div>
           </div>
-        </v-marker-cluster>
+        </div>
 
         <div v-for="(country, cc, index) in countriesFiltered" :key="index">
           <v-marker
@@ -314,7 +309,6 @@ import {
   LPopup,
   LCircle,
 } from "vue2-leaflet";
-import Vue2LeafletMarkercluster from "src/clustermarkers/Vue2LeafletMarkercluster";
 import { getCountryData } from "app/firebase-functions/shared/src/country-constants.js";
 
 const DEFAULT_ZOOM_LEVEL = 3;
@@ -328,7 +322,6 @@ export default {
     "v-tilelayer": LTileLayer,
     "v-marker": LMarker,
     "v-popup": LPopup,
-    "v-marker-cluster": Vue2LeafletMarkercluster,
     LControl,
     LIcon,
     LCircle,
@@ -352,7 +345,6 @@ export default {
       map: null,
       clusterBreak: 6.5,
       showAddNewMarker: false,
-      clusterOptions: {},
       userdialog: false,
       itemDialog: false,
       clickedUserId: "",
@@ -403,13 +395,18 @@ export default {
         return this.map.getZoom();
       } else return DEFAULT_ZOOM_LEVEL;
     },
+
+    showSeparateMarkers() {
+      return this.zoomLevel >= this.clusterBreak;
+    },
+
+    showCountryMarkerCounts() {
+      return !this.showSeparateMarkers;
+    }
   },
 
   methods: {
     ...mapActions("markers", ["loadPoiWithinBounds"]),
-
-    click: (e) => console.log("clusterclick", e),
-    ready: (e) => console.log("ready", e),
 
     modalShown() {
       setTimeout(() => {
