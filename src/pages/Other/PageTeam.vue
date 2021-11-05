@@ -37,7 +37,7 @@
                 </q-card-section>
                 <q-card-section>
                   <div
-                    class="cp-h2 cursor-pointer"
+                    class="text-h6 cursor-pointer"
                     @click="clickuser(user.userId)"
                   >
                     {{ user.fullname }}
