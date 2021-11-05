@@ -23,7 +23,7 @@
           v-for="(country, countryKey, index) in postItemData.countries"
           :key="index"
         >
-          <modal-countrychip2 :countryKey="countryKey" />
+          <countrychip-small :countryKey="countryKey" />
         </div>
       </div>
 

@@ -37,7 +37,7 @@
                   >
                     •
                   </div>
-                  <modal-countrychip2
+                  <countrychip-small
                     v-if="landMarkers[itemKey].refKey !== 'Border_item'"
                     :countryKey="landMarkers[itemKey].countryKey"
                   />
@@ -154,7 +154,7 @@
                 class="row items-center"
               >
                 <b>Country:</b>
-                <modal-countrychip2
+                <countrychip-small
                   :countryKey="landMarkers[itemKey].countryKey"
                   class="q-ml-sm"
                 />

@@ -411,13 +411,9 @@ export default {
     "date-chat": require("src/components/Shared/Modals/DateChat.vue")
       .default,
     "date-created": require("src/components/Shared/Modals/DateCreated.vue").default,
-    "modal-countrychip": require("components/Shared/Modals/ModalCountryChip.vue")
+    "countrychip-large": require("src/components/Shared/Modals/CountryChipLarge.vue")
       .default,
-    "modal-countrychip2": require("components/Shared/Modals/ModalCountryChip2.vue")
-      .default,
-    "modal-countrychip3": require("components/Shared/Modals/ModalCountryChip3.vue")
-      .default,
-    "modal-countrychip4": require("components/Shared/Modals/ModalCountryChip4.vue")
+    "countrychip-small": require("src/components/Shared/Modals/CountryChipSmall.vue")
       .default,
     "modal-username": require("components/Shared/Modals/ModalUsername.vue")
       .default,

@@ -50,7 +50,7 @@
       v-if="refKey !== 'Border_item' && refKey !== 'Embassy'"
     >
       <b>Country:</b>
-      <modal-countrychip :countryKey="singleItemData.countryKey" />
+      <countrychip-large :countryKey="singleItemData.countryKey" />
     </p>
     <div class="row text-subtitle1" v-if="!singleItemData.onlineVisa">
       <p class="q-mr-md">
