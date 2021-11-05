@@ -6,7 +6,7 @@
     <q-page-container class="q-pa-sm" v-if="postItemData">
       <div class="row q-mt-sm flex items-center">
         <div>Created by</div>
-        <div><modal-username2 :userId="postItemData.user_created" /></div>
+        <div><username-avatar :userId="postItemData.user_created" /></div>
         <div class="q-mx-sm">on</div>
         <div><date-created :dateprop="postItemData.date_created" /></div>
       </div>

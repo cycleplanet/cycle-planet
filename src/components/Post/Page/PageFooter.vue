@@ -17,7 +17,7 @@
         />
       </div>
       <div class="row items-center">
-        Created by <modal-username2 :userId="postItemData.user_created" />
+        Created by <username-avatar :userId="postItemData.user_created" />
       </div>
       <div class="row flex-items-center q-ma-sm" v-if="postItemData.countries">
         <div class="row q-gutter-x-sm">

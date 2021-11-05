@@ -12,7 +12,7 @@
           :key="index"
         >
           <div class="row flex items-center q-mt-sm">
-            <modal-username2 :userId="comment.user" class="text-bold" />
+            <username-avatar :userId="comment.user" class="text-bold" />
             <div class="q-ml-sm">{{ comment.comment }}</div>
           </div>
           <div class="row">

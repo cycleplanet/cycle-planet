@@ -60,7 +60,7 @@
               :dateprop="randomItemData.date_created"
             />
             <div class="row">
-              <modal-username
+              <username-no-avatar
                 class="q-mr-sm"
                 :userId="randomItemData.user_created"
               />
@@ -73,7 +73,7 @@
               :dateprop="randomItemData.date_edited"
             />
             <div class="row">
-              <modal-username
+              <username-no-avatar
                 class="q-mr-sm"
                 :userId="randomItemData.user_edited"
               />
@@ -88,7 +88,7 @@
             >
               <date-created class="text-bold" :dateprop="logKey" />
               <div class="row">
-                <modal-username class="q-mr-sm" :userId="log.user" />{{
+                <username-no-avatar class="q-mr-sm" :userId="log.user" />{{
                   log.description
                 }}
               </div>

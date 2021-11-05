@@ -45,7 +45,7 @@
                   <div class="text-subtitle2">{{ user.teamrole }}</div>
                 </q-card-section>
               </q-card>
-              <!-- <modal-username3 :userId="userId"/> -->
+              <!-- <username-avatar-chip :userId="userId"/> -->
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@
         <div class="row q-mt-sm">
           <div v-for="(user, userId) in users" :key="userId">
             <div v-if="user.role === 'editor'">
-              <modal-username3 :userId="userId" />
+              <username-avatar-chip :userId="userId" />
             </div>
           </div>
         </div>
@@ -86,7 +86,7 @@
 
 <script>
 import mixinGeneral from "src/mixins/mixin-general.js";
-import ModalUsername3 from "src/components/Shared/Modals/ModalUsername3.vue";
+import ModalUsername3 from "src/components/Shared/Modals/UsernameAvatarChip.vue";
 export default {
   mixins: [mixinGeneral],
   components: {

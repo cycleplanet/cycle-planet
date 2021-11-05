@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="row">
-      <modal-username2 :userId="postItemData.user_created" />
+      <username-avatar :userId="postItemData.user_created" />
       <q-space />
       <q-btn flat round icon="more_vert">
         <q-menu anchor="top right" self="top left">

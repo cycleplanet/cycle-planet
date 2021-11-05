@@ -30,7 +30,7 @@
             <div class="bg-white text-black">
               <div>
                 <div class="row flex items-center">
-                  by <modal-username2 :userId="item.user_created" />
+                  by <username-avatar :userId="item.user_created" />
                 </div>
                 <div class="text-h6">Checks</div>
                 <div>Has coordinates:{{ item.coordinates ? true : false }}</div>

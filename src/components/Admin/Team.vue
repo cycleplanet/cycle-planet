@@ -8,7 +8,7 @@
       <div class="row q-mt-sm">
         <div v-for="(user, userId) in users" :key="userId">
           <div v-if="user.role === 'admin'">
-            <modal-username3 :userId="userId" />
+            <username-avatar-chip :userId="userId" />
           </div>
         </div>
       </div>
@@ -19,7 +19,7 @@
       <div class="row q-mt-sm">
         <div v-for="(user, userId) in users" :key="userId">
           <div v-if="user.role === 'team'">
-            <modal-username3 :userId="userId" />
+            <username-avatar-chip :userId="userId" />
           </div>
         </div>
       </div>
@@ -30,7 +30,7 @@
       <div class="row q-mt-sm">
         <div v-for="(user, userId) in users" :key="userId">
           <div v-if="user.role === 'editor'">
-            <modal-username3 :userId="userId" />
+            <username-avatar-chip :userId="userId" />
           </div>
         </div>
       </div>

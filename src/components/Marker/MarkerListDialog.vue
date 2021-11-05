@@ -81,7 +81,7 @@
                           :dateprop="landMarkers[itemKey].date_created"
                         />
                         <div class="row">
-                          <modal-username
+                          <username-no-avatar
                             class="q-mr-sm"
                             :userId="landMarkers[itemKey].user_created"
                           />
@@ -97,7 +97,7 @@
                           :dateprop="landMarkers[itemKey].date_edited"
                         />
                         <div class="row">
-                          <modal-username
+                          <username-no-avatar
                             class="q-mr-sm"
                             :userId="landMarkers[itemKey].user_edited"
                           />
@@ -112,7 +112,7 @@
                         >
                           <date-created class="text-bold" :dateprop="logKey" />
                           <div class="row">
-                            <modal-username
+                            <username-no-avatar
                               class="q-mr-sm"
                               :userId="log.user"
                             />{{ log.description }}

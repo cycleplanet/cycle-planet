@@ -415,13 +415,11 @@ export default {
       .default,
     "countrychip-small": require("src/components/Shared/Modals/CountryChipSmall.vue")
       .default,
-    "modal-username": require("components/Shared/Modals/ModalUsername.vue")
+    "username-no-avatar": require("src/components/Shared/Modals/UsernameNoAvatar.vue")
       .default,
-    "modal-username2": require("components/Shared/Modals/ModalUsername2.vue")
+    "username-avatar": require("src/components/Shared/Modals/UsernameAvatar.vue")
       .default,
-    "modal-username3": require("components/Shared/Modals/ModalUsername3.vue")
-      .default,
-    "modal-username4": require("components/Shared/Modals/ModalUsername4.vue")
+    "username-avatar-chip": require("src/components/Shared/Modals/UsernameAvatarChip.vue")
       .default,
     "modal-title": require("components/Shared/Modals/ModalTitle.vue").default,
     "modal-description": require("components/Map/Modals/Shared/ModalDescription.vue")

@@ -60,7 +60,7 @@
 
     <div class="row text-overline q-ml-md">
       <div>{{ markerlist[refKey].title }} • created by</div>
-      <div><modal-username2 :userId="singleItemData.user_created" /></div>
+      <div><username-avatar :userId="singleItemData.user_created" /></div>
       <div class="q-mx-sm">on</div>
       <div><date-created :dateprop="singleItemData.date_created" /></div>
       <div
@@ -71,7 +71,7 @@
         class="row"
       >
         • last edited by
-        <modal-username2 class="q-mr-sm" :userId="singleItemData.user_edited" />
+        <username-avatar class="q-mr-sm" :userId="singleItemData.user_edited" />
         on
         <date-created class="q-mx-sm" :dateprop="singleItemData.date_edited" />
       </div>

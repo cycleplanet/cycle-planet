@@ -133,7 +133,7 @@
                     >id: {{ routeItem.postKey }}</q-item-label
                   >
                   <q-item-label
-                    ><modal-username2 :userId="routeItem.user_created"
+                    ><username-avatar :userId="routeItem.user_created"
                   /></q-item-label>
                 </q-item-section>
                 <q-item-section side>
