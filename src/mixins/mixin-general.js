@@ -407,10 +407,10 @@ export default {
     },
   },
   components: {
-    "nice-date": require("components/Shared/Modals/NiceDate.vue").default,
-    "nice-date-short": require("components/Shared/Modals/NiceDateShort.vue")
+    "date-difference": require("src/components/Shared/Modals/DateDifference.vue").default,
+    "date-chat": require("src/components/Shared/Modals/DateChat.vue")
       .default,
-    "nice-date2": require("components/Shared/Modals/NiceDate2.vue").default,
+    "date-created": require("src/components/Shared/Modals/DateCreated.vue").default,
     "modal-countrychip": require("components/Shared/Modals/ModalCountryChip.vue")
       .default,
     "modal-countrychip2": require("components/Shared/Modals/ModalCountryChip2.vue")

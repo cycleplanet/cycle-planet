@@ -30,7 +30,7 @@
             class="q-mx-xs"
             :userId="data.user_edited"
           />
-          on <nice-date2 class="q-ml-xs" :dateprop="data.date_edited" />
+          on <date-created class="q-ml-xs" :dateprop="data.date_edited" />
         </div>
       </div>
       <q-separator />

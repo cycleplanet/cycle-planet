@@ -23,14 +23,14 @@
           class="row"
           v-if="data.hosting.status === 'Touring'"
           >Last updated:
-          <nice-date class="q-ml-xs" :dateprop="data.coordinates_updated"
+          <date-difference class="q-ml-xs" :dateprop="data.coordinates_updated"
         /></q-item-label>
         <q-item-label
           caption
           class="row"
           v-if="loggedIn && data.hosting.status !== 'Touring'"
           >Last logged in:
-          <nice-date class="q-ml-xs" :dateprop="data.online_date"
+          <date-difference class="q-ml-xs" :dateprop="data.online_date"
         /></q-item-label>
       </q-item-section>
     </q-item>

@@ -76,7 +76,7 @@
                     <div>
                       <div class="text-h6 q-mb-sm">Logbook</div>
                       <div class="q-my-md">
-                        <nice-date2
+                        <date-created
                           class="text-bold"
                           :dateprop="landMarkers[itemKey].date_created"
                         />
@@ -92,7 +92,7 @@
                         v-if="landMarkers[itemKey].date_edited"
                         class="q-my-md"
                       >
-                        <nice-date2
+                        <date-created
                           class="text-bold"
                           :dateprop="landMarkers[itemKey].date_edited"
                         />
@@ -110,7 +110,7 @@
                           :key="logKey"
                           class="q-my-md"
                         >
-                          <nice-date2 class="text-bold" :dateprop="logKey" />
+                          <date-created class="text-bold" :dateprop="logKey" />
                           <div class="row">
                             <modal-username
                               class="q-mr-sm"

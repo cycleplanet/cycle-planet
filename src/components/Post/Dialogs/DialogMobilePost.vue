@@ -8,7 +8,7 @@
         <div>Created by</div>
         <div><modal-username2 :userId="postItemData.user_created" /></div>
         <div class="q-mx-sm">on</div>
-        <div><nice-date2 :dateprop="postItemData.date_created" /></div>
+        <div><date-created :dateprop="postItemData.date_created" /></div>
       </div>
       <div class="text-h6">{{ postItemData.title }}</div>
       <div>
@@ -53,7 +53,7 @@
                   >{{ users[comment.user].fullname }}</b
                 >{{ comment.comment }}
               </div>
-              <nice-date2 :dateprop="comment.date" />
+              <date-created :dateprop="comment.date" />
             </div>
           </div>
         </div>
