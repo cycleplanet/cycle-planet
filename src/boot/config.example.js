@@ -32,14 +32,14 @@ const emailjskey = {
 
 const firebaseApp = fb.initializeApp(firebaseConfig);
 
-const appCheck = firebase.appCheck();
+// const appCheck = firebase.appCheck();
 
-appCheck.activate(
-  // reCAPTCHA v3 site key (public key) to activate()
-  "",
-  // Optional argument. If true, the SDK automatically refreshes App Check
-  // tokens as needed.
-  true);
+// appCheck.activate(
+//   // reCAPTCHA v3 site key (public key) to activate()
+//   "",
+//   // Optional argument. If true, the SDK automatically refreshes App Check
+//   // tokens as needed.
+//   true);
 
 const firebase = {
   app: firebaseApp,

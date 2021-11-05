@@ -27,7 +27,8 @@
         <q-item
           class="bg-white text-black"
           clickable
-          v-ripple
+          v-ripple 
+          v-if="isWebApp"
           @click="
             openUrl(
               'https://join.slack.com/t/cycle-planet/shared_invite/zt-shfov7n9-c608GlSNiGPCbRTb8D5nQA'
@@ -149,11 +150,8 @@ export default {
           list: true,
           mobile: true,
           items: [
-            // {title: 'Donate', icon: 'fas fa-hand-holding-heart', to:'/donate',apple:true},
             { title: "Collections", icon: "collections", to: "/collections" },
-            // {title: 'Get inspired', icon: 'far fa-lightbulb', to:'/get-inspired'},
             { title: "Resources", icon: "fas fa-rocket", to: "/resources" },
-            { title: "Gear", icon: "fas fa-bicycle", to: "/gear" },
           ],
         },
         {

@@ -17,7 +17,7 @@
         </q-item-section>
         <q-item-section class="text-bold">
           <q-item-label>
-            <modal-username
+            <username-no-avatar
               :userId="
                 myUserDetails.hosting.requests[requestkey].from === 'me'
                   ? myUserDetails.hosting.requests[requestkey].receiver

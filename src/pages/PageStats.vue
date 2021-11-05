@@ -156,7 +156,7 @@
               <template v-slot:header>
                 <q-item-section>
                   <div class="row flex items-center">
-                    {{ index + 1 }}.<modal-username2 :userId="userId" />
+                    {{ index + 1 }}.<username-avatar :userId="userId" />
                   </div>
                 </q-item-section>
 
@@ -182,7 +182,7 @@
               <template v-slot:header>
                 <q-item-section>
                   <div class="row flex items-center">
-                    {{ index + 1 }}.<modal-username2 :userId="userId" />
+                    {{ index + 1 }}.<username-avatar :userId="userId" />
                   </div>
                 </q-item-section>
 

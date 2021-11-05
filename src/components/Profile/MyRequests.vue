@@ -42,12 +42,12 @@
                 <template v-slot:header>
                   <q-item-section>
                     <q-item-label class="row">
-                      <modal-username2
+                      <username-avatar
                         :userId="
                           myUserDetails.hosting.requests[requestkey].sender
                         " />
                       <q-icon name="arrow_forward" />
-                      <modal-username2
+                      <username-avatar
                         :userId="
                           myUserDetails.hosting.requests[requestkey].receiver
                         "
@@ -94,12 +94,12 @@
                 <template v-slot:header>
                   <q-item-section>
                     <q-item-label class="row">
-                      <modal-username2
+                      <username-avatar
                         :userId="
                           myUserDetails.hosting.requests[requestkey].sender
                         " />
                       <q-icon name="arrow_forward" />
-                      <modal-username2
+                      <username-avatar
                         :userId="
                           myUserDetails.hosting.requests[requestkey].receiver
                         "
@@ -171,9 +171,9 @@
           >
             <q-item-section>
               <q-item-label class="row">
-                <modal-username2 :userId="request.sender" />
+                <username-avatar :userId="request.sender" />
                 <q-icon name="arrow_forward" />
-                <modal-username2 :userId="request.receiver"
+                <username-avatar :userId="request.receiver"
               /></q-item-label>
               <q-item-label caption></q-item-label>
             </q-item-section>

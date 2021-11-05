@@ -55,12 +55,12 @@
         <div>
           <div class="text-h6 q-mb-sm">Logbook</div>
           <div class="q-my-md">
-            <nice-date2
+            <date-created
               class="text-bold"
               :dateprop="randomItemData.date_created"
             />
             <div class="row">
-              <modal-username
+              <username-no-avatar
                 class="q-mr-sm"
                 :userId="randomItemData.user_created"
               />
@@ -68,12 +68,12 @@
             </div>
           </div>
           <div v-if="randomItemData.date_edited" class="q-my-md">
-            <nice-date2
+            <date-created
               class="text-bold"
               :dateprop="randomItemData.date_edited"
             />
             <div class="row">
-              <modal-username
+              <username-no-avatar
                 class="q-mr-sm"
                 :userId="randomItemData.user_edited"
               />
@@ -86,9 +86,9 @@
               :key="logKey"
               class="q-my-md"
             >
-              <nice-date2 class="text-bold" :dateprop="logKey" />
+              <date-created class="text-bold" :dateprop="logKey" />
               <div class="row">
-                <modal-username class="q-mr-sm" :userId="log.user" />{{
+                <username-no-avatar class="q-mr-sm" :userId="log.user" />{{
                   log.description
                 }}
               </div>

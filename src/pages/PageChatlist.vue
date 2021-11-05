@@ -16,7 +16,7 @@
             <div class="row">
               <q-item-label>{{ users[key].fullname }}</q-item-label>
               <q-space></q-space>
-              <nice-date-short
+              <date-chat
                 class="q-ml-xs text-grey"
                 :dateprop="
                   userSorted[

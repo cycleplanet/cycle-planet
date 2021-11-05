@@ -12,7 +12,7 @@
         style="border-radius: 10px; max-width: 80%;"
       >
         <div class="row">
-          <modal-username2
+          <username-avatar
             :userId="
               this.myUserDetails.hosting.requests[this.requestkey].receiver
             "

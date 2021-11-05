@@ -7,7 +7,7 @@
       style="border-radius: 10px; max-width: 80%;"
     >
       <div class="row">
-        <modal-username2 :userId="requestData.sender" />
+        <username-avatar :userId="requestData.sender" />
       </div>
       <div class="q-ma-md">
         <div class="text-italic q-my-sm">{{ requestData.text }}</div>
