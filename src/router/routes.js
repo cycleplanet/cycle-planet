@@ -40,7 +40,6 @@ const routes = [
         path: "/resources",
         component: () => import("pages/Other/PageResources.vue"),
       },
-      { path: "/gear", component: () => import("pages/Other/PageGear.vue") },
 
       { path: "/stats", component: () => import("pages/PageStats.vue") },
       {

@@ -234,7 +234,7 @@ export default {
     return {
       rightDrawerOpen: false,
       myMarkersDialog: false,
-      showpromotion:true,
+      showpromotion:false,
       checkMarkersDialog: false,
       feedbackDialog: false,
       tab: "",
@@ -250,7 +250,6 @@ export default {
           icon: "fas fa-rocket",
           to: "/resources",
         },
-        gear: { title: "Gear", icon: "fas fa-bicycle", to: "/gear" },
       },
     };
   },

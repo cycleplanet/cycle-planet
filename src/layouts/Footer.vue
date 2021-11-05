@@ -165,7 +165,6 @@ export default {
         Useful: {
           "Get inspired": { to: "/get-inspired" },
           Resources: { to: "/resources" },
-          gear: { to: "/gear" },
         },
         About: {
           "House Rules": { to: "/houserules" },
