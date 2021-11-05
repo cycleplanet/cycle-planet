@@ -59,7 +59,6 @@
               @click.native="countrySettingsDialog = true"
             />
           </div>
-
           <div v-if="countryData && mapsettings">
               <l-map
                 ref="mymap"
@@ -204,7 +203,7 @@ export default {
     "summary-item": require("components/Country/SummaryItem.vue").default,
     "tile-item": require("components/Country/TileItem.vue").default,
     "post-item": require("components/Country/PostItem.vue").default,
-    "map-marker": require("components/Shared/MapMarker.vue").default,
+    "map-marker": require("src/components/Country/CountryPOIs.vue").default,
     "edit-country-settings": require("components/Country/Modals/EditCountrySettings.vue")
       .default,
     "share-dialog": require("components/Shared/ShareDialog.vue").default,

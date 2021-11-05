@@ -212,7 +212,7 @@ export default {
   components: {
     "item-dialog": require("components/Marker/ItemDialog.vue").default,
     "like-item": require("components/Shared/Modals/LikeMarker.vue").default,
-    "map-marker2": require("components/Shared/MapMarker2.vue").default,
+    "map-marker2": require("src/components/Shared/POIList.vue").default,
     "download-gpx": require("components/Shared/Modals/DownloadGpx.vue").default,
   },
 
