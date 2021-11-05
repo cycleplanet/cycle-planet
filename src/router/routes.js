@@ -88,10 +88,6 @@ const routes = [
         path: "/thanks",
         component: () => import("pages/Other/PageThanks.vue"),
       },
-      {
-        path: "/codebook",
-        component: () => import("pages/Other/PageCodeBook.vue"),
-      },
     ],
   },
 
