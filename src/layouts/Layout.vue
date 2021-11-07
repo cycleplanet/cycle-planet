@@ -13,7 +13,7 @@
         <q-space></q-space>
 
         <q-tabs v-model="tab" shrink v-if="screenwidthbig">
-          <q-btn flat name="Map" label="Map" to="/map" />
+          <q-btn flat name="Map" label="Map" to="/map" v-if="loggedIn" />
           <q-btn
             v-if="teamMember"
             flat

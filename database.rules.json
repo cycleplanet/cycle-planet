@@ -26,25 +26,13 @@
           }
         },
 
-        // I believe we have to allow everyone to read user profiles atm.
-        // This is problematic though, as it will disclose details people
-        // don't necessarily want disclosed, like their exact geo location
-        // or their full hosting history (which, if I have to press it for
-        // examples why you may want to hide it, may include celebrities).
-        //
-        // This permissive read rule also overrules the restrictive one on
-        // hosting requests above for now.
-        //
-        // Ideally, I (Reinier) believe we'll have separate nodes /Users
-        // (all information the platform has about a user) and /Profiles
-        // (all information other people are allowed to see about this user).
-        // And then platform users could manage to some extent how much of
-        //  what's in their /Users appears in their /Profile too or not.
-        ".read": true,
+        // only logged in users can read user data
+        // this should actually be restricted further: https://github.com/cycleplanet/cycle-planet/issues/31
+        ".read": "auth !== null" ,
         ".write": "auth.uid === $userId",
         ".validate": true
       },
-      ".read": true,
+      ".read": "auth !== null",
       ".write": false,
       ".validate": true
     },
