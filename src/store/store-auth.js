@@ -9,10 +9,7 @@ let messagesRef;
 
 const state = {
   handleAuthStateChangeFinished: false,
-  loggedIn: false,
-  myUserIdState: "",
-  users: {},
-  usersWithMapLocation: {},
+  loggedInUser: null,
   followData: {},
   messages: {},
   otherUserFollow: {},
@@ -32,24 +29,12 @@ const mutations = {
   setHandleAuthStateChangeFinished(state, value) {
     state.handleAuthStateChangeFinished = value;
   },
-  setLoggedIn(state, value) {
-    state.loggedIn = value;
+  logUserOut(state) {
+    state.loggedInuser = null;
   },
-  myUserId(state, payload) {
-    state.myUserIdState = payload.userId;
-  },
-  delelteMyUserId(state, payload) {
-    state.myUserIdState = "";
-  },
-
-  addUser(state, payload) {
-    Vue.set(state.users, payload.userId, payload.userDetails);
-  },
-  addUserWithMapLocation(state, payload) {
-    Vue.set(state.usersWithMapLocation, payload.userId, payload.userDetails);
-  },
-  updateUser(state, payload) {
-    Object.assign(state.users[payload.userId], payload.userDetails);
+  logUserIn(state, user) {
+    const { userId, userDetails } = user;
+    state.loggedInUser = { id: userId, ...userDetails };
   },
 
   addFollowData(state, payload) {
@@ -62,10 +47,6 @@ const mutations = {
   clearMessages(state) {
     state.messages = {};
   },
-  logout(state) {
-    state.myUserIdState = "";
-  },
-
   setShowLocation(state, value) {
     state.settings.showLocation = value;
   },
@@ -75,21 +56,16 @@ const mutations = {
   setSettings(state, settings) {
     Object.assign(state.settings, settings);
   },
-  deleteUserDetail(state, path) {
-    Vue.delete(state.users, path);
-  },
 };
 
 const actions = {
   loadBaseData({ commit, dispatch }) {
     dispatch("markers/getMarkerCounts", null, { root: true });
-    dispatch("firebaseGetUsers");
     dispatch("countries/firebasegetCountries", null, { root: true });
 
     LocalStorage.set("loadedBaseData", true);
   },
   loadSecondaryData({ dispatch }) {
-    dispatch("chat/firebaseGetUsers", null, { root: true });
     dispatch("admin/getAdminData", null, { root: true });
     dispatch("other/getPages", null, { root: true });
     LocalStorage.set("loadedBaseData", false);
@@ -99,29 +75,29 @@ const actions = {
     firebase.auth.onAuthStateChanged((user) => {
       Loading.hide();
       if (user && user.emailVerified === true) {
-        // User is logged in.
-        commit("setLoggedIn", true);
         LocalStorage.set("loggedIn", true);
 
         let userId = firebase.auth.currentUser.uid;
         firebase.db.ref("Users/" + userId).once("value", (snapshot) => {
           let userDetails = snapshot.val();
-          commit("myUserId", {
-            userId: userId,
-          });
-        });
-        let timeStamp = Date.now();
-        let formattedString = date.formatDate(timeStamp, "YYYY-MM-DDTHH:mm:ss");
+          // User is logged in.
+          commit("logUserIn", { userId, userDetails });
 
-        firebase.db.ref("Users/" + userId).update({
-          online: true,
-          online_date: formattedString,
+          let timeStamp = Date.now();
+          let formattedString = date.formatDate(
+            timeStamp,
+            "YYYY-MM-DDTHH:mm:ss"
+          );
+
+          firebase.db.ref("Users/" + userId).update({
+            online: true,
+            online_date: formattedString,
+          });
         });
 
         dispatch("chat/firebaseGetUsers", null, { root: true });
       } else {
-        commit("delelteMyUserId");
-        commit("setLoggedIn", false);
+        commit("logUserOut");
         LocalStorage.set("loggedIn", false);
       }
     });
@@ -250,8 +226,7 @@ const actions = {
   },
 
   async logoutUser({ commit, dispatch }) {
-    commit("logout");
-    commit("setLoggedIn", false);
+    commit("logUserOut");
     firebase.db
       .ref("Users/" + firebase.auth.currentUser.uid)
       .once("value", async (snapshot) => {
@@ -303,31 +278,8 @@ const actions = {
         .catch((err) => {});
     });
   },
-  firebaseGetUsers({ commit }) {
-    firebase.db.ref("Users/").on("child_added", (snapshot) => {
-      let userDetails = snapshot.val();
-      let userId = snapshot.key;
-
-      commit("addUser", { userId, userDetails });
-      if (userDetails.coordinates) {
-        commit("addUserWithMapLocation", { userId, userDetails });
-      }
-    });
-
-    firebase.db.ref("Users/").on("child_changed", (snapshot) => {
-      let userDetails = snapshot.val();
-      let userId = snapshot.key;
-      commit("addUser", { userId, userDetails });
-      if (userDetails.coordinates) {
-        commit("addUserWithMapLocation", { userId, userDetails });
-      }
-    });
-  },
-
-  deleteUserDetailAction({ commit }, path) {
-    commit("deleteUserDetail", {
-      path,
-    });
+  firebaseGetProfiles({ commit }) {
+    // TODOr: reimplement using Firestore /Profiles
   },
 
   firebaseGetFollowers({ commit }) {
@@ -432,32 +384,8 @@ const actions = {
 };
 
 const getters = {
-  users: (state) => {
-    return state.users;
-  },
-
-  usersWithMapLocation: (state) => {
-    return state.usersWithMapLocation;
-  },
-
-  usersSortedByLastLogin: (state) => {
-    let usersSortedByLastLogin = {},
-      keysOrdered = Object.keys(state.users);
-
-    keysOrdered.sort((a, b) => {
-      let AProp = state.users[a].online_date;
-      let BProp = state.users[b].online_date;
-
-      if (AProp < BProp) return 1;
-      else if (AProp > BProp) return -1;
-      else return 0;
-    });
-
-    keysOrdered.forEach((key) => {
-      usersSortedByLastLogin[key] = state.users[key];
-    });
-
-    return usersSortedByLastLogin;
+  loggedIn: (state) => {
+    return state.loggedInUser !== null;
   },
 };
 

@@ -5,7 +5,12 @@ import { openURL } from "quasar";
 import { version } from "../../package.json";
 import { Platform } from "quasar";
 import { LocalStorage } from "quasar";
-import { getCountryData, countryConstants, getCountryDataByName, reverseCountryCodes } from "app/firebase-functions/shared/src/country-constants.js";
+import {
+  getCountryData,
+  countryConstants,
+  getCountryDataByName,
+  reverseCountryCodes,
+} from "app/firebase-functions/shared/src/country-constants.js";
 
 import Embed from "v-video-embed";
 Vue.use(Embed);
@@ -14,16 +19,15 @@ export default {
   data() {
     return {
       version: version,
-	  getCountryData: getCountryData,
+      getCountryData: getCountryData,
       countryConstants: countryConstants,
       getCountryDataByName: getCountryDataByName,
       reverseCountryCodes: reverseCountryCodes,
-      
     };
   },
 
   computed: {
-    ...mapState("auth", ["myUserIdState", "followData", "loggedIn","showedpromotionstate"]),
+    ...mapState("auth", ["followData", "loggedInUser", "showedpromotionstate"]),
     ...mapState("markers", ["markerlist", "mapsettings", "markeruserlist"]),
     ...mapState("markers", [
       "landMarkers",
@@ -35,7 +39,7 @@ export default {
     ...mapState("post", ["postData"]),
     ...mapState("countries", ["allCountryData"]),
 
-    ...mapGetters("auth", ["users", "usersWithMapLocation"]),
+    ...mapGetters("auth", ["loggedIn"]),
     ...mapGetters("countries", ["countriesFiltered"]),
     ...mapGetters("chat", ["unreadchatlistnew", "userMessagesSortedByDate"]),
     ...mapGetters("post", [
@@ -47,7 +51,14 @@ export default {
     ]),
 
     countryKeys() {
-		return Object.keys(this.reverseCountryCodes()).sort()
+      return Object.keys(this.reverseCountryCodes()).sort();
+    },
+
+    users() {
+      console.warn(
+        "Somebody called discontinued users method on mixin-general. Returning []."
+      );
+      return [];
     },
 
     isLoggedIn() {
@@ -65,13 +76,12 @@ export default {
         return false;
       }
     },
-   
 
     myUserId() {
-      return this.myUserIdState;
+      return this.loggedInUser?.id;
     },
     myUserDetails() {
-      return this.users[this.myUserId];
+      return this.loggedInUser;
     },
     admin() {
       if (this.myUserDetails) {
@@ -239,12 +249,10 @@ export default {
     ...mapActions("markers", ["updateMarkerAction"]),
     ...mapActions("post", ["getPosts"]),
 
-    
-
     countryCoordinatesWithKey(country) {
-		if(!this.markerCounts) return
-		const cc = this.getCountryDataByName(country).iso2
-      	return this.markerCounts[cc].location;
+      if (!this.markerCounts) return;
+      const cc = this.getCountryDataByName(country).iso2;
+      return this.markerCounts[cc].location;
     },
     countryCoordinatesWithCode(countrycode) {
       return this.markerCounts[countrycode].location;
@@ -407,10 +415,11 @@ export default {
     },
   },
   components: {
-    "date-difference": require("src/components/Shared/Modals/DateDifference.vue").default,
-    "date-chat": require("src/components/Shared/Modals/DateChat.vue")
+    "date-difference": require("src/components/Shared/Modals/DateDifference.vue")
       .default,
-    "date-created": require("src/components/Shared/Modals/DateCreated.vue").default,
+    "date-chat": require("src/components/Shared/Modals/DateChat.vue").default,
+    "date-created": require("src/components/Shared/Modals/DateCreated.vue")
+      .default,
     "countrychip-large": require("src/components/Shared/Modals/CountryChipLarge.vue")
       .default,
     "countrychip-small": require("src/components/Shared/Modals/CountryChipSmall.vue")

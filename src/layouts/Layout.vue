@@ -263,18 +263,8 @@ export default {
     "my-requests": require("src/components/Profile/MyRequests.vue").default,
   },
   computed: {
-    ...mapState("auth", ["loggedIn"]),
     ...mapGetters("chat", ["unreadchatlistnew"]),
     ...mapState("admin", ["userFeedback", "userReports"]),
-
-    otheruserId() {
-      return this.$route.params.otherUserId;
-    },
-    otherUserDetails() {
-      if (this.otheruserId) {
-        return this.users[this.otherUserId];
-      }
-    },
 
     title() {
       let currentPath = this.$route.fullPath;
