@@ -225,7 +225,6 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 import mixinGeneral from "src/mixins/mixin-general.js";
 import mixinHosting from "src/mixins/mixin-hosting.js";
-import { LocalStorage, SessionStorage } from 'quasar';
 
 export default {
   mixins: [mixinGeneral, mixinHosting],
