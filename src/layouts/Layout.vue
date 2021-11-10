@@ -13,7 +13,7 @@
         <q-space></q-space>
 
         <q-tabs v-model="tab" shrink v-if="screenwidthbig">
-          <q-btn flat name="Map" label="Map" to="/map" />
+          <q-btn flat name="Map" label="Map" to="/map" v-if="loggedIn" />
           <q-btn
             v-if="teamMember"
             flat
@@ -225,7 +225,6 @@
 import { mapState, mapActions, mapGetters } from "vuex";
 import mixinGeneral from "src/mixins/mixin-general.js";
 import mixinHosting from "src/mixins/mixin-hosting.js";
-import { LocalStorage, SessionStorage } from 'quasar';
 
 export default {
   mixins: [mixinGeneral, mixinHosting],

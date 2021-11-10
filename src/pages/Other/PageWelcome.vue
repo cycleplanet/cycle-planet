@@ -18,6 +18,7 @@
             icon="home"
             :label="isWebApp ? 'home' : ''"
             class="q-ma-xs justify-end"
+            v-if="loggedIn"
           />
           <q-btn
             flat
