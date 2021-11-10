@@ -161,7 +161,7 @@
             type="textarea"
             v-model="userData.countries_cycled_new"
             multiple
-            :options="countries"
+            :options="countryKeys"
             use-chips
             stack-label
             label="Countries cycled"
@@ -243,7 +243,6 @@ import {
   LFeatureGroup,
   LCircle,
 } from "vue2-leaflet";
-const reverseCountryCodes = require("app/firebase-functions/shared/src/country-constants.js");
 
 export default {
   mixins: [mixinGeneral],
@@ -262,7 +261,6 @@ export default {
         "Not available for hosting",
         "Touring",
       ],
-      countries: Object.keys(reverseCountryCodes),
     };
   },
 
