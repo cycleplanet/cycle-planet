@@ -119,10 +119,10 @@ export default {
 
   computed: {
     myEmail() {
-      return this.users[this.myUserId].email;
+      return this.loggedInUser.email;
     },
     myName() {
-      return this.users[this.myUserId].fullname;
+      return this.loggedInUser.fullname;
     },
     myProfile() {
       return "http://cycleplanet.org/user/" + this.myUserId;
