@@ -2,7 +2,7 @@
   <div>
     <div
       v-if="
-        (requestData.receiver === myUserId &&
+        (requestData.receiver === loggedInUser.id &&
           requestData.status === 'unanswered') ||
         editResponse
       "
@@ -47,8 +47,8 @@
     <div
       class="row"
       v-if="
-        myUserDetails.hosting.requests[requestkey].receiver === myUserId &&
-        myUserDetails.hosting.requests[requestkey].status !== 'unanswered' &&
+        loggedInUser.hosting.requests[requestkey].receiver === loggedInUser.id &&
+        loggedInUser.hosting.requests[requestkey].status !== 'unanswered' &&
         showEdit
       "
     >
@@ -120,16 +120,16 @@ export default {
           from: "me",
         },
         otherUserId: this.requestData.sender,
-        senderName: this.myUserDetails.fullname,
+        senderName: this.loggedInUser.fullname,
       });
       this.editResponse = false;
     },
   },
   mounted() {
-    if (this.myUserDetails.hosting.requests[this.requestkey]) {
+    if (this.loggedInUser.hosting.requests[this.requestkey]) {
       this.requestData = Object.assign(
         {},
-        this.myUserDetails.hosting.requests[this.requestkey]
+        this.loggedInUser.hosting.requests[this.requestkey]
       );
     }
   },

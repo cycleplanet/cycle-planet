@@ -10,16 +10,16 @@ export default {
   },
   computed: {
     requestsReceived() {
-      if (this.myUserDetails) {
-        if (this.myUserDetails.hosting.requests) {
-          let totalRequests = Object.keys(this.myUserDetails.hosting.requests);
+      if (this.loggedInUser) {
+        if (this.loggedInUser.hosting.requests) {
+          let totalRequests = Object.keys(this.loggedInUser.hosting.requests);
           let requestKeys = {};
           totalRequests.forEach((element) => {
             let days = this.daysToGo(
-              this.myUserDetails.hosting.requests[element].dateProposal
+              this.loggedInUser.hosting.requests[element].dateProposal
             );
             if (
-              this.myUserDetails.hosting.requests[element].from === "them" &&
+              this.loggedInUser.hosting.requests[element].from === "them" &&
               days > -1
             ) {
               requestKeys[element] = true;
@@ -32,16 +32,16 @@ export default {
       }
     },
     requestsSend() {
-      if (this.myUserDetails) {
-        if (this.myUserDetails.hosting.requests) {
-          let totalRequests = Object.keys(this.myUserDetails.hosting.requests);
+      if (this.loggedInUser) {
+        if (this.loggedInUser.hosting.requests) {
+          let totalRequests = Object.keys(this.loggedInUser.hosting.requests);
           let requestKeys = {};
           totalRequests.forEach((element) => {
             let days = this.daysToGo(
-              this.myUserDetails.hosting.requests[element].dateProposal
+              this.loggedInUser.hosting.requests[element].dateProposal
             );
             if (
-              this.myUserDetails.hosting.requests[element].from === "me" &&
+              this.loggedInUser.hosting.requests[element].from === "me" &&
               days > -1
             ) {
               requestKeys[element] = true;
@@ -54,19 +54,19 @@ export default {
       }
     },
     requestsNeedFeedback() {
-      if (this.myUserDetails) {
-        if (this.myUserDetails.hosting.requests) {
-          let totalRequests = Object.keys(this.myUserDetails.hosting.requests);
+      if (this.loggedInUser) {
+        if (this.loggedInUser.hosting.requests) {
+          let totalRequests = Object.keys(this.loggedInUser.hosting.requests);
           let requestKeys = {};
           totalRequests.forEach((element) => {
             let days = this.daysToGo(
-              this.myUserDetails.hosting.requests[element].dateProposal
+              this.loggedInUser.hosting.requests[element].dateProposal
             );
             if (
-              this.myUserDetails.hosting.requests[element].status ===
+              this.loggedInUser.hosting.requests[element].status ===
                 "accepted" &&
               days < 0 &&
-              !this.myUserDetails.hosting.requests[element].wroteFeedback
+              !this.loggedInUser.hosting.requests[element].wroteFeedback
             ) {
               requestKeys[element] = true;
             }
@@ -79,15 +79,15 @@ export default {
     },
     notifyRequest() {
       if (
-        this.myUserDetails &&
-        this.myUserDetails.hosting &&
-        this.myUserDetails.hosting.requests
+        this.loggedInUser &&
+        this.loggedInUser.hosting &&
+        this.loggedInUser.hosting.requests
       ) {
         let requestKeys = {};
 
         Object.keys(this.requestsReceived).forEach((element) => {
           if (
-            this.myUserDetails.hosting.requests[element].status === "unanswered"
+            this.loggedInUser.hosting.requests[element].status === "unanswered"
           ) {
             requestKeys[element] = true;
           }

@@ -109,13 +109,13 @@ export default {
 
   computed: {
     myEmail: function () {
-      return this.users[this.myUserId].email;
+      return this.loggedInUser.email;
     },
     myName: function () {
-      return this.users[this.myUserId].fullname;
+      return this.loggedInUser.fullname;
     },
     myProfile: function () {
-      return "http://cycleplanet.org/user/" + this.myUserId;
+      return "http://cycleplanet.org/user/" + this.loggedInUser.id;
     },
     otherProfile: function () {
       return "http://cycleplanet.org/user/" + this.otherUserId;
@@ -158,11 +158,11 @@ export default {
           dateProposal: this.dateProposal,
           status: "unanswered",
           response: "",
-          sender: this.myUserId,
+          sender: this.loggedInUser.id,
           receiver: this.otherUserId,
         },
         otherUserId: this.otherUserId,
-        senderName: this.myUserDetails.fullname,
+        senderName: this.loggedInUser.fullname,
       });
       this.newMessage = "";
       this.sendEmail(e);

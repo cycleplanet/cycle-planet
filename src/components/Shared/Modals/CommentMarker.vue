@@ -1,9 +1,9 @@
 <template>
   <q-list class="full-width">
-    <q-item dense class="no-padding no-margin bg-grey-4" v-if="myUserDetails">
+    <q-item dense class="no-padding no-margin bg-grey-4" v-if="loggedInUser">
       <q-item-section avatar dense>
         <q-avatar v-if="!newComment" size="34px">
-          <img :src="myUserDetails.imageurl" />
+          <img :src="loggedInUser.imageurl" />
         </q-avatar>
         <q-btn
           dense
@@ -23,7 +23,7 @@
         <q-input
           dense
           class="no-padding no-margin"
-          :placeholder="'Comment as ' + myUserDetails.fullname"
+          :placeholder="'Comment as ' + loggedInUser.fullname"
           v-model="newComment"
           autogrow
         />
@@ -58,7 +58,7 @@ export default {
         let commentData = {
           comment: this.newComment,
           date: this.timeStamp,
-          user: this.myUserId,
+          user: this.loggedInUser.id,
         };
         if (this.itemData.comments) {
           this.itemData.comments[this.timeStamp] = commentData;
@@ -79,7 +79,7 @@ export default {
       //     data:{
       //         comment:this.newComment,
       //         date:this.timeStamp,
-      //         user:this.myUserId
+      //         user:this.loggedInUser
       //     }
       // })
       this.newComment = "";

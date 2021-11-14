@@ -75,7 +75,7 @@ export default {
       const link = document.createElement("a");
       link.download =
         "Cycle Planet - markers - " +
-        `${this.myUserDetails.fullname} - ${this.timeStamp}.gpx`;
+        `${this.loggedInUser.fullname} - ${this.timeStamp}.gpx`;
       link.href = url;
       document.body.appendChild(link);
       link.click();

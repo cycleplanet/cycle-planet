@@ -7,14 +7,14 @@
 
       <div
         v-if="
-          myUserDetails.hosting.requests[requestkey].status !== 'unanswered'
+          loggedInUser.hosting.requests[requestkey].status !== 'unanswered'
         "
         class="text-center q-py-md"
       >
         <div>You can continue this conversation in the chat</div>
         <q-btn
           :style="buttonStyle"
-          :to="'/chat/' + myUserDetails.hosting.requests[requestkey].sender"
+          :to="'/chat/' + loggedInUser.hosting.requests[requestkey].sender"
           >Chat</q-btn
         >
       </div>
@@ -23,9 +23,7 @@
 </template>
 
 <script>
-import { date } from "quasar";
 import mixinGeneral from "src/mixins/mixin-general.js";
-import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   mixins: [mixinGeneral],

@@ -15,7 +15,7 @@
         v-if="!screenwidthbig"
       />
       <div @click="clickuser(userId)" class="row items-center">
-        <q-avatar v-if="myUserDetails">
+        <q-avatar v-if="loggedInUser">
           <img :src="users[userId].imageurl" />
         </q-avatar>
         <q-toolbar-title>{{ users[userId].fullname }}</q-toolbar-title>
@@ -170,14 +170,14 @@ export default {
     },
     checkIfRequestWasSendRecently() {
       let x = 0;
-      if (this.users[this.myUserId].hosting.requests) {
+      if (this.loggedInUser.hosting.requests) {
         let myRequests = Object.keys(
-          this.users[this.myUserId].hosting.requests
+          this.loggedInUser.hosting.requests
         );
         myRequests.forEach((element) => {
           if (
-            this.users[this.myUserId].hosting.requests[element].receiver ===
-            this.userId
+            this.loggedInUser.hosting.requests[element].receiver ===
+            this.loggedInUser.id
           ) {
             x = 10;
           }
@@ -203,7 +203,7 @@ export default {
           from: "me",
         },
         otherUserId: this.userId,
-        senderName: this.myUserDetails.fullname,
+        senderName: this.loggedInUser.fullname,
       });
 
       this.clearMessage();

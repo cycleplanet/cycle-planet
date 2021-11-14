@@ -3,8 +3,8 @@
     <q-item class="row">
       <q-space
         v-if="
-          this.myUserDetails.hosting.requests[this.requestkey].receiver ===
-          myUserId
+          this.loggedInUser.hosting.requests[this.requestkey].receiver ===
+          this.loggedInUser.id
         "
       />
       <q-item-section
@@ -14,21 +14,21 @@
         <div class="row">
           <username-avatar
             :userId="
-              this.myUserDetails.hosting.requests[this.requestkey].receiver
+              this.loggedInUser.hosting.requests[this.requestkey].receiver
             "
           />
         </div>
         <div class="q-ma-md">
           <div
             v-if="
-              this.myUserDetails.hosting.requests[this.requestkey].status !==
+              this.loggedInUser.hosting.requests[this.requestkey].status !==
               'unanswered'
             "
             class="text-italic q-my-sm"
           >
             {{
-              this.myUserDetails.hosting.requests[this.requestkey].response
-                ? this.myUserDetails.hosting.requests[this.requestkey].response
+              this.loggedInUser.hosting.requests[this.requestkey].response
+                ? this.loggedInUser.hosting.requests[this.requestkey].response
                 : "No response"
             }}
           </div>
@@ -86,16 +86,16 @@ export default {
           from: "me",
         },
         otherUserId: this.requestData.sender,
-        senderName: this.myUserDetails.fullname,
+        senderName: this.loggedInUser.fullname,
       });
       this.editResponse = false;
     },
   },
   mounted() {
-    if (this.myUserDetails.hosting.requests[this.requestkey]) {
+    if (this.loggedInUser.hosting.requests[this.requestkey]) {
       this.requestData = Object.assign(
         {},
-        this.myUserDetails.hosting.requests[this.requestkey]
+        this.loggedInUser.hosting.requests[this.requestkey]
       );
     }
   },

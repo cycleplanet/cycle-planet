@@ -18,7 +18,7 @@
       <q-tab-panel name="current" class="bg-grey-2">
         <div
           v-if="
-            myUserDetails.hosting.requests
+            loggedInUser.hosting.requests
               ? Object.keys(requestsSend).length ||
                 Object.keys(requestsReceived).length ||
                 Object.keys(requestsNeedFeedback).length
@@ -44,12 +44,12 @@
                     <q-item-label class="row">
                       <username-avatar
                         :userId="
-                          myUserDetails.hosting.requests[requestkey].sender
+                          loggedInUser.hosting.requests[requestkey].sender
                         " />
                       <q-icon name="arrow_forward" />
                       <username-avatar
                         :userId="
-                          myUserDetails.hosting.requests[requestkey].receiver
+                          loggedInUser.hosting.requests[requestkey].receiver
                         "
                     /></q-item-label>
                     <q-item-label caption></q-item-label>
@@ -57,21 +57,21 @@
                   <q-item-section side>
                     <div>
                       {{
-                        myUserDetails.hosting.requests[requestkey].dateProposal
+                        loggedInUser.hosting.requests[requestkey].dateProposal
                       }}
                     </div>
                     <q-chip
                       :class="
-                        myUserDetails.hosting.requests[requestkey].status ===
+                        loggedInUser.hosting.requests[requestkey].status ===
                         'accepted'
                           ? 'bg-green-3'
-                          : myUserDetails.hosting.requests[requestkey]
+                          : loggedInUser.hosting.requests[requestkey]
                               .status === 'refused'
                           ? 'bg-red-3'
                           : ''
                       "
                       >{{
-                        myUserDetails.hosting.requests[requestkey].status
+                        loggedInUser.hosting.requests[requestkey].status
                       }}</q-chip
                     >
                   </q-item-section>
@@ -84,7 +84,7 @@
           <div class="text-h6 q-my-md">
             Requests sent ({{ Object.keys(requestsSend).length }})
           </div>
-          <q-list bordered separator v-if="myUserDetails.hosting.requests">
+          <q-list bordered separator v-if="loggedInUser.hosting.requests">
             <q-item
               v-for="(bool, requestkey) in requestsSend"
               :key="requestkey"
@@ -96,12 +96,12 @@
                     <q-item-label class="row">
                       <username-avatar
                         :userId="
-                          myUserDetails.hosting.requests[requestkey].sender
+                          loggedInUser.hosting.requests[requestkey].sender
                         " />
                       <q-icon name="arrow_forward" />
                       <username-avatar
                         :userId="
-                          myUserDetails.hosting.requests[requestkey].receiver
+                          loggedInUser.hosting.requests[requestkey].receiver
                         "
                     /></q-item-label>
                     <q-item-label caption></q-item-label>
@@ -109,21 +109,21 @@
                   <q-item-section side>
                     <div>
                       {{
-                        myUserDetails.hosting.requests[requestkey].dateProposal
+                        loggedInUser.hosting.requests[requestkey].dateProposal
                       }}
                     </div>
                     <q-chip
                       :class="
-                        myUserDetails.hosting.requests[requestkey].status ===
+                        loggedInUser.hosting.requests[requestkey].status ===
                         'accepted'
                           ? 'bg-green-3'
-                          : myUserDetails.hosting.requests[requestkey]
+                          : loggedInUser.hosting.requests[requestkey]
                               .status === 'refused'
                           ? 'bg-red-3'
                           : ''
                       "
                       >{{
-                        myUserDetails.hosting.requests[requestkey].status
+                        loggedInUser.hosting.requests[requestkey].status
                       }}</q-chip
                     >
                   </q-item-section>
@@ -133,7 +133,7 @@
             </q-item>
           </q-list>
           <!-- <q-list v-for="(bool, requestkey) in requestsSend" :key="requestkey">
-                        <request-send :requestkey="requestkey" v-if="requestsSend && myUserDetails.hosting.requests[requestkey].from==='me'" />
+                        <request-send :requestkey="requestkey" v-if="requestsSend && loggedInUser.hosting.requests[requestkey].from==='me'" />
                     </q-list> -->
 
           <div class="text-h6 q-my-md">
@@ -150,11 +150,11 @@
               v-if="
                 requestsNeedFeedback &&
                 daysToGo(
-                  myUserDetails.hosting.requests[requestkey].dateProposal
+                  loggedInUser.hosting.requests[requestkey].dateProposal
                 ) < 0 &&
-                myUserDetails.hosting.requests[requestkey].status ===
+                loggedInUser.hosting.requests[requestkey].status ===
                   'accepted' &&
-                !myUserDetails.hosting.requests[requestkey].wroteFeedback
+                !loggedInUser.hosting.requests[requestkey].wroteFeedback
               "
             />
           </q-list>
@@ -164,9 +164,9 @@
       </q-tab-panel>
 
       <q-tab-panel name="history">
-        <q-list bordered separator v-if="myUserDetails.hosting.requests">
+        <q-list bordered separator v-if="loggedInUser.hosting.requests">
           <q-item
-            v-for="request in myUserDetails.hosting.requests"
+            v-for="request in loggedInUser.hosting.requests"
             :key="request"
           >
             <q-item-section>
@@ -192,7 +192,7 @@
             </q-item-section>
           </q-item>
         </q-list>
-        <div v-if="!myUserDetails.hosting.requests">
+        <div v-if="!loggedInUser.hosting.requests">
           There are no host requests to display
         </div>
       </q-tab-panel>
@@ -201,10 +201,8 @@
 </template>
 
 <script>
-import { date } from "quasar";
 import mixinGeneral from "src/mixins/mixin-general.js";
 import mixinHosting from "src/mixins/mixin-hosting.js";
-import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
   mixins: [mixinGeneral, mixinHosting],

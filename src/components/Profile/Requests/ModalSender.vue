@@ -1,6 +1,6 @@
 <template>
   <q-item class="row">
-    <q-space v-if="requestData.sender === myUserId" />
+    <q-space v-if="requestData.sender === loggedInUser.id" />
 
     <q-item-section
       class="q-pa-xs bg-blue-2"
@@ -12,7 +12,7 @@
       <div class="q-ma-md">
         <div class="text-italic q-my-sm">{{ requestData.text }}</div>
       </div>
-      <div class="row" v-if="requestData.sender === myUserId">
+      <div class="row" v-if="requestData.sender === loggedInUser.id">
         <q-space />
         <q-btn flat round dense icon="edit" @click="editRequest()" />
         <q-btn
@@ -98,19 +98,19 @@ export default {
       let otherId = this.requestData.receiver;
 
       this.deleteItemAction({
-        path: "Users/" + this.myUserId + "/hosting/requests/" + this.requestkey,
+        path: "Users/" + this.loggedInUser.id + "/hosting/requests/" + this.requestkey,
       });
       this.deleteItemAction({
         path: "Users/" + otherId + "/hosting/requests/" + this.requestkey,
       });
       this.updateItemAction({
-        path: "Chats/" + this.myUserId + "/" + otherId + "/" + this.requestkey,
+        path: "Chats/" + this.loggedInUser.id + "/" + otherId + "/" + this.requestkey,
         data: {
           status: "deleted",
         },
       });
       this.updateItemAction({
-        path: "Chats/" + otherId + "/" + this.myUserId + "/" + this.requestkey,
+        path: "Chats/" + otherId + "/" + this.loggedInUser.id + "/" + this.requestkey,
         data: {
           status: "deleted",
         },
@@ -121,14 +121,14 @@ export default {
       let otherId = this.requestData.receiver;
 
       this.updateItemAction({
-        path: "Users/" + this.myUserId + "/hosting/requests/" + this.requestkey,
+        path: "Users/" + this.loggedInUser.id + "/hosting/requests/" + this.requestkey,
         data: {
           dateProposal: this.editDate,
           text: this.editMessage + " (edited)",
         },
       });
       this.updateItemAction({
-        path: "Chats/" + this.myUserId + "/" + otherId + "/" + this.requestkey,
+        path: "Chats/" + this.loggedInUser.id + "/" + otherId + "/" + this.requestkey,
         data: {
           dateProposal: this.editDate,
           text: this.editMessage + " (edited)",
@@ -142,7 +142,7 @@ export default {
         },
       });
       this.updateItemAction({
-        path: "Chats/" + otherId + "/" + this.myUserId + "/" + this.requestkey,
+        path: "Chats/" + otherId + "/" + this.loggedInUser.id + "/" + this.requestkey,
         data: {
           dateProposal: this.editDate,
           text: this.editMessage + " (edited)",
@@ -152,10 +152,10 @@ export default {
     },
   },
   mounted() {
-    if (this.myUserDetails.hosting.requests[this.requestkey]) {
+    if (this.loggedInUser.hosting.requests[this.requestkey]) {
       this.requestData = Object.assign(
         {},
-        this.myUserDetails.hosting.requests[this.requestkey]
+        this.loggedInUser.hosting.requests[this.requestkey]
       );
     }
   },

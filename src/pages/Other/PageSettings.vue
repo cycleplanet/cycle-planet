@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapActions } from "vuex";
 import mixinGeneral from "src/mixins/mixin-general.js";
 export default {
   mixins: [mixinGeneral],
@@ -34,7 +34,7 @@ export default {
 
     showLocation: {
       get() {
-        return this.myUserDetails.settings.showLocation;
+        return this.loggedInUser.settings.showLocation;
       },
       set(value) {
         this.setShowLocation(value);
@@ -42,7 +42,7 @@ export default {
     },
     sendNotifications: {
       get() {
-        return this.myUserDetails.settings.sendNotifications;
+        return this.loggedInUser.settings.sendNotifications;
       },
       set(value) {
         this.setSendNotifications(value);

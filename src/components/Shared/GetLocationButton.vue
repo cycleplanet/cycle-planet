@@ -1,5 +1,5 @@
 <template>
-  <div class="row flex items-center" v-if="myUserDetails">
+  <div class="row flex items-center" v-if="loggedInUser">
     <q-btn
       class="q-my-sm row"
       v-if="locationSupported"
@@ -9,15 +9,15 @@
       rounded
       :class="
         loggedIn
-          ? myUserDetails.coordinates
+          ? loggedInUser.coordinates
             ? 'bg-secondary text-white'
             : 'bg-red text-white'
           : 'bg-red text-white'
       "
       >{{
         loggedIn
-          ? myUserDetails
-            ? myUserDetails.coordinates
+          ? loggedInUser
+            ? loggedInUser.coordinates
               ? "update my location"
               : "find my location"
             : "find my location"
@@ -69,7 +69,7 @@ export default {
       let randomNumber2 = Math.random() * 0.02 - 0.01;
       if (address) {
         this.updateItemAction({
-          path: "Users/" + this.myUserId,
+          path: "Users/" + this.loggedInUser.id,
           data: {
             coordinates_updated: this.timeStamp,
             coordinates: {
