@@ -80,15 +80,12 @@ export default {
     myUserId() {
       return this.loggedInUser?.id;
     },
-    myUserDetails() {
-      return this.loggedInUser;
-    },
     admin() {
-      if (this.myUserDetails) {
+      if (this.loggedInUser) {
         if (
-          this.myUserDetails.role === "admin" ||
-          this.myUserDetails.role === "team" ||
-          this.myUserId === "ieMGYdJeX6ZyKgKeeGhMXPFZkax2"
+          this.loggedInUser.role === "admin" ||
+          this.loggedInUser.role === "team" ||
+          this.loggedInUser.id === "ieMGYdJeX6ZyKgKeeGhMXPFZkax2"
         ) {
           return true;
         } else {
@@ -99,10 +96,10 @@ export default {
       }
     },
     teamMember() {
-      if (this.myUserDetails) {
+      if (this.loggedInUser) {
         if (
-          this.myUserDetails.role === "team" ||
-          this.myUserDetails.role === "admin"
+          this.loggedInUser.role === "team" ||
+          this.loggedInUser.role === "admin"
         ) {
           return true;
         } else {
@@ -113,11 +110,11 @@ export default {
       }
     },
     roleEditor() {
-      if (this.myUserDetails) {
+      if (this.loggedInUser) {
         if (
-          this.myUserDetails.role === "editor" ||
-          this.myUserDetails.role === "team" ||
-          this.myUserDetails.role === "admin"
+          this.loggedInUser.role === "editor" ||
+          this.loggedInUser.role === "team" ||
+          this.loggedInUser.role === "admin"
         ) {
           return true;
         } else {
@@ -263,7 +260,7 @@ export default {
     },
 
     updateAppVersion() {
-      if (this.users[this.myUserId]) {
+      if (this.loggedInUser) {
         this.updateItemAction({
           data: {
             deviceData: {
@@ -406,10 +403,12 @@ export default {
       return diff;
     },
     addPoints(points) {
+      const previousPoints = this.loggedInUser.points?.score || 0;
+
       this.updateItemAction({
-        path: "Users/" + this.myUserId + "/points",
+        path: `Users/${this.myUserId}/points`,
         data: {
-          score: this.myUserDetails.points.score + points,
+          score: previousPoints + points,
         },
       });
     },

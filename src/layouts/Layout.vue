@@ -67,8 +67,8 @@
         />
 
         <q-btn class="q-mx-md" v-if="loggedIn" dense flat round>
-          <q-avatar v-if="myUserDetails">
-            <img :src="myUserDetails.imageurl" />
+          <q-avatar v-if="loggedInUser">
+            <img :src="loggedInUser.imageurl" />
           </q-avatar>
           <q-badge
             v-if="Object.keys(notifyRequest).length"
@@ -185,11 +185,11 @@
 
     <cp-footer />
 
-    <q-dialog :maximized="true" v-model="myMarkersDialog" v-if="myUserDetails">
+    <q-dialog :maximized="true" v-model="myMarkersDialog" v-if="loggedInUser">
       <marker-list-dialog
         :markersArray="
-          myUserDetails.points.markers_added
-            ? Object.values(myUserDetails.points.markers_added)
+          loggedInUser.points.markers_added
+            ? Object.values(loggedInUser.points.markers_added)
             : 0
         "
         :title="'Added markers'"

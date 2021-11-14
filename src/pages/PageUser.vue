@@ -1,6 +1,6 @@
 <template>
   <div>
-    <user-page :userData="users[userId]" />
+    <user-page :userData="loggedInUser" />
   </div>
 </template>
 
@@ -9,7 +9,7 @@ import { mapState } from "vuex";
 
 export default {
   computed: {
-    ...mapState("auth", ["users"]),
+    ...mapState("auth", ["loggedInUser"]),
 
     userId() {
       return this.$route.params.otherUserId;
