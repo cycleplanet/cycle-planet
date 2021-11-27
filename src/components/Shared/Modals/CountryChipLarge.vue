@@ -33,7 +33,7 @@ export default {
   },
   computed: {
     countryImageSrc() {
-      return 'countryflagsnew/' + getCountryDataByName(this.countryKey).iso2 + '.svg';
+      return 'countryflagsnew/' + getCountryDataByName(this.countryKey).iso2.toLowerCase() + '.svg';
     },
 
     screenwidthbig() {
