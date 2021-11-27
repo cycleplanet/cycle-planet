@@ -15,11 +15,7 @@
       >
         <img
           style="border: 1px solid black; margin-left: -1px;"
-          :src="
-            ('countryflags/Flag_of_' + countryKey + '.svg.png')
-              .split(' ')
-              .join('_')
-          "
+          :src="countryImageSrc"
         />
       </q-avatar>
       <div clickable @click="clickedcountry(countryKey)">{{ countryKey }}</div>
@@ -28,7 +24,7 @@
 </template>
 
 <script>
-// import { mapState, mapActions, mapGetters  } from 'vuex'
+import { getCountryDataByName } from "app/firebase-functions/shared/src/country-constants.js";
 
 export default {
   props: ["countryKey"],
@@ -36,6 +32,10 @@ export default {
     return {};
   },
   computed: {
+    countryImageSrc() {
+      return 'countryflagsnew/' + getCountryDataByName(this.countryKey).iso2 + '.svg';
+    },
+
     screenwidthbig() {
       let screenWidth = screen.width;
       if (screenWidth < 768) {
