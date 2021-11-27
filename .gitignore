@@ -10,7 +10,7 @@ T1.0.jks
 zipalign.exe
 .firebase
 .firebaserc
-firestore.rules
+# firestore.rules
 backend/serviceAccountKey.json
 firebase-functions/serviceaccount.json
 src-cordova
