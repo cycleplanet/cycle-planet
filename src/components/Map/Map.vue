@@ -310,9 +310,17 @@ import {
   LCircle,
 } from "vue2-leaflet";
 import { getCountryData } from "app/firebase-functions/shared/src/country-constants.js";
+import { latLng, Icon } from "leaflet";
 
 const DEFAULT_ZOOM_LEVEL = 3;
 const DEFAULT_CLUSTER_BREAK = 6.5;
+
+delete Icon.Default.prototype._getIconUrl;
+Icon.Default.mergeOptions({
+  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+  iconUrl: require("leaflet/dist/images/marker-icon.png"),
+  shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
+});
 
 export default {
   mixins: [mixinGeneral],
