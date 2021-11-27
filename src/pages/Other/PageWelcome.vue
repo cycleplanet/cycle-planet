@@ -38,16 +38,20 @@
           </div>
         </div>
         <div class="row" style="padding-bottom: 20px;" v-if="isWebApp">
+          <a href="https://play.google.com/store/apps/details?id=com.cycleplanet.cycleplanet&hl=en&gl=US">
           <img
             class="cursor-pointer"
             :class="screenwidthbig ? 'appimagedesktop' : 'appimage'"
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/1200px-Google_Play_Store_badge_EN.svg.png"
           />
+          </a>
+          <a href="https://apps.apple.com/sr/app/cycle-planet/id1547132334">
           <img
             class="cursor-pointer"
             :class="screenwidthbig ? 'appimagedesktop' : 'appimage'"
             src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg"
           />
+          </a>
         </div>
         <div v-if="!isWebApp">
           <q-btn :style="buttonStyle" class="q-ma-md" to="/auth"
