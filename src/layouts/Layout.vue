@@ -188,7 +188,7 @@
     <q-dialog :maximized="true" v-model="myMarkersDialog" v-if="myUserDetails">
       <marker-list-dialog
         :markersArray="
-          myUserDetails.points.markers_added
+          myUserDetails.points && myUserDetails.points.markers_added
             ? Object.values(myUserDetails.points.markers_added)
             : 0
         "
