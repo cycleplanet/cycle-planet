@@ -407,25 +407,19 @@ export default {
     },
   },
   components: {
-    "nice-date": require("components/Shared/Modals/NiceDate.vue").default,
-    "nice-date-short": require("components/Shared/Modals/NiceDateShort.vue")
+    "date-difference": require("src/components/Shared/Modals/DateDifference.vue").default,
+    "date-chat": require("src/components/Shared/Modals/DateChat.vue")
       .default,
-    "nice-date2": require("components/Shared/Modals/NiceDate2.vue").default,
-    "modal-countrychip": require("components/Shared/Modals/ModalCountryChip.vue")
+    "date-created": require("src/components/Shared/Modals/DateCreated.vue").default,
+    "countrychip-large": require("src/components/Shared/Modals/CountryChipLarge.vue")
       .default,
-    "modal-countrychip2": require("components/Shared/Modals/ModalCountryChip2.vue")
+    "countrychip-small": require("src/components/Shared/Modals/CountryChipSmall.vue")
       .default,
-    "modal-countrychip3": require("components/Shared/Modals/ModalCountryChip3.vue")
+    "username-no-avatar": require("src/components/Shared/Modals/UsernameNoAvatar.vue")
       .default,
-    "modal-countrychip4": require("components/Shared/Modals/ModalCountryChip4.vue")
+    "username-avatar": require("src/components/Shared/Modals/UsernameAvatar.vue")
       .default,
-    "modal-username": require("components/Shared/Modals/ModalUsername.vue")
-      .default,
-    "modal-username2": require("components/Shared/Modals/ModalUsername2.vue")
-      .default,
-    "modal-username3": require("components/Shared/Modals/ModalUsername3.vue")
-      .default,
-    "modal-username4": require("components/Shared/Modals/ModalUsername4.vue")
+    "username-avatar-chip": require("src/components/Shared/Modals/UsernameAvatarChip.vue")
       .default,
     "modal-title": require("components/Shared/Modals/ModalTitle.vue").default,
     "modal-description": require("components/Map/Modals/Shared/ModalDescription.vue")

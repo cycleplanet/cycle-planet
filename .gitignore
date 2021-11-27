@@ -39,4 +39,9 @@ yarn-error.log*
 *.njsproj
 *.sln
 
+# Firebase caches
+.firebase/
+
+# Environment-specific app configuration
 src/boot/config.js
+

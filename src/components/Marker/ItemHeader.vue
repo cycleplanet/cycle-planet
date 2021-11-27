@@ -60,9 +60,9 @@
 
     <div class="row text-overline q-ml-md">
       <div>{{ markerlist[refKey].title }} • created by</div>
-      <div><modal-username2 :userId="singleItemData.user_created" /></div>
+      <div><username-avatar :userId="singleItemData.user_created" /></div>
       <div class="q-mx-sm">on</div>
-      <div><nice-date2 :dateprop="singleItemData.date_created" /></div>
+      <div><date-created :dateprop="singleItemData.date_created" /></div>
       <div
         v-if="
           singleItemData.user_edited &&
@@ -71,9 +71,9 @@
         class="row"
       >
         • last edited by
-        <modal-username2 class="q-mr-sm" :userId="singleItemData.user_edited" />
+        <username-avatar class="q-mr-sm" :userId="singleItemData.user_edited" />
         on
-        <nice-date2 class="q-mx-sm" :dateprop="singleItemData.date_edited" />
+        <date-created class="q-mx-sm" :dateprop="singleItemData.date_edited" />
       </div>
     </div>
     <div class="q-ma-sm">

@@ -26,12 +26,12 @@
       <div v-if="data">
         <div class="text-caption text-grey row">
           Last edited by
-          <modal-username
+          <username-no-avatar
             clickable
             class="q-mx-xs"
             :userId="data.user_edited"
           />
-          on <nice-date2 class="q-ml-xs" :dateprop="data.date_edited" />
+          on <date-created class="q-ml-xs" :dateprop="data.date_edited" />
         </div>
       </div>
       <q-separator />

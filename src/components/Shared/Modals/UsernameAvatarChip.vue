@@ -1,5 +1,8 @@
 <template>
-  <div @click="clickuser" clickable class="cursor-pointer row">
+  <div 
+  @click="clickuser" 
+  clickable 
+  class="cursor-pointer row">
     <q-chip class="justify-center" size="md" @click="clickuser">
       <q-avatar>
         <img :src="users[userIdChecked].imageurl" />

@@ -37,7 +37,7 @@
                   >
                     •
                   </div>
-                  <modal-countrychip2
+                  <countrychip-small
                     v-if="landMarkers[itemKey].refKey !== 'Border_item'"
                     :countryKey="landMarkers[itemKey].countryKey"
                   />
@@ -76,12 +76,12 @@
                     <div>
                       <div class="text-h6 q-mb-sm">Logbook</div>
                       <div class="q-my-md">
-                        <nice-date2
+                        <date-created
                           class="text-bold"
                           :dateprop="landMarkers[itemKey].date_created"
                         />
                         <div class="row">
-                          <modal-username
+                          <username-no-avatar
                             class="q-mr-sm"
                             :userId="landMarkers[itemKey].user_created"
                           />
@@ -92,12 +92,12 @@
                         v-if="landMarkers[itemKey].date_edited"
                         class="q-my-md"
                       >
-                        <nice-date2
+                        <date-created
                           class="text-bold"
                           :dateprop="landMarkers[itemKey].date_edited"
                         />
                         <div class="row">
-                          <modal-username
+                          <username-no-avatar
                             class="q-mr-sm"
                             :userId="landMarkers[itemKey].user_edited"
                           />
@@ -110,9 +110,9 @@
                           :key="logKey"
                           class="q-my-md"
                         >
-                          <nice-date2 class="text-bold" :dateprop="logKey" />
+                          <date-created class="text-bold" :dateprop="logKey" />
                           <div class="row">
-                            <modal-username
+                            <username-no-avatar
                               class="q-mr-sm"
                               :userId="log.user"
                             />{{ log.description }}
@@ -154,7 +154,7 @@
                 class="row items-center"
               >
                 <b>Country:</b>
-                <modal-countrychip2
+                <countrychip-small
                   :countryKey="landMarkers[itemKey].countryKey"
                   class="q-ml-sm"
                 />
@@ -212,7 +212,7 @@ export default {
   components: {
     "item-dialog": require("components/Marker/ItemDialog.vue").default,
     "like-item": require("components/Shared/Modals/LikeMarker.vue").default,
-    "map-marker2": require("components/Shared/MapMarker2.vue").default,
+    "map-marker2": require("src/components/Shared/POIList.vue").default,
     "download-gpx": require("components/Shared/Modals/DownloadGpx.vue").default,
   },
 

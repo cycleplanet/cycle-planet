@@ -14,7 +14,7 @@
         class="no-margin"
         :key="countryKey"
       >
-        <modal-countrychip :countryKey="country" class="no-margin" />
+        <countrychip-large :countryKey="country" class="no-margin" />
       </div>
     </div>
     <q-separator class="q-my-lg" />
