@@ -6,18 +6,20 @@ node_modules
 src/boot/firebase.js
 my-release-key.jks
 my-release-key.keystore
+T1.0.jks
+zipalign.exe
 .firebase
 .firebaserc
+# firestore.rules
 backend/serviceAccountKey.json
 firebase-functions/serviceaccount.json
+src-cordova
 
 # Quasar core related directories
 .quasar
 dist
 
 # Cordova related directories and files
-src-cordova/T1.0.jks
-src-cordova/app-release-unsigned.apk
 src-cordova/node_modules
 src-cordova/platforms
 src-cordova/plugins
