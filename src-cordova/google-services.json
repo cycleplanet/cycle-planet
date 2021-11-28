@@ -1,0 +1,96 @@
+{
+  "project_info": {
+    "project_number": "496936807797",
+    "firebase_url": "https://cycle-planet-292f5.firebaseio.com",
+    "project_id": "cycle-planet-292f5",
+    "storage_bucket": "cycle-planet-292f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:496936807797:android:c5da89c0b7d30f8c1eb73c",
+        "android_client_info": {
+          "package_name": "com.cycleplanet.cycleplanet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "496936807797-2uhmei58sonh1rd6nm49e3mb305tq7eh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cycleplanet.cycleplanet",
+            "certificate_hash": "d467dbf07f961d3e5c92f162054123c0c302671c"
+          }
+        },
+        {
+          "client_id": "496936807797-3svns5seh8a6rqt040qk157de7e4jhmj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cycleplanet.cycleplanet",
+            "certificate_hash": "ab927677ef4dcff2f906ffd54c8247fd239924e9"
+          }
+        },
+        {
+          "client_id": "496936807797-dhonc35epj20qugbpbd5odvs6d8uqgml.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cycleplanet.cycleplanet",
+            "certificate_hash": "8bc7fc314efd7061f4a75901568ecf940af25795"
+          }
+        },
+        {
+          "client_id": "496936807797-l2ge0ki172ar4s91uln6dhhss6kch6hv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cycleplanet.cycleplanet",
+            "certificate_hash": "cbb5c9a61534a872bf1ccfbe76539b83395eed8c"
+          }
+        },
+        {
+          "client_id": "496936807797-u1lj8camg6it5vmqg51006dds1o0gt7e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cycleplanet.cycleplanet",
+            "certificate_hash": "14205498b21a8699e897165a6bde63f6db8addf2"
+          }
+        },
+        {
+          "client_id": "496936807797-u5pk99kpa2btifoa0sqm1rdbak0ocsqk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cycleplanet.cycleplanet",
+            "certificate_hash": "0773083b8360e07e7b294790c857c2234c195e99"
+          }
+        },
+        {
+          "client_id": "496936807797-dhoh3bu158i0ajji02inqr1acfajc0qi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBubBDkPqItwGflq54CsyZE92mASUXJFHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "496936807797-dhoh3bu158i0ajji02inqr1acfajc0qi.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "496936807797-q13rsaah7319nt1rlbjeidai45cae2lp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cycleplanet.cycleplanet",
+                "app_store_id": "1547132334"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
