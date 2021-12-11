@@ -1,6 +1,6 @@
 <template>
   <q-card class="no-padding" style="width: 100%;">
-    <modal-header>Add {{ markerlist[refKey].title }} Marker</modal-header>
+    <modal-header>Add helo {{contextPopupCoordinates}} {{ markerlist[refKey].title }} Marker</modal-header>
     <q-form @submit.prevent="submitMarker()" ref="myForm">
       <q-card-section class="q-gutter-y-md">
         <modal-banner />
@@ -112,11 +112,10 @@ import { Geoapify } from "app/firebase-functions/shared/src/geoapify";
 import { geoapify } from "../../../boot/config.js";
 import { getCountryData } from "app/firebase-functions/shared/src/country-constants.js";
 
-const geofire = require('geofire-common')
-
+const geofire = require("geofire-common");
 
 export default {
-  props: ["refKey", "countryKey"],
+  props: ["refKey", "countryKey","contextPopupCoordinates"],
   mixins: [mixinGeneral],
   components: {
     LMap,
@@ -132,7 +131,7 @@ export default {
       geocoder: new Geoapify(geoapify.apiKey),
       zoom: 1,
       warningDescription: false,
-      getCountryData:getCountryData,
+      getCountryData: getCountryData,
       payload: {
         description: "",
         country: "",
@@ -162,13 +161,13 @@ export default {
     },
     currentLocation() {
       console.log("currentLocation 1", this.payload);
-      const lat = this.payload.coordinates.lat
-      const lng = this.payload.coordinates.lng
-      
+      const lat = this.payload.coordinates.lat;
+      const lng = this.payload.coordinates.lng;
+
       if (this.payload.coordinates.lat) {
         console.log("currentLocation 2", lat);
         console.log("currentLocation 3", lng);
-        console.log('geohash '+ geofire.geohashForLocation([lat, lng]))
+        console.log("geohash " + geofire.geohashForLocation([lat, lng]));
 
         this.geocoder
           .reverseGeocodeToCountryCode(
@@ -188,6 +187,10 @@ export default {
 
   mounted() {
     this.hasCountryKey;
+    if(this.contextPopupCoordinates){
+      console.log('mounted add marker had contextPopupCoordinates', this.contextPopupCoordinates);
+      this.payload.coordinates=this.contextPopupCoordinates
+    }
   },
   methods: {
     clickCoordinates(event) {
@@ -224,8 +227,8 @@ export default {
             "Thanks for your contribution. You`ve earned 10 points!"
           );
 
-          const lat = Number(this.payload.coordinates.lat)
-          const lng = Number(this.payload.coordinates.lng)
+          const lat = Number(this.payload.coordinates.lat);
+          const lng = Number(this.payload.coordinates.lng);
 
           this.setItemActionFs({
             collection: "Markers",
@@ -240,7 +243,7 @@ export default {
               refKey: this.refKey,
               date_created: this.timeStamp,
               user_created: this.myUserId,
-              geohash:geofire.geohashForLocation([lat, lng]),
+              geohash: geofire.geohashForLocation([lat, lng]),
               coordinates: {
                 lat: lat,
                 lng: lng,
