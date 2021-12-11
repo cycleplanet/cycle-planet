@@ -281,7 +281,7 @@
             :size="isWebApp ? 'md' : 'sm'"
             icon="add"
             :style="buttonStyle"
-            @click="loggedIn ? showAddNewMarker({lat: 0, lng: 0}) : showLoginDialog()"
+            @click="loggedIn ? showAddNewMarkerWithButton() : showLoginDialog()"
             >add marker</q-btn
           >
 
@@ -296,7 +296,10 @@
       class="no-padding"
       v-model="newMarkerDialogVisible"
     >
-      <add-marker-list :newMarkerCoordinates="newMarkerCoordinates" @close="newMarkerDialogVisible = false" />
+      <add-marker-list 
+      :newMarkerCoordinates="newMarkerCoordinates" 
+      :newMarkerZoom="newMarkerZoom"
+      @close="newMarkerDialogVisible = false" />
     </q-dialog>
 
     <q-dialog :maximized="!isWebApp" v-model="itemDialog">
@@ -394,7 +397,8 @@ export default {
       ],
       contextPopupCoordinates: null,
       newMarkerDialogVisible: false,
-      newMarkerCoordinates: { lat: 0, lng: 0 }
+      newMarkerCoordinates: { lat: 0, lng: 0 },
+      newMarkerZoom:1,
     };
   },
   computed: {
@@ -458,6 +462,16 @@ export default {
         this.showLoginDialog();
       } else {
         this.newMarkerCoordinates = newMarkerCoordinates;
+        this.newMarkerDialogVisible = true;
+      }
+    },
+
+    showAddNewMarkerWithButton() {
+      if (!this.loggedIn) {
+        this.showLoginDialog();
+      } else {
+        this.newMarkerCoordinates = this.map.getCenter();
+        this.newMarkerZoom=this.map.getZoom();
         this.newMarkerDialogVisible = true;
       }
     },

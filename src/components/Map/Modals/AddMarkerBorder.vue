@@ -198,7 +198,8 @@ export default {
       console.log('mounted add marker had contextPopupCoordinates', this.newMarkerCoordinates);
       this.payload.coordinates.lat=this.newMarkerCoordinates.lat
       this.payload.coordinates.lng=this.newMarkerCoordinates.lng
-      this.zoom=15
+      if(this.newMarkerZoom>1) this.zoom=this.newMarkerZoom
+      else this.zoom=15
     }
   },
   methods: {
