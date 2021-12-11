@@ -33,9 +33,9 @@
               <q-item-section>Add point of interest</q-item-section>
             </q-item>
             <q-item clickable v-ripple>
-              <q-item-section
-                >{{ contextPopupCoordinates | humanFriendlyLatLng}}</q-item-section
-              >
+              <q-item-section @click="copyContextPopupCoordinatesToClipboard">
+                {{ contextPopupCoordinates | humanFriendlyLatLng }}
+              </q-item-section>
             </q-item>
           </q-list>
         </l-tooltip>
@@ -317,6 +317,7 @@
 </template>
 
 <script>
+import { copyToClipboard, Notify } from "quasar";
 import { mapState, mapGetters, mapActions } from "vuex";
 import mixinGeneral from "src/mixins/mixin-general.js";
 import {
@@ -459,6 +460,16 @@ export default {
         this.newMarkerCoordinates = newMarkerCoordinates;
         this.newMarkerDialogVisible = true;
       }
+    },
+
+    copyContextPopupCoordinatesToClipboard() {
+      copyToClipboard(this.$options.filters.humanFriendlyLatLng(this.contextPopupCoordinates))
+      Notify.create({
+        type: "positive",
+        color: "positive",
+        timeout: 3000,
+        message: "Coordinates copied to clipboard",
+      });
     },
 
     modalShown() {
