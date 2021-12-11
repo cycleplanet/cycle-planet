@@ -6,7 +6,7 @@
       v-show="!showAddMarker"
     >
       <q-list bordered>
-        <modal-header>Add a new marker{{contextPopupCoordinates}}</modal-header>
+        <modal-header>Add a new marker</modal-header>
 
         <div v-for="(item, key) in markerlist" :key="key" clickable>
           <q-item
@@ -30,13 +30,13 @@
     </q-card>
 
     <q-dialog :maximized="!isWebApp" v-model="showAddMarker">
-      <add-marker @close="showAddMarker = false" :contextPopupCoordinates="contextPopupCoordinates" :refKey="clickedRef" />
+      <add-marker @close="showAddMarker = false" :newMarkerCoordinates="newMarkerCoordinates" :refKey="clickedRef" />
     </q-dialog>
 
     <q-dialog :maximized="!isWebApp" v-model="addEmbassyItemDialog">
       <add-marker-embassy
         @close="addEmbassyItemDialog = false"
-        :contextPopupCoordinates="contextPopupCoordinates"
+        :newMarkerCoordinates="newMarkerCoordinates"
         :refKey="clickedRef"
       />
     </q-dialog>
@@ -44,7 +44,7 @@
     <q-dialog :maximized="!isWebApp" v-model="addBorderItemDialog">
       <add-marker-border
         @close="addBorderItemDialog = false"
-        :contextPopupCoordinates="contextPopupCoordinates"
+        :newMarkerCoordinates="newMarkerCoordinates"
         :refKey="clickedRef"
       />
     </q-dialog>
@@ -75,7 +75,7 @@ import { geoapify } from "../../../boot/config.js";
 
 export default {
   mixins: [mixinGeneral],
-  props:["contextPopupCoordinates"],
+  props:["newMarkerCoordinates"],
   components: {
     "add-marker": require("components/Map/Modals/AddMarker.vue").default,
     "add-marker-embassy": require("components/Map/Modals/AddMarkerEmbassy.vue")
@@ -116,7 +116,7 @@ export default {
     },
   },
   mounted(){
-    console.log('mounted addmarkerlist ', this.contextPopupCoordinates)
+    console.log('mounted addmarkerlist ', this.newMarkerCoordinates)
   },
 
   methods: {

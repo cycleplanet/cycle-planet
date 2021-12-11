@@ -33,7 +33,7 @@
             "
             style="height: 250px;"
             :zoom="zoom"
-            :center="payload.coordinates"
+            :center="[payload.coordinates.lat,payload.coordinates.lng]"
             key="map"
             :max-bounds="mapsettings.bounds"
           >
@@ -136,7 +136,7 @@ import { getCountryData, getCountryDataByName } from "app/firebase-functions/sha
 const geofire = require('geofire-common')
 
 export default {
-  props: ["refKey", "countryKey"],
+  props: ["refKey", "countryKey","newMarkerCoordinates"],
   mixins: [mixinGeneral],
   components: {
     LMap,
@@ -194,6 +194,12 @@ export default {
   },
   mounted() {
     this.hasCountryKey;
+    if(this.newMarkerCoordinates){
+      console.log('mounted add marker had contextPopupCoordinates', this.newMarkerCoordinates);
+      this.payload.coordinates.lat=this.newMarkerCoordinates.lat
+      this.payload.coordinates.lng=this.newMarkerCoordinates.lng
+      this.zoom=15
+    }
   },
   methods: {
     clickCoordinates(event) {
