@@ -22,10 +22,10 @@
         v-if="contextPopupCoordinates"
         :lat-lng="contextPopupCoordinates"
       >
-        <l-tooltip :options="{ permanent: true, interactive: true }">
+        <l-tooltip  :options="{ permanent: true, interactive: true }">
          
           <q-list bordered separator>
-            <q-item
+            <q-item 
               clickable
               v-ripple
               @click="showAddNewMarker(contextPopupCoordinates)"
@@ -296,7 +296,7 @@
       class="no-padding"
       v-model="newMarkerDialogVisible"
     >
-      <add-marker-list :contextPopupCoordinates="newMarkerCoordinates" @close="newMarkerDialogVisible = false" />
+      <add-marker-list :newMarkerCoordinates="newMarkerCoordinates" @close="newMarkerDialogVisible = false" />
     </q-dialog>
 
     <q-dialog :maximized="!isWebApp" v-model="itemDialog">
@@ -408,14 +408,6 @@ export default {
           preferCanvas: true,
           zoomSnap: 0.25,
           wheelPxPerZoomLevel: 50,
-          contextmenu: true,
-          contextmenuWidth: 140,
-          contextmenuItems: [
-            {
-              text: "Show coordinates",
-              callback: this.showCoordinates,
-            },
-          ],
         };
       } else {
         return {
@@ -423,14 +415,6 @@ export default {
           dragging: true,
           tap: false,
           preferCanvas: true,
-          contextmenu: true,
-          contextmenuWidth: 140,
-          contextmenuItems: [
-            {
-              text: "Show coordinates",
-              callback: this.showCoordinates,
-            },
-          ],
         };
       }
     },

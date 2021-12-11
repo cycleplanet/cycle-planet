@@ -1,6 +1,6 @@
 <template>
   <q-card class="no-padding" style="width: 100%;">
-    <modal-header>Add helo {{contextPopupCoordinates}} {{ markerlist[refKey].title }} Marker</modal-header>
+    <modal-header>Add {{ markerlist[refKey].title }} Marker</modal-header>
     <q-form @submit.prevent="submitMarker()" ref="myForm">
       <q-card-section class="q-gutter-y-md">
         <modal-banner />
@@ -31,7 +31,7 @@
             "
             style="height: 250px;"
             :zoom="zoom"
-            :center="payload.coordinates"
+            :center="[payload.coordinates.lat,payload.coordinates.lng]"
             :max-bounds="mapsettings.bounds"
             key="map"
           >
@@ -115,7 +115,7 @@ import { getCountryData } from "app/firebase-functions/shared/src/country-consta
 const geofire = require("geofire-common");
 
 export default {
-  props: ["refKey", "countryKey","contextPopupCoordinates"],
+  props: ["refKey", "countryKey","newMarkerCoordinates"],
   mixins: [mixinGeneral],
   components: {
     LMap,
@@ -187,9 +187,11 @@ export default {
 
   mounted() {
     this.hasCountryKey;
-    if(this.contextPopupCoordinates){
-      console.log('mounted add marker had contextPopupCoordinates', this.contextPopupCoordinates);
-      this.payload.coordinates=this.contextPopupCoordinates
+    if(this.newMarkerCoordinates){
+      console.log('mounted add marker had contextPopupCoordinates', this.newMarkerCoordinates);
+      this.payload.coordinates.lat=this.newMarkerCoordinates.lat
+      this.payload.coordinates.lng=this.newMarkerCoordinates.lng
+      this.zoom=15
     }
   },
   methods: {
