@@ -34,7 +34,7 @@
             </q-item>
             <q-item clickable v-ripple>
               <q-item-section
-                >{{ contextPopupCoordinates}}</q-item-section
+                >{{ contextPopupCoordinates | humanFriendlyLatLng}}</q-item-section
               >
             </q-item>
           </q-list>
@@ -450,11 +450,18 @@ export default {
     },
   },
 
+  filters: {
+    humanFriendlyLatLng(latlng) {
+      const ll = latLng(latlng);
+      return `${ll.lat.toFixed(7)}, ${ll.lng.toFixed(7)}`
+    }
+  },
+
   methods: {
     ...mapActions("markers", ["loadPoiWithinBounds"]),
 
     showContextMenu(e) {
-      this.contextPopupCoordinates = [e.latlng.lat,e.latlng.lng]
+      this.contextPopupCoordinates = e.latlng
     },
 
     hideContextMenu() {
