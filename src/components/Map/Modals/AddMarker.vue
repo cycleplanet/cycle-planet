@@ -115,7 +115,7 @@ import { getCountryData } from "app/firebase-functions/shared/src/country-consta
 const geofire = require("geofire-common");
 
 export default {
-  props: ["refKey", "countryKey","newMarkerCoordinates"],
+  props: ["refKey", "countryKey","newMarkerCoordinates","newMarkerZoom"],
   mixins: [mixinGeneral],
   components: {
     LMap,
@@ -187,11 +187,11 @@ export default {
 
   mounted() {
     this.hasCountryKey;
-    if(this.newMarkerCoordinates){
-      console.log('mounted add marker had contextPopupCoordinates', this.newMarkerCoordinates);
+    if(this.newMarkerCoordinates.lat){
       this.payload.coordinates.lat=this.newMarkerCoordinates.lat
       this.payload.coordinates.lng=this.newMarkerCoordinates.lng
-      this.zoom=15
+      if(this.newMarkerZoom>1) this.zoom=this.newMarkerZoom
+      else this.zoom=15
     }
   },
   methods: {

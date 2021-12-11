@@ -30,13 +30,16 @@
     </q-card>
 
     <q-dialog :maximized="!isWebApp" v-model="showAddMarker">
-      <add-marker @close="showAddMarker = false" :newMarkerCoordinates="newMarkerCoordinates" :refKey="clickedRef" />
+      <add-marker @close="showAddMarker = false" :newMarkerCoordinates="newMarkerCoordinates" 
+      :newMarkerZoom="newMarkerZoom"
+      :refKey="clickedRef" />
     </q-dialog>
 
     <q-dialog :maximized="!isWebApp" v-model="addEmbassyItemDialog">
       <add-marker-embassy
         @close="addEmbassyItemDialog = false"
         :newMarkerCoordinates="newMarkerCoordinates"
+        :newMarkerZoom="newMarkerZoom"
         :refKey="clickedRef"
       />
     </q-dialog>
@@ -45,6 +48,7 @@
       <add-marker-border
         @close="addBorderItemDialog = false"
         :newMarkerCoordinates="newMarkerCoordinates"
+        :newMarkerZoom="newMarkerZoom"
         :refKey="clickedRef"
       />
     </q-dialog>
@@ -75,7 +79,7 @@ import { geoapify } from "../../../boot/config.js";
 
 export default {
   mixins: [mixinGeneral],
-  props:["newMarkerCoordinates"],
+  props:["newMarkerCoordinates","newMarkerZoom"],
   components: {
     "add-marker": require("components/Map/Modals/AddMarker.vue").default,
     "add-marker-embassy": require("components/Map/Modals/AddMarkerEmbassy.vue")
