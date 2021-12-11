@@ -23,23 +23,21 @@
         :lat-lng="contextPopupCoordinates"
       >
         <l-tooltip :options="{ permanent: true, interactive: true }">
-      <add-marker-list @close="showAddNewMarker = false" />
          
-          <!-- <q-list bordered separator>
+          <q-list bordered separator>
             <q-item
               clickable
               v-ripple
-              @click="loggedIn ? (showAddNewMarker = true) : showLoginDialog()"
+              @click="showAddNewMarker(contextPopupCoordinates)"
             >
               <q-item-section>Add point of interest</q-item-section>
             </q-item>
             <q-item clickable v-ripple>
               <q-item-section
-                >{{ contextPopupCoordinates.lat.toFixed(7) }},
-                {{ contextPopupCoordinates.lng.toFixed(7) }}</q-item-section
+                >{{ contextPopupCoordinates}}</q-item-section
               >
             </q-item>
-          </q-list> -->
+          </q-list>
         </l-tooltip>
       </v-marker>
 
@@ -283,7 +281,7 @@
             :size="isWebApp ? 'md' : 'sm'"
             icon="add"
             :style="buttonStyle"
-            @click="loggedIn ? (showAddNewMarker = true) : showLoginDialog()"
+            @click="loggedIn ? showAddNewMarker({lat: 0, lng: 0}) : showLoginDialog()"
             >add marker</q-btn
           >
 
@@ -296,9 +294,9 @@
     <q-dialog
       :maximized="!isWebApp"
       class="no-padding"
-      v-model="showAddNewMarker"
+      v-model="newMarkerDialogVisible"
     >
-      <add-marker-list @close="showAddNewMarker = false" />
+      <add-marker-list :contextPopupCoordinates="newMarkerCoordinates" @close="newMarkerDialogVisible = false" />
     </q-dialog>
 
     <q-dialog :maximized="!isWebApp" v-model="itemDialog">
@@ -375,7 +373,6 @@ export default {
     return {
       map: null,
       clusterBreak: 6.5,
-      showAddNewMarker: false,
       userdialog: false,
       itemDialog: false,
       clickedUserId: "",
@@ -395,6 +392,8 @@ export default {
         { label: "Country Wiki", value: "countries", color: "red" },
       ],
       contextPopupCoordinates: null,
+      newMarkerDialogVisible: false,
+      newMarkerCoordinates: { lat: 0, lng: 0 }
     };
   },
   computed: {
@@ -455,15 +454,20 @@ export default {
     ...mapActions("markers", ["loadPoiWithinBounds"]),
 
     showContextMenu(e) {
-      this.contextPopupCoordinates = e.latlng;
+      this.contextPopupCoordinates = [e.latlng.lat,e.latlng.lng]
     },
 
     hideContextMenu() {
       this.contextPopupCoordinates = null;
     },
 
-    showCoordinates() {
-      console.log("showCoordinates aangeroepen");
+    showAddNewMarker(newMarkerCoordinates) {
+      if (!this.loggedIn) {
+        this.showLoginDialog();
+      } else {
+        this.newMarkerCoordinates = newMarkerCoordinates;
+        this.newMarkerDialogVisible = true;
+      }
     },
 
     modalShown() {
