@@ -11,11 +11,20 @@
         :min-zoom="mapsettings.minZoom"
         :center="mapsettings.center"
         :max-bounds="mapsettings.bounds"
+        @contextmenu="contextmenumethod"
       >
         <v-tilelayer
           :url="mapsettings.url"
           :attribution="mapsettings.attribution"
         ></v-tilelayer>
+        <v-marker  v-if="contextPopupCoordinates"  :lat-lng="contextPopupCoordinates">
+<l-tooltip :options="{ permanent: true, interactive: true }">
+          <q-btn @click="loggedIn ? (showAddNewMarker = true) : showLoginDialog()">hello</q-btn>
+        </l-tooltip>
+        <!-- <v-popup :options="{ offset: [0, -40] }" style="min-width: 150px;">
+        </v-popup> -->
+        </v-marker>
+
 
         <div
           v-for="(marker, markerKey) in markerCounts"
@@ -308,6 +317,7 @@ import {
   LIcon,
   LPopup,
   LCircle,
+  LTooltip 
 } from "vue2-leaflet";
 import { getCountryData } from "app/firebase-functions/shared/src/country-constants.js";
 import { latLng, Icon } from "leaflet";
@@ -333,6 +343,7 @@ export default {
     LControl,
     LIcon,
     LCircle,
+    LTooltip,
 
     "search-countries": require("src/components/Shared/Modals/SearchCountries.vue")
       .default,
@@ -366,12 +377,12 @@ export default {
       },
       randomLat: 0.05,
       randomLng: 0.05,
-
       radio_options: [
         { label: "Points of Interest", value: "poi", color: "red" },
         { label: "Hosts", value: "hosts", color: "red" },
         { label: "Country Wiki", value: "countries", color: "red" },
       ],
+      contextPopupCoordinates: null
     };
   },
   computed: {
@@ -387,6 +398,12 @@ export default {
           preferCanvas: true,
           zoomSnap: 0.25,
           wheelPxPerZoomLevel: 50,
+          contextmenu: true,
+          contextmenuWidth: 140,
+          contextmenuItems: [{
+              text: 'Show coordinates',
+              callback: this.showCoordinates
+          }]
         }
       } else {
         return {
@@ -394,6 +411,12 @@ export default {
           dragging: true,
           tap: false,
           preferCanvas: true,
+          contextmenu: true,
+          contextmenuWidth: 140,
+          contextmenuItems: [{
+              text: 'Show coordinates',
+              callback: this.showCoordinates
+          }]
         }
       }
     },
@@ -415,6 +438,18 @@ export default {
 
   methods: {
     ...mapActions("markers", ["loadPoiWithinBounds"]),
+
+    contextmenumethod(e){
+      console.log('hello you 1',e);
+      console.log('hello you 2',this.$refs.mymap);
+      console.log('hello you 3 ',this.$refs.mymap.mapObject);
+      this.contextPopupCoordinates = e.latlng
+      // this.$refs.mymap.mapObject.contextmenu.showAt(e.latlng);
+    },
+
+    showCoordinates() {
+      console.log('showCoordinates aangeroepen')
+    },
 
     modalShown() {
       setTimeout(() => {
